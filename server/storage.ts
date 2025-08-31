@@ -43,6 +43,7 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const quizResult: QuizResult = {
       ...insertQuizResult,
+      userId: insertQuizResult.userId || null,
       id,
       createdAt: new Date(),
     };
@@ -62,6 +63,7 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const chatLog: ChatLog = {
       ...insertChatLog,
+      userId: insertChatLog.userId || null,
       id,
       createdAt: new Date(),
     };

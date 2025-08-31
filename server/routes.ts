@@ -11,7 +11,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const data = insertQuizResultSchema.parse(req.body);
       
       // Get AI recommendation for the quiz results
-      const aiRecommendation = await getCareerRecommendation(data.answers);
+      const aiRecommendation = await getCareerRecommendation(data.answers as any[]);
       
       const quizResult = await storage.createQuizResult({
         ...data,
