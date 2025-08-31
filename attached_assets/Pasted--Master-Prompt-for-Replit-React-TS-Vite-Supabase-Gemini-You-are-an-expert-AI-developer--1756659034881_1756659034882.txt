@@ -1,0 +1,399 @@
+🚀 Master Prompt for Replit (React + TS + Vite + Supabase + Gemini)
+
+You are an expert AI developer. Build me a full working React + TypeScript + Vite project with a simple, flat file structure.
+
+🎨 UI/UX
+
+Modern premium design.
+
+Theme: Orange (accent) + Grey (backgrounds).
+
+Glassmorphism (blurred glass cards, modals, sections).
+
+Framer Motion animations (fade, slide, hover).
+
+3D card hover tilt.
+
+Dark/Light mode toggle, stored in localStorage.
+
+Fonts: Inter / Poppins.
+
+Gradient backgrounds for Hero & sections.
+
+🧩 Components (all in src/components/)
+
+Navbar → glassmorphism, responsive, dark/light toggle.
+
+Hero → catchy headline, subheadline, CTA buttons, animated shapes.
+
+Features → 3–4 glassmorphic cards with icons.
+
+Quiz → 10 questions × 4 options → career recommendation.
+
+Chat → sexy chat UI (glassmorphic + Gemini integration + Supabase logs).
+
+Showcase → grid cards with hover tilt.
+
+Footer → minimal links + credits.
+
+⚙️ Tech Stack
+
+React + TypeScript + Vite
+
+TailwindCSS (custom theme: orange/grey)
+
+Framer Motion
+
+Shadcn/UI + Radix UI
+
+Supabase (quiz + chat storage)
+
+Gemini API (chat assistant)
+
+ESLint + Prettier
+
+📂 File Structure
+src/
+ ├── components/ (Navbar.tsx, Hero.tsx, Features.tsx, Quiz.tsx, Chat.tsx, Showcase.tsx, Footer.tsx)
+ ├── App.tsx
+ ├── main.tsx
+ ├── theme.ts  (theme + dark mode toggle)
+ ├── quizData.ts  (quiz questions + mappings)
+ ├── styles.css
+tailwind.config.ts
+
+📝 Quiz Data (src/quizData.ts)
+export type QuizOption = {
+  text: string;
+  stream: string;
+};
+
+export type QuizQuestion = {
+  question: string;
+  options: QuizOption[];
+};
+
+export const quizData: QuizQuestion[] = [
+  {
+    question: "Which subject do you enjoy the most?",
+    options: [
+      { text: "Math & Logic", stream: "Engineering & Technology" },
+      { text: "Biology & Life Sciences", stream: "Medicine & Healthcare" },
+      { text: "Economics & Business", stream: "Commerce & Finance" },
+      { text: "History & Literature", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "What kind of problems do you like solving?",
+    options: [
+      { text: "Building systems & apps", stream: "Engineering & Technology" },
+      { text: "Helping people stay healthy", stream: "Medicine & Healthcare" },
+      { text: "Managing money & trade", stream: "Commerce & Finance" },
+      { text: "Exploring culture & ideas", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "Pick your favorite activity:",
+    options: [
+      { text: "Coding or robotics", stream: "Engineering & Technology" },
+      { text: "Volunteering at hospitals", stream: "Medicine & Healthcare" },
+      { text: "Stock market tracking", stream: "Commerce & Finance" },
+      { text: "Creative writing", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "Which skill do you value most?",
+    options: [
+      { text: "Logical reasoning", stream: "Engineering & Technology" },
+      { text: "Empathy & care", stream: "Medicine & Healthcare" },
+      { text: "Analytical thinking", stream: "Commerce & Finance" },
+      { text: "Critical analysis", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "Your dream job involves:",
+    options: [
+      { text: "Building future tech", stream: "Engineering & Technology" },
+      { text: "Saving lives", stream: "Medicine & Healthcare" },
+      { text: "Running businesses", stream: "Commerce & Finance" },
+      { text: "Research & teaching", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "Which environment do you prefer?",
+    options: [
+      { text: "Labs & workshops", stream: "Engineering & Technology" },
+      { text: "Hospitals", stream: "Medicine & Healthcare" },
+      { text: "Offices", stream: "Commerce & Finance" },
+      { text: "Libraries", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "Your friends describe you as:",
+    options: [
+      { text: "Problem solver", stream: "Engineering & Technology" },
+      { text: "Compassionate", stream: "Medicine & Healthcare" },
+      { text: "Strategic thinker", stream: "Commerce & Finance" },
+      { text: "Creative", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "What excites you more?",
+    options: [
+      { text: "AI & robotics", stream: "Engineering & Technology" },
+      { text: "Medical discoveries", stream: "Medicine & Healthcare" },
+      { text: "Financial growth", stream: "Commerce & Finance" },
+      { text: "Art & culture", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "Which tool appeals to you most?",
+    options: [
+      { text: "Computer & gadgets", stream: "Engineering & Technology" },
+      { text: "Stethoscope", stream: "Medicine & Healthcare" },
+      { text: "Balance sheet", stream: "Commerce & Finance" },
+      { text: "Pen & books", stream: "Arts & Humanities" },
+    ],
+  },
+  {
+    question: "What’s your ultimate goal?",
+    options: [
+      { text: "Innovate technology", stream: "Engineering & Technology" },
+      { text: "Heal people", stream: "Medicine & Healthcare" },
+      { text: "Grow wealth", stream: "Commerce & Finance" },
+      { text: "Inspire society", stream: "Arts & Humanities" },
+    ],
+  },
+];
+
+🗄️ Supabase Schema
+
+Run this SQL in your Supabase project:
+
+-- Store quiz results
+create table quiz_results (
+  id uuid primary key default gen_random_uuid(),
+  user_id text,
+  answers jsonb,
+  result text,
+  created_at timestamp default now()
+);
+
+-- Store chat logs
+create table chat_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id text,
+  message text,
+  response text,
+  created_at timestamp default now()
+);
+
+🔌 Gemini Integration (Chat.tsx)
+
+Use Gemini API key from .env.
+
+Send user input → Gemini → render in chat UI.
+
+Save both message + response to Supabase.
+
+📜 Deliverables
+
+Full working project.
+
+package.json & tailwind.config.ts preconfigured.
+
+Install & run:
+
+npm install
+npm run dev
+
+🎯 Goal
+
+When I paste this into Replit, it should generate a sexy modern career guidance web app with:
+✅ Glassmorphism + 3D animations
+✅ 10-question quiz → career match
+✅ Gemini-powered chat assistant
+✅ Supabase storage (quiz + chat)
+✅ Simple file structure for debugging & upgrades
+
+👉 Do you also want me to include the .env variables setup (Supabase URL, Supabase key, Gemini API key) in the master prompt so it’s literally copy-paste deployable?
+
+You said:
+yes do it so that its the most easy and make it such that it doesnt exceeds the free plan amd executes everything\
+ChatGPT said:
+
+Got it 🔥 — I’ll make this master prompt ultra plug-and-play so you don’t need to figure anything out.
+
+✅ Includes .env setup for Supabase + Gemini
+
+✅ Uses only free-tier safe queries (no heavy Supabase functions, just simple inserts/selects)
+
+✅ Keeps requests light so you won’t exceed free plan limits
+
+✅ Keeps file structure simple + minimal for debugging
+
+✅ End result = ready-to-run sexy app (quiz + chat + Supabase + Gemini)
+
+🚀 Master Prompt for Replit (React + TS + Vite + Supabase + Gemini)
+
+You are an expert AI developer. Build me a full working React + TypeScript + Vite project with a simple, flat file structure that runs on free-tier Supabase + Gemini API.
+
+🎨 UI/UX
+
+Modern premium UI (Orange accent + Grey background).
+
+Glassmorphism (blur + transparency on cards, chat, navbar).
+
+Framer Motion animations (fade, slide, hover).
+
+3D hover tilt for cards.
+
+Dark/Light mode toggle (saved in localStorage).
+
+Font: Inter or Poppins.
+
+Gradient Hero background with animated abstract shapes.
+
+🧩 Components (all in src/components/)
+
+Navbar.tsx → glassmorphic, responsive, dark/light toggle.
+
+Hero.tsx → catchy headline, subheadline, CTA buttons.
+
+Features.tsx → 3–4 glassmorphic cards with icons.
+
+Quiz.tsx → 10-question quiz → best career recommendation.
+
+Chat.tsx → modern sexy chat UI (Gemini-powered, stores logs in Supabase).
+
+Showcase.tsx → grid cards with 3D hover tilt.
+
+Footer.tsx → minimal links + credits.
+
+⚙️ Tech Stack
+
+React + TypeScript + Vite
+
+TailwindCSS (orange/grey theme, glassmorphism)
+
+Framer Motion (animations)
+
+Shadcn/UI + Radix UI
+
+Supabase (quiz + chat storage)
+
+Gemini API (chat assistant)
+
+ESLint + Prettier
+
+📂 File Structure
+src/
+ ├── components/ (Navbar.tsx, Hero.tsx, Features.tsx, Quiz.tsx, Chat.tsx, Showcase.tsx, Footer.tsx)
+ ├── App.tsx
+ ├── main.tsx
+ ├── theme.ts        (dark/light mode + colors)
+ ├── quizData.ts     (quiz questions + mappings)
+ ├── styles.css
+tailwind.config.ts
+
+📝 Quiz Data (src/quizData.ts)
+
+(10 questions, already mapped to career streams)
+👉 Included in previous answer (paste as-is).
+
+🗄️ Supabase Schema
+
+Run this in Supabase SQL editor:
+
+-- Store quiz results
+create table if not exists quiz_results (
+  id uuid primary key default gen_random_uuid(),
+  user_id text,
+  answers jsonb,
+  result text,
+  created_at timestamp default now()
+);
+
+-- Store chat logs
+create table if not exists chat_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id text,
+  message text,
+  response text,
+  created_at timestamp default now()
+);
+
+
+Free plan safe:
+
+Inserts only when quiz submitted or chat sent
+
+No heavy functions or triggers
+
+🔑 .env Setup (Replit Secrets)
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+VITE_GEMINI_API_KEY=your-gemini-api-key
+
+
+⚠️ Don’t hardcode keys → store in Replit Secrets (Environment variables).
+
+🔌 Supabase Client (src/supabaseClient.ts)
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+🔌 Gemini Integration (inside Chat.tsx)
+
+Use Gemini Pro (free tier) → text only (lightweight).
+
+Keep requests minimal (no streaming).
+
+Example:
+
+async function askGemini(message: string) {
+  const res = await fetch("https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + import.meta.env.VITE_GEMINI_API_KEY, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ role: "user", parts: [{ text: message }] }]
+    })
+  });
+  const data = await res.json();
+  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+}
+
+📜 Deliverables
+
+Full working codebase (not snippets).
+
+package.json with all dependencies preinstalled:
+
+react, react-dom, typescript, vite
+
+tailwindcss, postcss, autoprefixer
+
+framer-motion
+
+@supabase/supabase-js
+
+shadcn/ui, radix-ui
+
+tailwind.config.ts with dark mode + orange/grey palette.
+
+Install & run locally or on Replit:
+
+npm install
+npm run dev
+
+🎯 Goal
+
+When I paste this into Replit:
+✅ App boots instantly with modern glassmorphic UI
+✅ Quiz (10 Qs → best career stream) → results saved in Supabase
+✅ Chat assistant powered by Gemini API → logs saved in Supabase
+✅ Everything free-plan safe (lightweight, efficient)
+✅ Simple file structure for easy debugging & upgrades (ChatGPT, extra APIs, etc.)

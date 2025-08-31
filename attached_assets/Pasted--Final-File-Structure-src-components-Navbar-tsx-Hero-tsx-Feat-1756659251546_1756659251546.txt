@@ -1,0 +1,242 @@
+📂 Final File Structure
+src/
+ ├── components/
+ │    ├── Navbar.tsx
+ │    ├── Hero.tsx
+ │    ├── Features.tsx
+ │    ├── Quiz.tsx
+ │    ├── Chat.tsx
+ │    ├── Showcase.tsx
+ │    └── Footer.tsx
+ ├── App.tsx
+ ├── main.tsx
+ ├── theme.ts
+ ├── quizData.ts
+ ├── supabaseClient.ts
+ ├── styles.css
+tailwind.config.ts
+
+⚡ Core Files
+src/main.tsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./styles.css";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+src/App.tsx
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Features from "./components/Features";
+import Quiz from "./components/Quiz";
+import Chat from "./components/Chat";
+import Showcase from "./components/Showcase";
+import Footer from "./components/Footer";
+
+function App() {
+  const [page, setPage] = useState<"home" | "quiz" | "chat">("home");
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+      <Navbar onNavigate={setPage} />
+      {page === "home" && (
+        <>
+          <Hero onStartQuiz={() => setPage("quiz")} onChat={() => setPage("chat")} />
+          <Features />
+          <Showcase />
+        </>
+      )}
+      {page === "quiz" && <Quiz onBack={() => setPage("home")} />}
+      {page === "chat" && <Chat onBack={() => setPage("home")} />}
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+
+🌐 UI Components
+src/components/Navbar.tsx
+type Props = { onNavigate: (page: "home" | "quiz" | "chat") => void };
+
+const Navbar = ({ onNavigate }: Props) => {
+  return (
+    <nav className="fixed top-0 w-full z-50 bg-white/10 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+      <h1 className="text-xl font-bold text-orange-400">CareerGuide</h1>
+      <div className="flex gap-4">
+        <button onClick={() => onNavigate("home")} className="hover:text-orange-400">Home</button>
+        <button onClick={() => onNavigate("quiz")} className="hover:text-orange-400">Quiz</button>
+        <button onClick={() => onNavigate("chat")} className="hover:text-orange-400">Chat</button>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
+
+src/components/Hero.tsx
+type Props = { onStartQuiz: () => void; onChat: () => void };
+
+const Hero = ({ onStartQuiz, onChat }: Props) => {
+  return (
+    <section className="flex flex-col items-center justify-center text-center pt-32 pb-20 bg-gradient-to-br from-gray-900 to-gray-800">
+      <h1 className="text-4xl md:text-6xl font-bold mb-4">Discover Your Best Career Path</h1>
+      <p className="text-gray-400 mb-6">Take our quiz, chat with AI, and unlock your future</p>
+      <div className="flex gap-4">
+        <button
+          onClick={onStartQuiz}
+          className="px-6 py-3 bg-orange-500 rounded-xl hover:scale-105 transition"
+        >
+          Start Quiz
+        </button>
+        <button
+          onClick={onChat}
+          className="px-6 py-3 bg-gray-700 rounded-xl hover:scale-105 transition"
+        >
+          AI Chat
+        </button>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
+
+src/components/Features.tsx
+const Features = () => {
+  const features = [
+    { title: "Smart Quiz", desc: "10 tailored questions to analyze your skills." },
+    { title: "AI Chat", desc: "Chat with Gemini AI about your career." },
+    { title: "Career Insights", desc: "Get personalized career suggestions." },
+  ];
+
+  return (
+    <section className="grid md:grid-cols-3 gap-6 px-6 py-20">
+      {features.map((f, i) => (
+        <div
+          key={i}
+          className="p-6 bg-white/10 backdrop-blur-xl rounded-2xl hover:scale-105 transition"
+        >
+          <h3 className="text-xl font-semibold text-orange-400">{f.title}</h3>
+          <p className="text-gray-300 mt-2">{f.desc}</p>
+        </div>
+      ))}
+    </section>
+  );
+};
+
+export default Features;
+
+src/components/Showcase.tsx
+const Showcase = () => {
+  const projects = ["Engineering", "Medicine", "Commerce", "Arts"];
+
+  return (
+    <section className="px-6 py-20">
+      <h2 className="text-3xl font-bold text-center mb-10">Career Streams</h2>
+      <div className="grid md:grid-cols-4 gap-6">
+        {projects.map((p, i) => (
+          <div
+            key={i}
+            className="p-6 bg-white/10 backdrop-blur-xl rounded-2xl hover:scale-105 transition text-center"
+          >
+            {p}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default Showcase;
+
+src/components/Footer.tsx
+const Footer = () => {
+  return (
+    <footer className="bg-gray-900 py-6 text-center text-gray-500">
+      <p>© {new Date().getFullYear()} CareerGuide. Built with ❤️</p>
+    </footer>
+  );
+};
+
+export default Footer;
+
+🧠 Logic & Integrations
+src/components/Quiz.tsx
+
+✅ Already given in last answer.
+
+src/components/Chat.tsx
+
+✅ Already given in last answer.
+
+🔌 Supabase Client
+src/supabaseClient.ts
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+🎨 Theme & Styles
+src/styles.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+tailwind.config.ts
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  darkMode: "class",
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        orange: {
+          500: "#f97316",
+        },
+        gray: {
+          800: "#1f2937",
+          900: "#111827",
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
+
+🔑 .env (Replit Secrets)
+VITE_SUPABASE_URL=your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+VITE_GEMINI_API_KEY=your-gemini-api-key
+
+🗄️ Supabase Schema
+create table if not exists quiz_results (
+  id uuid primary key default gen_random_uuid(),
+  user_id text,
+  answers jsonb,
+  result text,
+  created_at timestamp default now()
+);
+
+create table if not exists chat_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id text,
+  message text,
+  response text,
+  created_at timestamp default now()
+);
