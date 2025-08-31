@@ -1,13 +1,17 @@
 import { Link, useLocation } from "wouter";
 import { useTheme } from "./theme-provider";
+import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Compass, Home, MessageCircle, Brain, Sun, Moon, Menu } from "lucide-react";
+import { Compass, Home, MessageCircle, Brain, Sun, Moon, Menu, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
+import AuthModal from "./auth-modal";
 
 export default function Navbar() {
   const [location] = useLocation();
   const { theme, setTheme } = useTheme();
+  const { user, isAuthenticated, login, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -58,6 +62,18 @@ export default function Navbar() {
               Chat
             </Button>
           </Link>
+          {isAuthenticated && (
+            <Link href="/dashboard">
+              <Button 
+                variant="ghost" 
+                className={`hover:text-primary transition-colors ${isActive("/dashboard") ? "text-primary" : ""}`}
+                data-testid="nav-dashboard"
+              >
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Dashboard
+              </Button>
+            </Link>
+          )}
           <Button
             variant="ghost"
             size="sm"
@@ -67,6 +83,32 @@ export default function Navbar() {
           >
             {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </Button>
+          
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-muted-foreground">Hi, {user?.fullName || user?.username}</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={logout}
+                className="glassmorphism hover:bg-destructive/20 transition-all"
+                data-testid="logout-button"
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => setAuthModalOpen(true)}
+              className="glassmorphism bg-primary text-primary-foreground hover:scale-105 transition-all"
+              data-testid="login-button"
+            >
+              <User className="mr-2 h-4 w-4" />
+              Sign In
+            </Button>
+          )}
         </div>
         
         <div className="md:hidden">
@@ -115,9 +157,57 @@ export default function Navbar() {
                 Chat
               </Button>
             </Link>
+            {isAuthenticated && (
+              <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                <Button 
+                  variant="ghost" 
+                  className={`w-full justify-start hover:text-primary transition-colors ${isActive("/dashboard") ? "text-primary" : ""}`}
+                  data-testid="mobile-nav-dashboard"
+                >
+                  <LayoutDashboard className="mr-2 h-4 w-4" />
+                  Dashboard
+                </Button>
+              </Link>
+            )}
+            {isAuthenticated ? (
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  logout();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full justify-start text-destructive hover:text-destructive"
+                data-testid="mobile-logout"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                onClick={() => {
+                  setAuthModalOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full justify-start bg-primary text-primary-foreground"
+                data-testid="mobile-login"
+              >
+                <User className="mr-2 h-4 w-4" />
+                Sign In
+              </Button>
+            )}
           </div>
         </div>
       )}
+      
+      <AuthModal 
+        isOpen={authModalOpen} 
+        onClose={() => setAuthModalOpen(false)} 
+        onSuccess={(user) => {
+          login(user);
+          setAuthModalOpen(false);
+        }} 
+      />
     </nav>
   );
 }

@@ -1,10 +1,98 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertQuizResultSchema, insertChatLogSchema } from "@shared/schema";
+import { insertQuizResultSchema, insertChatLogSchema, insertUserSchema, loginUserSchema, insertSavedCareerSchema } from "@shared/schema";
 import { getChatResponse, getCareerRecommendation } from "./lib/gemini";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Auth Routes
+  app.post("/api/auth/signup", async (req, res) => {
+    try {
+      const data = insertUserSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUserByUsername = await storage.getUserByUsername(data.username);
+      const existingUserByEmail = await storage.getUserByEmail(data.email);
+      
+      if (existingUserByUsername) {
+        return res.status(400).json({ error: "Username already exists" });
+      }
+      
+      if (existingUserByEmail) {
+        return res.status(400).json({ error: "Email already exists" });
+      }
+      
+      const user = await storage.createUser(data);
+      res.json({ success: true, user: { ...user, password: undefined } });
+    } catch (error) {
+      console.error('Signup error:', error);
+      res.status(400).json({ error: "Failed to create user" });
+    }
+  });
+
+  app.post("/api/auth/login", async (req, res) => {
+    try {
+      const data = loginUserSchema.parse(req.body);
+      const user = await storage.validateUser(data);
+      
+      if (!user) {
+        return res.status(401).json({ error: "Invalid username or password" });
+      }
+      
+      res.json({ success: true, user: { ...user, password: undefined } });
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(400).json({ error: "Failed to login" });
+    }
+  });
+
+  // Saved Careers Routes
+  app.post("/api/careers/save", async (req, res) => {
+    try {
+      const data = insertSavedCareerSchema.parse(req.body);
+      const savedCareer = await storage.createSavedCareer(data);
+      res.json({ success: true, career: savedCareer });
+    } catch (error) {
+      console.error('Save career error:', error);
+      res.status(400).json({ error: "Failed to save career" });
+    }
+  });
+
+  app.get("/api/careers/saved", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) {
+        return res.status(400).json({ error: "User ID is required" });
+      }
+      const savedCareers = await storage.getSavedCareers(userId);
+      res.json(savedCareers);
+    } catch (error) {
+      console.error('Get saved careers error:', error);
+      res.status(500).json({ error: "Failed to fetch saved careers" });
+    }
+  });
+
+  app.delete("/api/careers/saved/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const userId = req.query.userId as string;
+      
+      if (!userId) {
+        return res.status(400).json({ error: "User ID is required" });
+      }
+      
+      const deleted = await storage.deleteSavedCareer(id, userId);
+      if (deleted) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Career not found or unauthorized" });
+      }
+    } catch (error) {
+      console.error('Delete saved career error:', error);
+      res.status(500).json({ error: "Failed to delete saved career" });
+    }
+  });
+
   // Quiz Routes
   app.post("/api/quiz/submit", async (req, res) => {
     try {
