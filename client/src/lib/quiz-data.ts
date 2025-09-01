@@ -10,120 +10,114 @@ export type QuizQuestion = {
 
 export const quizData: QuizQuestion[] = [
   {
-    question: "Which subject do you enjoy the most?",
+    question: "Which type of problems do you enjoy solving the most?",
     options: [
-      { text: "Math & Logic", stream: "Engineering & Technology" },
-      { text: "Biology & Life Sciences", stream: "Medicine & Healthcare" },
-      { text: "Economics & Business", stream: "Commerce & Finance" },
-      { text: "History & Literature", stream: "Arts & Humanities" },
+      { text: "Solving complex logical or mathematical problems", stream: "Technology & Engineering" },
+      { text: "Creating new ideas, designs, or content", stream: "Creative & Media" },
+      { text: "Helping and guiding others", stream: "Social Service" },
+      { text: "Building or fixing things hands-on", stream: "Technical & Hands-on" },
+      { text: "Organizing, planning, and managing activities", stream: "Business & Management" },
     ],
   },
   {
-    question: "What kind of problems do you like solving?",
+    question: "Which subjects or fields do you naturally excel in?",
     options: [
-      { text: "Building systems & apps", stream: "Engineering & Technology" },
-      { text: "Helping people stay healthy", stream: "Medicine & Healthcare" },
-      { text: "Managing money & trade", stream: "Commerce & Finance" },
-      { text: "Exploring culture & ideas", stream: "Arts & Humanities" },
+      { text: "Mathematics and Science", stream: "Technology & Engineering" },
+      { text: "Arts, Humanities, or Languages", stream: "Creative & Media" },
+      { text: "Social Sciences or Psychology", stream: "Social Service" },
+      { text: "Technology, Computers, or Engineering", stream: "Technical & Hands-on" },
+      { text: "Commerce, Business, or Economics", stream: "Business & Management" },
     ],
   },
   {
-    question: "Pick your favorite activity:",
+    question: "Where do you see yourself thriving?",
     options: [
-      { text: "Coding or robotics", stream: "Engineering & Technology" },
-      { text: "Volunteering at hospitals", stream: "Medicine & Healthcare" },
-      { text: "Stock market tracking", stream: "Commerce & Finance" },
-      { text: "Creative writing", stream: "Arts & Humanities" },
+      { text: "Corporate world with structured growth", stream: "Business & Management" },
+      { text: "Creative industries (media, design, art)", stream: "Creative & Media" },
+      { text: "Research labs or academia", stream: "Technology & Engineering" },
+      { text: "Government jobs or civil services", stream: "Social Service" },
+      { text: "Startups or entrepreneurship", stream: "Technical & Hands-on" },
     ],
   },
   {
-    question: "Which skill do you value most?",
+    question: "Which describes you best?",
     options: [
-      { text: "Logical reasoning", stream: "Engineering & Technology" },
-      { text: "Empathy & care", stream: "Medicine & Healthcare" },
-      { text: "Analytical thinking", stream: "Commerce & Finance" },
-      { text: "Critical analysis", stream: "Arts & Humanities" },
+      { text: "Logical Thinker", stream: "Technology & Engineering" },
+      { text: "Creative & Imaginative", stream: "Creative & Media" },
+      { text: "Empathetic & People-oriented", stream: "Social Service" },
+      { text: "Practical & Hands-on", stream: "Technical & Hands-on" },
+      { text: "Ambitious & Business-minded", stream: "Business & Management" },
     ],
   },
   {
-    question: "Your dream job involves:",
+    question: "What is your highest education goal as of now?",
     options: [
-      { text: "Building future tech", stream: "Engineering & Technology" },
-      { text: "Saving lives", stream: "Medicine & Healthcare" },
-      { text: "Running businesses", stream: "Commerce & Finance" },
-      { text: "Research & teaching", stream: "Arts & Humanities" },
+      { text: "Class 10th Pass", stream: "Foundation" },
+      { text: "Class 12th Pass (Science/Commerce/Arts)", stream: "Intermediate" },
+      { text: "Undergraduate Degree", stream: "Graduate" },
+      { text: "Postgraduate Degree", stream: "Postgraduate" },
+      { text: "Specialized/Professional Certifications", stream: "Professional" },
     ],
   },
   {
-    question: "Which environment do you prefer?",
+    question: "Which of these career paths excites you the most?",
     options: [
-      { text: "Labs & workshops", stream: "Engineering & Technology" },
-      { text: "Hospitals", stream: "Medicine & Healthcare" },
-      { text: "Offices", stream: "Commerce & Finance" },
-      { text: "Libraries", stream: "Arts & Humanities" },
+      { text: "Technology & Engineering", stream: "Technology & Engineering" },
+      { text: "Medicine & Healthcare", stream: "Social Service" },
+      { text: "Arts, Film & Media", stream: "Creative & Media" },
+      { text: "Government Jobs (UPSC, SSC, Defense)", stream: "Social Service" },
+      { text: "Business, Management, and Startups", stream: "Business & Management" },
     ],
   },
   {
-    question: "Your friends describe you as:",
+    question: "Would you like to explore futuristic and niche careers?",
     options: [
-      { text: "Problem solver", stream: "Engineering & Technology" },
-      { text: "Compassionate", stream: "Medicine & Healthcare" },
-      { text: "Strategic thinker", stream: "Commerce & Finance" },
-      { text: "Creative", stream: "Arts & Humanities" },
+      { text: "Yes, I love emerging careers like AI, Space Tech, Gaming", stream: "Technology & Engineering" },
+      { text: "No, I prefer traditional stable careers", stream: "Social Service" },
+      { text: "Maybe, I'd like to see both options", stream: "Business & Management" },
     ],
   },
   {
-    question: "What excites you more?",
+    question: "How do you want your career to feel?",
     options: [
-      { text: "AI & robotics", stream: "Engineering & Technology" },
-      { text: "Medical discoveries", stream: "Medicine & Healthcare" },
-      { text: "Financial growth", stream: "Commerce & Finance" },
-      { text: "Art & culture", stream: "Arts & Humanities" },
-    ],
-  },
-  {
-    question: "Which tool appeals to you most?",
-    options: [
-      { text: "Computer & gadgets", stream: "Engineering & Technology" },
-      { text: "Stethoscope", stream: "Medicine & Healthcare" },
-      { text: "Balance sheet", stream: "Commerce & Finance" },
-      { text: "Pen & books", stream: "Arts & Humanities" },
-    ],
-  },
-  {
-    question: "What's your ultimate goal?",
-    options: [
-      { text: "Innovate technology", stream: "Engineering & Technology" },
-      { text: "Heal people", stream: "Medicine & Healthcare" },
-      { text: "Grow wealth", stream: "Commerce & Finance" },
-      { text: "Inspire society", stream: "Arts & Humanities" },
+      { text: "Stable, Secure, and Structured", stream: "Social Service" },
+      { text: "Creative, Fun, and Flexible", stream: "Creative & Media" },
+      { text: "Impactful, Helping Society", stream: "Social Service" },
+      { text: "Challenging, High-Growth", stream: "Technology & Engineering" },
+      { text: "Independent, Entrepreneurial", stream: "Business & Management" },
     ],
   },
 ];
 
 export const careerStreamInfo = {
-  "Engineering & Technology": {
+  "Technology & Engineering": {
     icon: "Settings",
     gradient: "from-blue-500 to-purple-600",
-    description: "You have a natural aptitude for logical thinking and problem-solving. Technology and engineering offer exciting opportunities to build innovative solutions and shape the future.",
-    careers: ["Software Developer", "Data Scientist", "Cybersecurity Specialist", "AI Engineer", "Robotics Engineer"]
+    description: "You have exceptional logical thinking and problem-solving abilities. Technology and engineering offer limitless opportunities to innovate and build the future of India.",
+    careers: ["Software Engineer", "AI/ML Engineer", "Cybersecurity Specialist", "Data Scientist", "Robotics Engineer", "Blockchain Developer"]
   },
-  "Medicine & Healthcare": {
-    icon: "Heart",
-    gradient: "from-red-500 to-pink-600",
-    description: "Your empathy and desire to help others make you well-suited for healthcare. This field offers the opportunity to make a direct positive impact on people's lives.",
-    careers: ["Doctor", "Nurse", "Physical Therapist", "Medical Researcher", "Healthcare Administrator"]
-  },
-  "Commerce & Finance": {
-    icon: "PieChart",
-    gradient: "from-green-500 to-emerald-600",
-    description: "Your analytical mindset and strategic thinking align perfectly with business and finance. These fields offer dynamic environments with growth opportunities.",
-    careers: ["Financial Analyst", "Business Consultant", "Investment Banker", "Marketing Manager", "Entrepreneur"]
-  },
-  "Arts & Humanities": {
+  "Creative & Media": {
     icon: "Palette",
-    gradient: "from-yellow-500 to-orange-600",
-    description: "Your creativity and critical thinking skills are valuable assets in arts and humanities. These fields allow you to express ideas and influence culture.",
-    careers: ["Writer", "Designer", "Teacher", "Psychologist", "Museum Curator"]
+    gradient: "from-pink-500 to-orange-600",
+    description: "Your creative flair and artistic vision make you perfect for India's booming creative economy. Express your ideas and influence culture through various mediums.",
+    careers: ["Graphic Designer", "Film Director", "Content Creator", "Animator", "Game Designer", "Digital Artist"]
+  },
+  "Social Service": {
+    icon: "Heart",
+    gradient: "from-green-500 to-emerald-600",
+    description: "Your empathy and desire to serve society align perfectly with public service careers. Make a direct impact on millions of lives across India.",
+    careers: ["IAS Officer", "Doctor", "Teacher", "Social Worker", "NGO Leader", "Policy Researcher"]
+  },
+  "Technical & Hands-on": {
+    icon: "Settings",
+    gradient: "from-indigo-500 to-blue-600",
+    description: "Your practical approach and hands-on skills are valuable in India's growing manufacturing and technical sectors. Build and create tangible solutions.",
+    careers: ["Mechanical Engineer", "Electrical Engineer", "Civil Engineer", "Technician", "Quality Inspector", "Project Manager"]
+  },
+  "Business & Management": {
+    icon: "PieChart",
+    gradient: "from-emerald-500 to-teal-600",
+    description: "Your business acumen and leadership skills position you well for India's expanding corporate landscape and entrepreneurial ecosystem.",
+    careers: ["Business Analyst", "Marketing Manager", "Financial Advisor", "Entrepreneur", "Consultant", "Product Manager"]
   }
 };
