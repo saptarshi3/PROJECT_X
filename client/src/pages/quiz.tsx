@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Trophy, RotateCcw, MessageCircle, Settings, Heart, PieChart, Palette, Download, Loader2 } from "lucide-react";
+import { ArrowLeft, Trophy, RotateCcw, MessageCircle, Settings, Heart, PieChart, Palette, Download, Loader2, BookOpen, Award, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/navbar";
 import { quizData, careerStreamInfo, type QuizOption } from "@/lib/quiz-data";
+import { examData, scholarshipData } from "@/lib/scholarship-data";
 import jsPDF from 'jspdf';
 
 const iconMap = {
@@ -117,7 +119,8 @@ export default function Quiz() {
     
     // Description
     if (result && careerStreamInfo[result as keyof typeof careerStreamInfo]) {
-      const description = careerStreamInfo[result as keyof typeof careerStreamInfo].description;
+      const streamInfo = careerStreamInfo[result as keyof typeof careerStreamInfo];
+      const description = streamInfo.description;
       const splitDescription = pdf.splitTextToSize(description, pageWidth - 2 * margin);
       pdf.text(splitDescription, margin, yPosition);
       yPosition += splitDescription.length * 7 + 10;
@@ -129,9 +132,37 @@ export default function Quiz() {
       yPosition += 10;
       
       pdf.setFont('helvetica', 'normal');
-      const careers = careerStreamInfo[result as keyof typeof careerStreamInfo].careers;
+      const careers = streamInfo.careers;
       careers.forEach((career, index) => {
         pdf.text(`${index + 1}. ${career}`, margin + 5, yPosition);
+        yPosition += 7;
+      });
+      
+      // Recommended Exams
+      yPosition += 10;
+      pdf.setFontSize(14);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Recommended Entrance Exams:', margin, yPosition);
+      yPosition += 10;
+      
+      pdf.setFont('helvetica', 'normal');
+      const recommendedExams = examData.filter(exam => streamInfo.recommendedExams.includes(exam.id));
+      recommendedExams.forEach((exam, index) => {
+        pdf.text(`${index + 1}. ${exam.name} - ${exam.fullName}`, margin + 5, yPosition);
+        yPosition += 7;
+      });
+      
+      // Recommended Scholarships
+      yPosition += 10;
+      pdf.setFontSize(14);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Recommended Scholarships:', margin, yPosition);
+      yPosition += 10;
+      
+      pdf.setFont('helvetica', 'normal');
+      const recommendedScholarships = scholarshipData.filter(scholarship => streamInfo.recommendedScholarships.includes(scholarship.id));
+      recommendedScholarships.forEach((scholarship, index) => {
+        pdf.text(`${index + 1}. ${scholarship.name} - ${scholarship.provider}`, margin + 5, yPosition);
         yPosition += 7;
       });
     }
@@ -297,6 +328,100 @@ export default function Quiz() {
                               </h4>
                               <div className="text-sm text-muted-foreground whitespace-pre-wrap">
                                 {aiRecommendation}
+                              </div>
+                            </CardContent>
+                          </Card>
+                        )}
+                        
+                        {/* Recommended Exams */}
+                        {result && careerStreamInfo[result as keyof typeof careerStreamInfo]?.recommendedExams && (
+                          <Card className="glassmorphism border-border/20 mt-6">
+                            <CardHeader>
+                              <CardTitle className="flex items-center text-lg">
+                                <BookOpen className="h-5 w-5 mr-2 text-primary" />
+                                Recommended Entrance Exams
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-0">
+                              <div className="grid gap-3">
+                                {examData
+                                  .filter(exam => careerStreamInfo[result as keyof typeof careerStreamInfo].recommendedExams.includes(exam.id))
+                                  .map((exam) => (
+                                    <div key={exam.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                                      <div className="flex-1">
+                                        <div className="font-medium text-sm">{exam.name}</div>
+                                        <div className="text-xs text-muted-foreground">{exam.fullName}</div>
+                                        <div className="text-xs text-muted-foreground mt-1">
+                                          Application: {exam.applicationPeriod}
+                                        </div>
+                                      </div>
+                                      <div className="flex items-center space-x-2">
+                                        <Badge variant="secondary" className="text-xs">{exam.category}</Badge>
+                                        <Button 
+                                          size="sm" 
+                                          variant="ghost" 
+                                          onClick={() => window.open(exam.website, '_blank')}
+                                          className="h-8 w-8 p-0"
+                                        >
+                                          <ExternalLink className="h-3 w-3" />
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>
+                              <div className="mt-4">
+                                <Link href="/scholarships">
+                                  <Button variant="outline" size="sm" className="w-full">
+                                    View All Exams
+                                  </Button>
+                                </Link>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        )}
+                        
+                        {/* Recommended Scholarships */}
+                        {result && careerStreamInfo[result as keyof typeof careerStreamInfo]?.recommendedScholarships && (
+                          <Card className="glassmorphism border-border/20 mt-6">
+                            <CardHeader>
+                              <CardTitle className="flex items-center text-lg">
+                                <Award className="h-5 w-5 mr-2 text-primary" />
+                                Recommended Scholarships
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-0">
+                              <div className="grid gap-3">
+                                {scholarshipData
+                                  .filter(scholarship => careerStreamInfo[result as keyof typeof careerStreamInfo].recommendedScholarships.includes(scholarship.id))
+                                  .map((scholarship) => (
+                                    <div key={scholarship.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                                      <div className="flex-1">
+                                        <div className="font-medium text-sm">{scholarship.name}</div>
+                                        <div className="text-xs text-muted-foreground">{scholarship.provider}</div>
+                                        <div className="text-xs text-muted-foreground mt-1">
+                                          Amount: {scholarship.amount}
+                                        </div>
+                                      </div>
+                                      <div className="flex items-center space-x-2">
+                                        <Badge variant="secondary" className="text-xs bg-green-500/20 text-green-700">{scholarship.type}</Badge>
+                                        <Button 
+                                          size="sm" 
+                                          variant="ghost" 
+                                          onClick={() => window.open(scholarship.website, '_blank')}
+                                          className="h-8 w-8 p-0"
+                                        >
+                                          <ExternalLink className="h-3 w-3" />
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>
+                              <div className="mt-4">
+                                <Link href="/scholarships">
+                                  <Button variant="outline" size="sm" className="w-full">
+                                    View All Scholarships
+                                  </Button>
+                                </Link>
                               </div>
                             </CardContent>
                           </Card>

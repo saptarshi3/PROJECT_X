@@ -94,30 +94,40 @@ export const careerStreamInfo = {
     icon: "Settings",
     gradient: "from-blue-500 to-purple-600",
     description: "You have exceptional logical thinking and problem-solving abilities. Technology and engineering offer limitless opportunities to innovate and build the future of India.",
-    careers: ["Software Engineer", "AI/ML Engineer", "Cybersecurity Specialist", "Data Scientist", "Robotics Engineer", "Blockchain Developer"]
+    careers: ["Software Engineer", "AI/ML Engineer", "Cybersecurity Specialist", "Data Scientist", "Robotics Engineer", "Blockchain Developer"],
+    recommendedExams: ["jee-main", "jee-advanced", "bitsat"],
+    recommendedScholarships: ["inspire", "tata-scholarship", "aditya-birla"]
   },
   "Creative & Media": {
     icon: "Palette",
     gradient: "from-pink-500 to-orange-600",
     description: "Your creative flair and artistic vision make you perfect for India's booming creative economy. Express your ideas and influence culture through various mediums.",
-    careers: ["Graphic Designer", "Film Director", "Content Creator", "Animator", "Game Designer", "Digital Artist"]
+    careers: ["Graphic Designer", "Film Director", "Content Creator", "Animator", "Game Designer", "Digital Artist"],
+    recommendedExams: ["nid-dat"],
+    recommendedScholarships: ["nsp", "reliance-scholarship"]
   },
   "Social Service": {
     icon: "Heart",
     gradient: "from-green-500 to-emerald-600",
     description: "Your empathy and desire to serve society align perfectly with public service careers. Make a direct impact on millions of lives across India.",
-    careers: ["IAS Officer", "Doctor", "Teacher", "Social Worker", "NGO Leader", "Policy Researcher"]
+    careers: ["IAS Officer", "Doctor", "Teacher", "Social Worker", "NGO Leader", "Policy Researcher"],
+    recommendedExams: ["upsc-cse", "ssc-cgl", "neet-ug"],
+    recommendedScholarships: ["pmss", "nsp", "maulana-azad"]
   },
   "Technical & Hands-on": {
     icon: "Settings",
     gradient: "from-indigo-500 to-blue-600",
     description: "Your practical approach and hands-on skills are valuable in India's growing manufacturing and technical sectors. Build and create tangible solutions.",
-    careers: ["Mechanical Engineer", "Electrical Engineer", "Civil Engineer", "Technician", "Quality Inspector", "Project Manager"]
+    careers: ["Mechanical Engineer", "Electrical Engineer", "Civil Engineer", "Technician", "Quality Inspector", "Project Manager"],
+    recommendedExams: ["jee-main", "bitsat"],
+    recommendedScholarships: ["inspire", "ts-eamcet", "ap-fee-reimbursement"]
   },
   "Business & Management": {
     icon: "PieChart",
     gradient: "from-emerald-500 to-teal-600",
     description: "Your business acumen and leadership skills position you well for India's expanding corporate landscape and entrepreneurial ecosystem.",
-    careers: ["Business Analyst", "Marketing Manager", "Financial Advisor", "Entrepreneur", "Consultant", "Product Manager"]
+    careers: ["Business Analyst", "Marketing Manager", "Financial Advisor", "Entrepreneur", "Consultant", "Product Manager"],
+    recommendedExams: ["cat", "xat"],
+    recommendedScholarships: ["reliance-scholarship", "tata-scholarship", "nsp"]
   }
 };
