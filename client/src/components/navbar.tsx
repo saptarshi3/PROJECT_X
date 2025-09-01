@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { useTheme } from "./theme-provider";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Compass, Home, MessageCircle, Brain, Sun, Moon, Menu, User, LogOut, LayoutDashboard } from "lucide-react";
+import { Compass, Home, MessageCircle, Brain, Sun, Moon, Menu, User, LogOut, LayoutDashboard, GraduationCap, Award } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import AuthModal from "./auth-modal";
@@ -74,6 +74,26 @@ export default function Navbar() {
             >
               <Brain className="mr-2 h-4 w-4" />
               Quiz
+            </Button>
+          </Link>
+          <Link href="/colleges">
+            <Button 
+              variant="ghost" 
+              className={`hover:text-primary transition-colors ${isActive("/colleges") ? "text-primary" : ""}`}
+              data-testid="nav-colleges"
+            >
+              <GraduationCap className="mr-2 h-4 w-4" />
+              Colleges
+            </Button>
+          </Link>
+          <Link href="/scholarships">
+            <Button 
+              variant="ghost" 
+              className={`hover:text-primary transition-colors ${isActive("/scholarships") ? "text-primary" : ""}`}
+              data-testid="nav-scholarships"
+            >
+              <Award className="mr-2 h-4 w-4" />
+              Scholarships
             </Button>
           </Link>
           <Link href="/chat">
@@ -193,6 +213,26 @@ export default function Navbar() {
               >
                 <Brain className="mr-2 h-4 w-4" />
                 Quiz
+              </Button>
+            </Link>
+            <Link href="/colleges" onClick={() => setMobileMenuOpen(false)}>
+              <Button 
+                variant="ghost" 
+                className={`w-full justify-start hover:text-primary transition-colors ${isActive("/colleges") ? "text-primary" : ""}`}
+                data-testid="mobile-nav-colleges"
+              >
+                <GraduationCap className="mr-2 h-4 w-4" />
+                Colleges
+              </Button>
+            </Link>
+            <Link href="/scholarships" onClick={() => setMobileMenuOpen(false)}>
+              <Button 
+                variant="ghost" 
+                className={`w-full justify-start hover:text-primary transition-colors ${isActive("/scholarships") ? "text-primary" : ""}`}
+                data-testid="mobile-nav-scholarships"
+              >
+                <Award className="mr-2 h-4 w-4" />
+                Scholarships
               </Button>
             </Link>
             <Link href="/chat" onClick={() => setMobileMenuOpen(false)}>
