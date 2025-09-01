@@ -1,10 +1,9 @@
 import type { Express } from "express";
-import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertQuizResultSchema, insertChatLogSchema, insertUserSchema, loginUserSchema, insertCareerSchema, insertSavedCareerSchema } from "@shared/schema";
 import { getChatResponse, getCareerRecommendation } from "./lib/gemini";
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Express): Promise<void> {
   // Auth Routes
   app.post("/api/auth/signup", async (req, res) => {
     try {
@@ -230,6 +229,4 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  const httpServer = createServer(app);
-  return httpServer;
 }
