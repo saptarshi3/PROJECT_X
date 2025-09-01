@@ -1,0 +1,295 @@
+RAJASTHAN
+
+Indian Institute of Technology (IIT) Jodhpur
+Jodhpur, Rajasthan
+Streams: Engineering
+Description: Premier IIT with emphasis on research and innovation.
+Established: 2008 | Government
+Key Courses: B.Tech, M.Tech
+Visit Website: https://iitj.ac.in
+
+University of Rajasthan
+Jaipur, Rajasthan
+Streams: Arts, Science, Commerce
+Description: One of the oldest universities in Rajasthan with diverse programs.
+Established: 1947 | Government
+Key Courses: BA, BSc, BCom
+Visit Website: http://www.uniraj.ac.in
+
+Malaviya National Institute of Technology (MNIT) Jaipur
+Jaipur, Rajasthan
+Streams: Engineering
+Description: Top-ranked NIT known for excellent academics and placements.
+Established: 1963 | Government
+Key Courses: B.Tech, M.Tech
+Visit Website: https://www.mnit.ac.in
+
+All India Institute of Medical Sciences (AIIMS) Jodhpur
+Jodhpur, Rajasthan
+Streams: Medical
+Description: Leading medical and research institute in Western India.
+Established: 2012 | Government
+Key Courses: MBBS, MD, MS
+Visit Website: https://www.aiimsjodhpur.edu.in
+
+Birla Institute of Technology & Science (BITS) Pilani
+Pilani, Rajasthan
+Streams: Engineering, Sciences, Management
+Description: Renowned for high-quality technical education and research.
+Established: 1964 | Private
+Key Courses: B.Tech, M.Tech, MBA
+Visit Website: https://www.bits-pilani.ac.in
+
+Raffles University
+Jaipur, Rajasthan
+Streams: Law, Engineering, Management
+Description: Young private university with industry-aligned programs.
+Established: 2011 | Private
+Key Courses: B.Tech, LLB, MBA
+Visit Website: https://www.rafflesuniversity.edu.in
+
+Maharaja Ganga Singh University
+Bikaner, Rajasthan
+Streams: Arts, Science
+Description: Well-established state university with broad academic scope.
+Established: 2003 | Government
+Key Courses: BA, BSc
+Visit Website: https://mgsubikaner.ac.in
+
+Rajasthan University of Health Sciences (RUHS)
+Jaipur, Rajasthan
+Streams: Medical, Pharmacy
+Description: Dedicated university for health science disciplines.
+Established: 2005 | Government
+Key Courses: MBBS, BPharm, MD
+Visit Website: https://www.ruhsraj.org
+
+SP University (Saurashtra University) (though state mismatch) — skip.
+
+SJ Polytechnic – skip.
+
+University of Kota
+Kota, Rajasthan
+Streams: Arts, Science
+Description: Major educational institution in eastern Rajasthan.
+Established: 2003 | Government
+Key Courses: BA, BSc
+Visit Website: https://www.uok.ac.in
+
+Manipal University Jaipur
+Jaipur, Rajasthan
+Streams: Engineering, Management
+Description: Private university with integrated technical and managerial education.
+Established: 2011 | Private
+Key Courses: B.Tech, MBA
+Visit Website: https://jaipur.manipal.edu
+
+KERALA
+
+Indian Institute of Space Science and Technology (IIST)
+Thiruvananthapuram, Kerala
+Streams: Engineering, Space Science
+Description: Premier institute focusing on space technology and research.
+Established: 2007 | Government
+Key Courses: BTech, MTech, PhD
+Visit Website: https://www.iist.ac.in
+
+Indian Institute of Technology (IIT) Palakkad — still expansion; Instead use Indian Institute of Information Technology and Management Kerala (IIITM-K)
+Thiruvananthapuram, Kerala
+Streams: Engineering, Management
+Description: Deemed institute for IT, management and applied sciences.
+Established: 2000 | Government
+Key Courses: M.Tech, MBA, PhD
+Visit Website: http://www.iiitmk.ac.in
+
+Cochin University of Science and Technology (CUSAT)
+Kochi, Kerala
+Streams: Engineering, Science, Arts
+Description: Premier dirigended high education across disciplines.
+Established: 1971 | Government
+Key Courses: B.Tech, M.Tech, M.Sc
+Visit Website: https://www.cusat.ac.in
+
+Kerala Agricultural University
+Thrissur, Kerala
+Streams: Agriculture, Science
+Description: Leading agricultural institute in the state.
+Established: 1971 | Government
+Key Courses: BSc (Agri), MSc, PhD
+Visit Website: https://www.kau.edu
+
+Government Medical College, Thiruvananthapuram
+Thiruvananthapuram, Kerala
+Streams: Medical
+Description: Historic medical college with strong clinical training.
+Established: 1951 | Government
+Key Courses: MBBS, MD
+Visit Website: https://www.gmctvm.nic.in
+
+Mahatma Gandhi University
+Kottayam, Kerala
+Streams: Arts, Science, Commerce
+Description: Large state university with extensive academic offerings.
+Established: 1983 | Government
+Key Courses: BA, MSc, BCom
+Visit Website: https://www.mgu.ac.in
+
+National Institute of Technology Calicut (NIT Calicut)
+Kozhikode, Kerala
+Streams: Engineering, Science
+Description: Top NIT offering top-tier engineering education.
+Established: 2002 | Government
+Key Courses: BTech, MTech, PhD
+Visit Website: https://www.nitc.ac.in
+
+Rajagiri College of Social Sciences
+Kochi, Kerala
+Streams: Social Sciences, Management
+Description: Reputed college for social work and management studies.
+Established: 1966 | Private
+Key Courses: MSW, MBA
+Visit Website: https://www.rajagiricollege.com
+
+Amrita Vishwa Vidyapeetham (listed above) skip.
+
+Sree Chitra Tirunal Institute — skip.
+
+APJ Abdul Kalam Technological University
+Kerala (state-wide)
+Streams: Engineering
+Description: State tech university coordinating technical education.
+Established: 2014 | Government
+Key Courses: B.Tech, M.Tech
+Visit Website: https://ktu.edu.in
+
+Rajiv Gandhi Institute of Technology
+Kottayam, Kerala
+Streams: Engineering
+Description: Leading engineering college under Kerala government.
+Established: 1991 | Government
+Key Courses: B.Tech, M.Tech
+Visit Website: https://www.rgitkottayam.ac.in
+
+PUNJAB
+
+Indian Institute of Technology (IIT) Ropar
+Rupnagar, Punjab
+Streams: Engineering, Research
+Description: Top IIT focusing on interdisciplinary research.
+Established: 2008 | Government
+Key Courses: B.Tech, M.Tech, PhD
+Visit Website: https://www.iitrpr.ac.in
+
+Panjab University
+Chandigarh (covers Punjab)
+Streams: Arts, Science, Commerce
+Description: Historic university with wide academic reach.
+Established: 1882 | Government
+Key Courses: BA, BSc, BCom
+Visit Website: http://www.puchd.ac.in
+
+Thapar Institute of Engineering & Technology
+Patiala, Punjab
+Streams: Engineering, Technology
+Description: Reputed private engineering institution with strong placements.
+Established: 1956 | Private
+Key Courses: BTech, MTech, PhD
+Visit Website: https://www.thapar.edu
+
+Christian Medical College (CMC) Ludhiana
+Ludhiana, Punjab
+Streams: Medical
+Description: Leading medical institution with clinical excellence.
+Established: 1894 | Private
+Key Courses: MBBS, MD
+Visit Website: https://www.cmcludhiana.in
+
+Lovely Professional University (LPU)
+Phagwara, Punjab
+Streams: Engineering, Management, Arts
+Description: Large private university with global student base.
+Established: 2005 | Private
+Key Courses: B.Tech, MBA, BA
+Visit Website: https://www.lpu.in
+
+Guru Nanak Dev University
+Amritsar, Punjab
+Streams: Arts, Science
+Description: Significant public university with diverse programs.
+Established: 1969 | Government
+Key Courses: BA, BSc
+Visit Website: https://www.gndu.ac.in
+
+National Institute of Fashion Technology (NIFT) Jalandhar
+Jalandhar, Punjab
+Streams: Design
+Description: Premier fashion and design institute.
+Established: 1995 | Government
+Key Courses: BDes, MDes
+Visit Website: https://www.nift.ac.in/jalandhar
+
+Indian School of Business & Finance (email) – skip.
+
+GNRC – skip.
+
+Rayat Bahra University
+Mohali, Punjab
+Streams: Engineering, Management
+Description: Emerging private university with technical and business programs.
+Established: 2006 | Private
+Key Courses: B.Tech, MBA
+Visit Website: https://www.rayatbahra.com
+
+DAV College, Jalandhar
+Jalandhar, Punjab
+Streams: Arts, Commerce
+Description: Renowned college with strong educational heritage.
+Established: 1918 | Private-Aided
+Key Courses: BA, BCom
+Visit Website: https://www.davjalandhar.ac.in
+
+Ludhiana College of Engineering and Technology
+Ludhiana, Punjab
+Streams: Engineering
+Description: Well-known regional engineering college.
+Established: 2008 | Private
+Key Courses: B.Tech
+Visit Website: https://lcet.ac.in
+
+HARYANA
+
+Indian Institute of Technology (IIT) Delhi (technically Delhi) – skip.
+
+National Institute of Technology (NIT) Kurukshetra
+Kurukshetra, Haryana
+Streams: Engineering
+Description: Highly regarded NIT with strong core engineering programs.
+Established: 1963 | Government
+Key Courses: B.Tech, M.Tech, PhD
+Visit Website: https://www.nitkkr.ac.in
+
+Panjab University Chandigarh (region) — skip.
+
+Maharshi Dayanand University (MDU)
+Rohtak, Haryana
+Streams: Arts, Commerce, Science
+Description: Solid state university with wide regional access.
+Established: 1976 | Government
+Key Courses: BA, BSc, BCom
+Visit Website: https://www.mdu.ac.in
+
+Guru Jambheshwar University of Science and Technology
+Hisar, Haryana
+Streams: Engineering, Science
+Description: Good technical university offering modern courses.
+Established: 1995 | Government
+Key Courses: B.Tech, M.Tech
+Visit Website: https://www.gjust.ac.in
+
+Manav Rachna International Institute of Research & Studies
+Faridabad, Haryana
+Streams: Engineering, Management
+Description: Emerging private institution with global focus.
+Established: 2014 | Private
+Key Courses: B.Tech, MBA
+Visit Website: https://www.manavracha

@@ -1,0 +1,117 @@
+### TASK
+Generate a structured list of the **Top 10 Colleges in each Indian state** in the following exact format.
+
+---
+
+### FORMAT
+For each state:
+1. State name as a heading (H3 in Markdown, e.g., ### WEST BENGAL)
+2. Numbered list of top 10 colleges.
+3. Each college entry should have:
+   - **College Name**
+   - **City, State**
+   - **Streams:** (comma-separated major fields)
+   - **Description:** (1–2 line summary)
+   - **Established Year | Type** (Government/Private/Deemed)
+   - **Key Courses:** (3–5 core programs)
+   - **Visit Website:** (Full clickable URL)
+
+---
+
+### EXAMPLE
+
+### WEST BENGAL
+1. Indian Institute of Technology Kharagpur  
+Kharagpur, West Bengal  
+Streams: Engineering  
+Description: Premier institute of technology and research with global alumni network.  
+Established: 1951 | Government  
+Key Courses: B.Tech, M.Tech, PhD, MBA  
+Visit Website: https://www.iitkgp.ac.in
+
+2. Jadavpur University  
+Kolkata, West Bengal  
+Streams: Engineering, Arts, Science  
+Description: Top multidisciplinary university known for innovation and research.  
+Established: 1955 | Government  
+Key Courses: B.Tech, M.Tech, BA, MA  
+Visit Website: http://www.jaduniv.edu.in
+
+3. Presidency University  
+Kolkata, West Bengal  
+Streams: Arts, Science  
+Description: Prestigious heritage university with strong humanities programs.  
+Established: 1817 | Government  
+Key Courses: BA (Hons), BSc, MA, MSc  
+Visit Website: https://www.presiuniv.ac.in
+
+4. University of Calcutta  
+Kolkata, West Bengal  
+Streams: Arts, Science, Commerce  
+Description: One of India’s oldest universities with over 150 affiliated colleges.  
+Established: 1857 | Government  
+Key Courses: BA, BSc, BCom  
+Visit Website: http://www.caluniv.ac.in
+
+5. Calcutta Medical College  
+Kolkata, West Bengal  
+Streams: Medical  
+Description: Asia’s oldest medical college with globally recognized clinical training.  
+Established: 1835 | Government  
+Key Courses: MBBS, MD, MS  
+Visit Website: https://www.cmchkolkata.org
+
+6. Indian Statistical Institute (ISI)  
+Kolkata, West Bengal  
+Streams: Science, Statistics  
+Description: Leading institute specializing in statistics, mathematics, data science.  
+Established: 1931 | Government  
+Key Courses: B.Stat, M.Stat, PhD  
+Visit Website: https://www.isical.ac.in
+
+7. St. Xavier’s College, Kolkata  
+Kolkata, West Bengal  
+Streams: Arts, Commerce, Science  
+Description: Renowned Jesuit college with strong academic and cultural heritage.  
+Established: 1860 | Private  
+Key Courses: B.Com, BA, BSc  
+Visit Website: https://www.sxccal.edu
+
+8. IIEST Shibpur  
+Howrah, West Bengal  
+Streams: Engineering, Science  
+Description: Historic engineering university with strong research focus.  
+Established: 1856 | Government  
+Key Courses: B.Tech, M.Tech, PhD  
+Visit Website: https://www.iiests.ac.in
+
+9. NIT Durgapur  
+Durgapur, West Bengal  
+Streams: Engineering, Science  
+Description: Premier technical institute with strong industry ties.  
+Established: 1960 | Government  
+Key Courses: B.Tech, M.Tech, PhD  
+Visit Website: https://www.nitdgp.ac.in
+
+10. Visva-Bharati University  
+Santiniketan, West Bengal  
+Streams: Arts, Humanities, Science  
+Description: Founded by Tagore, blending Indian traditions and global academia.  
+Established: 1921 | Government  
+Key Courses: BA, BSc, MA  
+Visit Website: https://www.visvabharati.ac.in
+
+---
+
+### INSTRUCTIONS
+Now, generate similar **Top 10 Colleges** lists for the following 8 states in this exact style:
+- Rajasthan
+- Kerala
+- Punjab
+- Haryana
+- Bihar
+- Telangana
+- Odisha
+- Assam
+
+Make sure all URLs are real, descriptions are factual, and formatting is clean for easy copy-paste.
