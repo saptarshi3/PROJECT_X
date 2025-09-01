@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertQuizResultSchema, insertChatLogSchema, insertUserSchema, loginUserSchema, insertSavedCareerSchema } from "@shared/schema";
+import { insertQuizResultSchema, insertChatLogSchema, insertUserSchema, loginUserSchema, insertCareerSchema, insertSavedCareerSchema } from "@shared/schema";
 import { getChatResponse, getCareerRecommendation } from "./lib/gemini";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -43,6 +43,69 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Login error:', error);
       res.status(400).json({ error: "Failed to login" });
+    }
+  });
+
+  // Careers Routes
+  app.get("/api/careers", async (req, res) => {
+    try {
+      const { industry, skills, search } = req.query;
+      
+      let careers;
+      if (search) {
+        careers = await storage.searchCareers(search as string);
+      } else {
+        const skillsArray = skills ? (skills as string).split(',').map(s => s.trim()) : undefined;
+        careers = await storage.getCareers(industry as string, skillsArray);
+      }
+      
+      res.json({ success: true, careers });
+    } catch (error) {
+      console.error('Error fetching careers:', error);
+      res.status(500).json({ success: false, message: 'Failed to fetch careers' });
+    }
+  });
+
+  app.get("/api/careers/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const career = await storage.getCareerById(id);
+      
+      if (!career) {
+        return res.status(404).json({ success: false, message: 'Career not found' });
+      }
+      
+      res.json({ success: true, career });
+    } catch (error) {
+      console.error('Error fetching career:', error);
+      res.status(500).json({ success: false, message: 'Failed to fetch career' });
+    }
+  });
+
+  app.post("/api/careers", async (req, res) => {
+    try {
+      const result = insertCareerSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ success: false, errors: result.error.issues });
+      }
+      
+      const career = await storage.createCareer(result.data);
+      res.json({ success: true, career });
+    } catch (error) {
+      console.error('Error creating career:', error);
+      res.status(500).json({ success: false, message: 'Failed to create career' });
+    }
+  });
+
+  // Check if career is saved by user
+  app.get("/api/careers/:careerId/saved/:userId", async (req, res) => {
+    try {
+      const { careerId, userId } = req.params;
+      const isSaved = await storage.isCareerSaved(careerId, userId);
+      res.json({ success: true, isSaved });
+    } catch (error) {
+      console.error('Error checking saved career:', error);
+      res.status(500).json({ success: false, message: 'Failed to check saved career' });
     }
   });
 
