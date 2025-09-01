@@ -1,0 +1,135 @@
+You are an expert full-stack developer tasked with building an Indian-education-focused Career Guidance Platform.  
+Execute this in PHASES. Start with the QUIZ page first.  
+
+---
+
+## 🔹 PHASE 1: CAREER QUIZ PAGE (TOP PRIORITY)
+
+Goal: Build a **fully functional Career Guidance Quiz** to guide students in India on career paths.  
+
+### Requirements:
+1. **Quiz Questions & Options (Fixed)**  
+Each question has multiple options; only one can be selected.  
+
+Q1. Which type of problems do you enjoy solving the most?  
+- A. Solving complex logical or mathematical problems  
+- B. Creating new ideas, designs, or content  
+- C. Helping and guiding others  
+- D. Building or fixing things hands-on  
+- E. Organizing, planning, and managing activities  
+
+Q2. Which subjects or fields do you naturally excel in?  
+- A. Mathematics and Science  
+- B. Arts, Humanities, or Languages  
+- C. Social Sciences or Psychology  
+- D. Technology, Computers, or Engineering  
+- E. Commerce, Business, or Economics  
+
+Q3. Where do you see yourself thriving?  
+- A. Corporate world with structured growth  
+- B. Creative industries (media, design, art)  
+- C. Research labs or academia  
+- D. Government jobs or civil services  
+- E. Startups or entrepreneurship  
+
+Q4. Which describes you best?  
+- A. Logical Thinker  
+- B. Creative & Imaginative  
+- C. Empathetic & People-oriented  
+- D. Practical & Hands-on  
+- E. Ambitious & Business-minded  
+
+Q5. What is your highest education goal as of now?  
+- A. Class 10th Pass  
+- B. Class 12th Pass (Science/Commerce/Arts)  
+- C. Undergraduate Degree  
+- D. Postgraduate Degree  
+- E. Specialized/Professional Certifications  
+
+Q6. Which of these career paths excites you the most?  
+- A. Technology & Engineering  
+- B. Medicine & Healthcare  
+- C. Arts, Film & Media  
+- D. Government Jobs (UPSC, SSC, Defense)  
+- E. Business, Management, and Startups  
+
+Q7. Would you like to explore futuristic and niche careers?  
+- A. Yes, I love emerging careers like AI, Space Tech, Gaming  
+- B. No, I prefer traditional stable careers  
+- C. Maybe, I’d like to see both options  
+
+Q8. How do you want your career to feel?  
+- A. Stable, Secure, and Structured  
+- B. Creative, Fun, and Flexible  
+- C. Impactful, Helping Society  
+- D. Challenging, High-Growth  
+- E. Independent, Entrepreneurial  
+
+---
+
+2. **Dynamic Results**  
+- Based on answers, suggest 3 career paths (e.g., Doctor, Ethical Hacker, Animator, IAS Officer, Food Technologist).  
+- For each career path:  
+  - Roadmap (Courses, Entrance Exams, Key Skills, Internships).  
+  - Scholarships available (National and State-level, e.g., NSP, Inspire, KVPY).  
+- Add **Download as PDF** feature (use jsPDF).  
+
+---
+
+3. **UI & UX**  
+- Minimal orange-grey glassmorphism theme.  
+- Framer Motion for card animations.  
+- Progress bar showing quiz completion.  
+- Mobile-first responsive design.  
+- Add a “Retake Quiz” button.  
+
+---
+
+4. **Tech Stack**  
+- React + TypeScript frontend  
+- Supabase (to store quiz responses, user profiles)  
+- Google Authentication (Sign in with Google)  
+- Gemini API to dynamically personalize roadmaps.  
+
+---
+
+5. **Implementation Notes**  
+- Keep questions/options in a Supabase table for easy updates.  
+- Gemini API will use quiz answers to dynamically refine suggestions.  
+- Use a reusable `<Card />`, `<Question />`, `<ProgressBar />`, `<ResultCard />` component.  
+- Deploy-ready on Vercel.  
+
+---
+
+## 🔹 PHASE 2: COLLEGE FINDER
+
+- Page with top colleges (per state), filters for **state** and **stream**.  
+- Data from Supabase.  
+- Card animations + “View More” button for entrance exams, fees, placements.  
+
+---
+
+## 🔹 PHASE 3: EXAMS & SCHOLARSHIPS
+
+- List all major Indian entrance exams (JEE, NEET, CLAT, UPSC, Design, Sports Quota).  
+- Add scholarships (NSP, KVPY, Inspire, State schemes).  
+- Search and filter functionality.  
+
+---
+
+## 🔹 PHASE 4: POLISH & INTEGRATIONS
+
+- Fully integrate Gemini API for AI-driven career roadmap generation.  
+- Polish UI animations (Framer Motion) and consistent glassmorphism.  
+- Vercel deployment with `.env` setup.  
+
+---
+
+### Final Deliverables
+1. Fully working Career Quiz page (priority).  
+2. Supabase integration for storing quiz results & profiles.  
+3. Google Auth sign-in.  
+4. Dynamic Career Roadmaps + PDF Download.  
+5. College Finder with state/stream filters.  
+6. Exams & Scholarships page.  
+7. Clean animations and responsiveness.  
