@@ -1,0 +1,705 @@
+// server/index.ts
+import express2 from "express";
+
+// server/routes.ts
+import { createServer } from "http";
+
+// server/storage.ts
+import { randomUUID } from "crypto";
+var MemStorage = class {
+  users;
+  quizResults;
+  chatLogs;
+  careers;
+  savedCareers;
+  constructor() {
+    this.users = /* @__PURE__ */ new Map();
+    this.quizResults = /* @__PURE__ */ new Map();
+    this.chatLogs = /* @__PURE__ */ new Map();
+    this.careers = /* @__PURE__ */ new Map();
+    this.savedCareers = /* @__PURE__ */ new Map();
+    this.initializeCareers();
+  }
+  initializeCareers() {
+    this.populateInitialCareers();
+  }
+  async getUser(id) {
+    return this.users.get(id);
+  }
+  async getUserByUsername(username) {
+    return Array.from(this.users.values()).find(
+      (user) => user.username === username
+    );
+  }
+  async getUserByEmail(email) {
+    return Array.from(this.users.values()).find(
+      (user) => user.email === email
+    );
+  }
+  async validateUser(credentials) {
+    const user = await this.getUserByUsername(credentials.username);
+    if (user && user.password === credentials.password) {
+      return user;
+    }
+    return null;
+  }
+  async createUser(insertUser) {
+    const id = randomUUID();
+    const user = {
+      ...insertUser,
+      id,
+      fullName: insertUser.fullName || null,
+      createdAt: /* @__PURE__ */ new Date()
+    };
+    this.users.set(id, user);
+    return user;
+  }
+  async createQuizResult(insertQuizResult) {
+    const id = randomUUID();
+    const quizResult = {
+      ...insertQuizResult,
+      userId: insertQuizResult.userId || null,
+      id,
+      createdAt: /* @__PURE__ */ new Date()
+    };
+    this.quizResults.set(id, quizResult);
+    return quizResult;
+  }
+  async getQuizResults(userId) {
+    const results = Array.from(this.quizResults.values());
+    if (userId) {
+      return results.filter((result) => result.userId === userId);
+    }
+    return results;
+  }
+  async createChatLog(insertChatLog) {
+    const id = randomUUID();
+    const chatLog = {
+      ...insertChatLog,
+      userId: insertChatLog.userId || null,
+      id,
+      createdAt: /* @__PURE__ */ new Date()
+    };
+    this.chatLogs.set(id, chatLog);
+    return chatLog;
+  }
+  async getChatLogs(userId) {
+    const logs = Array.from(this.chatLogs.values());
+    if (userId) {
+      return logs.filter((log2) => log2.userId === userId);
+    }
+    return logs.sort((a, b) => (a.createdAt?.getTime() || 0) - (b.createdAt?.getTime() || 0));
+  }
+  // Career operations
+  async createCareer(insertCareer) {
+    const id = randomUUID();
+    const career = {
+      ...insertCareer,
+      resources: insertCareer.resources || null,
+      roadmap: insertCareer.roadmap || null,
+      tags: insertCareer.tags || null,
+      featured: insertCareer.featured || "false",
+      id,
+      createdAt: /* @__PURE__ */ new Date()
+    };
+    this.careers.set(id, career);
+    return career;
+  }
+  async getCareers(industry, skills) {
+    let result = Array.from(this.careers.values());
+    if (industry) {
+      result = result.filter(
+        (career) => career.industry.toLowerCase().includes(industry.toLowerCase())
+      );
+    }
+    if (skills && skills.length > 0) {
+      result = result.filter((career) => {
+        const careerSkills = career.skills;
+        return skills.some(
+          (skill) => careerSkills.some(
+            (careerSkill) => careerSkill.toLowerCase().includes(skill.toLowerCase())
+          )
+        );
+      });
+    }
+    return result.sort((a, b) => a.featured === "true" ? -1 : 1);
+  }
+  async getCareerById(id) {
+    return this.careers.get(id);
+  }
+  async searchCareers(query) {
+    const lowercaseQuery = query.toLowerCase();
+    return Array.from(this.careers.values()).filter(
+      (career) => career.title.toLowerCase().includes(lowercaseQuery) || career.description.toLowerCase().includes(lowercaseQuery) || career.industry.toLowerCase().includes(lowercaseQuery) || career.skills.some(
+        (skill) => skill.toLowerCase().includes(lowercaseQuery)
+      )
+    );
+  }
+  async createSavedCareer(insertSavedCareer) {
+    const id = randomUUID();
+    const savedCareer = {
+      ...insertSavedCareer,
+      notes: insertSavedCareer.notes || null,
+      id,
+      createdAt: /* @__PURE__ */ new Date()
+    };
+    this.savedCareers.set(id, savedCareer);
+    return savedCareer;
+  }
+  async getSavedCareers(userId) {
+    return Array.from(this.savedCareers.values()).filter(
+      (career) => career.userId === userId
+    );
+  }
+  async deleteSavedCareer(id, userId) {
+    const career = this.savedCareers.get(id);
+    if (career && career.userId === userId) {
+      this.savedCareers.delete(id);
+      return true;
+    }
+    return false;
+  }
+  async isCareerSaved(careerId, userId) {
+    return Array.from(this.savedCareers.values()).some(
+      (saved) => saved.careerId === careerId && saved.userId === userId
+    );
+  }
+  populateInitialCareers() {
+    const sampleCareers = [
+      {
+        title: "Software Engineer",
+        description: "Design, develop, and maintain software applications and systems using various programming languages and frameworks.",
+        industry: "Technology",
+        skills: ["JavaScript", "Python", "React", "Node.js", "Databases", "Git"],
+        salaryRange: "$80,000 - $150,000",
+        education: "Bachelor's in Computer Science or related field",
+        experience: "0-2 years",
+        growth: "High demand with excellent career progression",
+        featured: "true",
+        tags: ["Remote Work", "High Salary", "Innovation"],
+        resources: {
+          certifications: ["AWS Certified Developer", "Google Cloud Professional"],
+          courses: ["Full Stack Development", "System Design"],
+          platforms: ["GitHub", "LeetCode", "Stack Overflow"]
+        },
+        roadmap: {
+          junior: "Learn programming fundamentals, build projects",
+          mid: "Master frameworks, contribute to open source",
+          senior: "Lead teams, architect systems, mentor others"
+        }
+      },
+      {
+        title: "Digital Marketing Specialist",
+        description: "Create and execute digital marketing campaigns across various platforms to drive brand awareness and customer engagement.",
+        industry: "Marketing",
+        skills: ["SEO", "Social Media", "Google Analytics", "Content Marketing", "PPC Advertising"],
+        salaryRange: "$45,000 - $85,000",
+        education: "Bachelor's in Marketing, Communications, or related field",
+        experience: "1-3 years",
+        growth: "Growing field with diverse opportunities",
+        featured: "true",
+        tags: ["Creative", "Data-Driven", "Remote Work"],
+        resources: {
+          certifications: ["Google Ads", "HubSpot Content Marketing", "Facebook Blueprint"],
+          courses: ["Digital Marketing Fundamentals", "Analytics and Data"],
+          platforms: ["LinkedIn Learning", "Coursera", "Google Skillshop"]
+        }
+      },
+      {
+        title: "Data Scientist",
+        description: "Analyze complex datasets to extract insights and build predictive models that drive business decisions.",
+        industry: "Technology",
+        skills: ["Python", "R", "Machine Learning", "SQL", "Statistics", "Data Visualization"],
+        salaryRange: "$95,000 - $180,000",
+        education: "Master's in Data Science, Statistics, or related field",
+        experience: "2-4 years",
+        growth: "Extremely high demand across all industries",
+        featured: "true",
+        tags: ["High Salary", "Analytics", "AI/ML"],
+        resources: {
+          certifications: ["Google Data Analytics", "IBM Data Science"],
+          courses: ["Machine Learning", "Statistical Analysis"],
+          platforms: ["Kaggle", "DataCamp", "Coursera"]
+        }
+      }
+    ];
+    sampleCareers.forEach((career) => {
+      this.createCareer(career);
+    });
+  }
+};
+var storage = new MemStorage();
+
+// shared/schema.ts
+import { sql } from "drizzle-orm";
+import { pgTable, text, varchar, jsonb, timestamp, uuid } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+var users = pgTable("users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
+  password: text("password").notNull(),
+  fullName: text("full_name"),
+  createdAt: timestamp("created_at").default(sql`now()`)
+});
+var quizResults = pgTable("quiz_results", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: text("user_id"),
+  answers: jsonb("answers").notNull(),
+  result: text("result").notNull(),
+  createdAt: timestamp("created_at").default(sql`now()`)
+});
+var chatLogs = pgTable("chat_logs", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: text("user_id"),
+  message: text("message").notNull(),
+  response: text("response").notNull(),
+  createdAt: timestamp("created_at").default(sql`now()`)
+});
+var careers = pgTable("careers", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  industry: text("industry").notNull(),
+  skills: jsonb("skills").notNull(),
+  // Array of required skills
+  salaryRange: text("salary_range").notNull(),
+  education: text("education").notNull(),
+  experience: text("experience").notNull(),
+  growth: text("growth").notNull(),
+  resources: jsonb("resources"),
+  // Learning resources, certifications, etc.
+  roadmap: jsonb("roadmap"),
+  // Career progression steps
+  tags: jsonb("tags"),
+  // For better filtering
+  featured: text("featured").default("false"),
+  // For highlighting top careers
+  createdAt: timestamp("created_at").default(sql`now()`)
+});
+var savedCareers = pgTable("saved_careers", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: text("user_id").notNull(),
+  careerId: text("career_id").notNull(),
+  // Reference to careers table
+  notes: text("notes"),
+  // User's personal notes
+  createdAt: timestamp("created_at").default(sql`now()`)
+});
+var insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true
+});
+var loginUserSchema = createInsertSchema(users).pick({
+  username: true,
+  password: true
+});
+var insertQuizResultSchema = createInsertSchema(quizResults).omit({
+  id: true,
+  createdAt: true
+});
+var insertChatLogSchema = createInsertSchema(chatLogs).omit({
+  id: true,
+  createdAt: true
+});
+var insertCareerSchema = createInsertSchema(careers).omit({
+  id: true,
+  createdAt: true
+});
+var insertSavedCareerSchema = createInsertSchema(savedCareers).omit({
+  id: true,
+  createdAt: true
+});
+
+// server/lib/gemini.ts
+import { GoogleGenAI } from "@google/genai";
+var ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY || "" });
+async function getChatResponse(message) {
+  try {
+    const systemPrompt = `You are a helpful career guidance AI assistant. Provide thoughtful, personalized career advice based on the user's questions. Keep responses conversational, encouraging, and practical. Focus on career development, skill building, industry insights, and educational pathways.`;
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      config: {
+        systemInstruction: systemPrompt
+      },
+      contents: message
+    });
+    return response.text || "I'm sorry, I couldn't process your request at the moment. Please try again.";
+  } catch (error) {
+    console.error("Gemini API error:", error);
+    return "I'm currently having trouble connecting to my knowledge base. Please try again in a moment.";
+  }
+}
+async function getCareerRecommendation(quizAnswers) {
+  try {
+    const answersText = quizAnswers.map(
+      (answer, index) => `Question ${index + 1}: ${answer.text} (Stream: ${answer.stream})`
+    ).join("\n");
+    const prompt = `Based on these career assessment quiz answers, provide a detailed career recommendation and analysis:
+
+${answersText}
+
+Please provide:
+1. A personalized career recommendation
+2. Key strengths identified from the answers
+3. Suggested career paths and specific job roles
+4. Skills to develop for success in this field
+5. Educational recommendations
+
+Keep the response encouraging and actionable.`;
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-pro",
+      contents: prompt
+    });
+    return response.text || "Unable to generate career recommendation at this time.";
+  } catch (error) {
+    console.error("Gemini API error for career recommendation:", error);
+    return "Unable to analyze your quiz results at the moment. Please try again later.";
+  }
+}
+
+// server/routes.ts
+async function registerRoutes(app2) {
+  app2.post("/api/auth/signup", async (req, res) => {
+    try {
+      const data = insertUserSchema.parse(req.body);
+      const existingUserByUsername = await storage.getUserByUsername(data.username);
+      const existingUserByEmail = await storage.getUserByEmail(data.email);
+      if (existingUserByUsername) {
+        return res.status(400).json({ error: "Username already exists" });
+      }
+      if (existingUserByEmail) {
+        return res.status(400).json({ error: "Email already exists" });
+      }
+      const user = await storage.createUser(data);
+      res.json({ success: true, user: { ...user, password: void 0 } });
+    } catch (error) {
+      console.error("Signup error:", error);
+      res.status(400).json({ error: "Failed to create user" });
+    }
+  });
+  app2.post("/api/auth/login", async (req, res) => {
+    try {
+      const data = loginUserSchema.parse(req.body);
+      const user = await storage.validateUser(data);
+      if (!user) {
+        return res.status(401).json({ error: "Invalid username or password" });
+      }
+      res.json({ success: true, user: { ...user, password: void 0 } });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(400).json({ error: "Failed to login" });
+    }
+  });
+  app2.get("/api/careers", async (req, res) => {
+    try {
+      const { industry, skills, search } = req.query;
+      let careers2;
+      if (search) {
+        careers2 = await storage.searchCareers(search);
+      } else {
+        const skillsArray = skills ? skills.split(",").map((s) => s.trim()) : void 0;
+        careers2 = await storage.getCareers(industry, skillsArray);
+      }
+      res.json({ success: true, careers: careers2 });
+    } catch (error) {
+      console.error("Error fetching careers:", error);
+      res.status(500).json({ success: false, message: "Failed to fetch careers" });
+    }
+  });
+  app2.get("/api/careers/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const career = await storage.getCareerById(id);
+      if (!career) {
+        return res.status(404).json({ success: false, message: "Career not found" });
+      }
+      res.json({ success: true, career });
+    } catch (error) {
+      console.error("Error fetching career:", error);
+      res.status(500).json({ success: false, message: "Failed to fetch career" });
+    }
+  });
+  app2.post("/api/careers", async (req, res) => {
+    try {
+      const result = insertCareerSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ success: false, errors: result.error.issues });
+      }
+      const career = await storage.createCareer(result.data);
+      res.json({ success: true, career });
+    } catch (error) {
+      console.error("Error creating career:", error);
+      res.status(500).json({ success: false, message: "Failed to create career" });
+    }
+  });
+  app2.get("/api/careers/:careerId/saved/:userId", async (req, res) => {
+    try {
+      const { careerId, userId } = req.params;
+      const isSaved = await storage.isCareerSaved(careerId, userId);
+      res.json({ success: true, isSaved });
+    } catch (error) {
+      console.error("Error checking saved career:", error);
+      res.status(500).json({ success: false, message: "Failed to check saved career" });
+    }
+  });
+  app2.post("/api/careers/save", async (req, res) => {
+    try {
+      const data = insertSavedCareerSchema.parse(req.body);
+      const savedCareer = await storage.createSavedCareer(data);
+      res.json({ success: true, career: savedCareer });
+    } catch (error) {
+      console.error("Save career error:", error);
+      res.status(400).json({ error: "Failed to save career" });
+    }
+  });
+  app2.get("/api/careers/saved", async (req, res) => {
+    try {
+      const userId = req.query.userId;
+      if (!userId) {
+        return res.status(400).json({ error: "User ID is required" });
+      }
+      const savedCareers2 = await storage.getSavedCareers(userId);
+      res.json(savedCareers2);
+    } catch (error) {
+      console.error("Get saved careers error:", error);
+      res.status(500).json({ error: "Failed to fetch saved careers" });
+    }
+  });
+  app2.delete("/api/careers/saved/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const userId = req.query.userId;
+      if (!userId) {
+        return res.status(400).json({ error: "User ID is required" });
+      }
+      const deleted = await storage.deleteSavedCareer(id, userId);
+      if (deleted) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Career not found or unauthorized" });
+      }
+    } catch (error) {
+      console.error("Delete saved career error:", error);
+      res.status(500).json({ error: "Failed to delete saved career" });
+    }
+  });
+  app2.post("/api/quiz/submit", async (req, res) => {
+    try {
+      const data = insertQuizResultSchema.parse(req.body);
+      const aiRecommendation = await getCareerRecommendation(data.answers);
+      const quizResult = await storage.createQuizResult({
+        ...data,
+        result: data.result + " | AI Analysis: " + aiRecommendation
+      });
+      res.json({ success: true, result: quizResult });
+    } catch (error) {
+      console.error("Quiz submission error:", error);
+      res.status(400).json({ error: "Failed to submit quiz results" });
+    }
+  });
+  app2.get("/api/quiz/results", async (req, res) => {
+    try {
+      const userId = req.query.userId;
+      const results = await storage.getQuizResults(userId);
+      res.json(results);
+    } catch (error) {
+      console.error("Quiz results fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch quiz results" });
+    }
+  });
+  app2.post("/api/chat/send", async (req, res) => {
+    try {
+      const { message, userId } = req.body;
+      if (!message || typeof message !== "string") {
+        return res.status(400).json({ error: "Message is required" });
+      }
+      const aiResponse = await getChatResponse(message);
+      const chatLogData = insertChatLogSchema.parse({
+        userId: userId || "anonymous",
+        message,
+        response: aiResponse
+      });
+      const chatLog = await storage.createChatLog(chatLogData);
+      res.json({
+        success: true,
+        response: aiResponse,
+        chatLog
+      });
+    } catch (error) {
+      console.error("Chat send error:", error);
+      res.status(500).json({ error: "Failed to process chat message" });
+    }
+  });
+  app2.get("/api/chat/history", async (req, res) => {
+    try {
+      const userId = req.query.userId;
+      const chatLogs2 = await storage.getChatLogs(userId);
+      res.json(chatLogs2);
+    } catch (error) {
+      console.error("Chat history fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch chat history" });
+    }
+  });
+  const httpServer = createServer(app2);
+  return httpServer;
+}
+
+// server/vite.ts
+import express from "express";
+import fs from "fs";
+import path2 from "path";
+import { createServer as createViteServer, createLogger } from "vite";
+
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+var vite_config_default = defineConfig({
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+    ...process.env.NODE_ENV !== "production" && process.env.REPL_ID !== void 0 ? [
+      await import("@replit/vite-plugin-cartographer").then(
+        (m) => m.cartographer()
+      )
+    ] : []
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "client", "src"),
+      "@shared": path.resolve(import.meta.dirname, "shared"),
+      "@assets": path.resolve(import.meta.dirname, "attached_assets")
+    }
+  },
+  root: path.resolve(import.meta.dirname, "client"),
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true
+  },
+  server: {
+    fs: {
+      strict: true,
+      deny: ["**/.*"]
+    }
+  }
+});
+
+// server/vite.ts
+import { nanoid } from "nanoid";
+var viteLogger = createLogger();
+function log(message, source = "express") {
+  const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+async function setupVite(app2, server) {
+  const serverOptions = {
+    middlewareMode: true,
+    hmr: { server },
+    allowedHosts: true
+  };
+  const vite = await createViteServer({
+    ...vite_config_default,
+    configFile: false,
+    customLogger: {
+      ...viteLogger,
+      error: (msg, options) => {
+        viteLogger.error(msg, options);
+        process.exit(1);
+      }
+    },
+    server: serverOptions,
+    appType: "custom"
+  });
+  app2.use(vite.middlewares);
+  app2.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const clientTemplate = path2.resolve(
+        import.meta.dirname,
+        "..",
+        "client",
+        "index.html"
+      );
+      let template = await fs.promises.readFile(clientTemplate, "utf-8");
+      template = template.replace(
+        `src="/src/main.tsx"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
+      );
+      const page = await vite.transformIndexHtml(url, template);
+      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+}
+function serveStatic(app2) {
+  const distPath = path2.resolve(import.meta.dirname, "public");
+  if (!fs.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(express.static(distPath));
+  app2.use("*", (_req, res) => {
+    res.sendFile(path2.resolve(distPath, "index.html"));
+  });
+}
+
+// server/index.ts
+var app = express2();
+app.use(express2.json());
+app.use(express2.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  const start = Date.now();
+  const path3 = req.path;
+  let capturedJsonResponse = void 0;
+  const originalResJson = res.json;
+  res.json = function(bodyJson, ...args) {
+    capturedJsonResponse = bodyJson;
+    return originalResJson.apply(res, [bodyJson, ...args]);
+  };
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    if (path3.startsWith("/api")) {
+      let logLine = `${req.method} ${path3} ${res.statusCode} in ${duration}ms`;
+      if (capturedJsonResponse) {
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      }
+      if (logLine.length > 80) {
+        logLine = logLine.slice(0, 79) + "\u2026";
+      }
+      log(logLine);
+    }
+  });
+  next();
+});
+(async () => {
+  const server = await registerRoutes(app);
+  app.use((err, _req, res, _next) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message });
+    throw err;
+  });
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
+  const port = parseInt(process.env.PORT || "5000", 10);
+  server.listen({
+    port,
+    host: "0.0.0.0",
+    reusePort: true
+  }, () => {
+    log(`serving on port ${port}`);
+  });
+})();
