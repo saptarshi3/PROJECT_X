@@ -1,53 +1,73 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Play, Bot } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import ThreeDScene from "./3d-scene";
 
 export default function Hero() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center gradient-bg overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <motion.div 
-          className="absolute top-20 left-10 w-32 h-32 bg-primary rounded-full"
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute top-40 right-20 w-24 h-24 bg-accent rounded-full"
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: -2 }}
-        />
-        <motion.div 
-          className="absolute bottom-20 left-1/4 w-40 h-40 bg-secondary rounded-full"
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: -4 }}
-        />
+    <section 
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background/95 to-background/90"
+    >
+      {/* 3D Background Scene */}
+      <div className="absolute inset-0 z-0">
+        <ThreeDScene className="opacity-60" />
       </div>
+      
+      {/* Glassmorphism overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/10 to-background/30 backdrop-blur-[1px]" />
       
       <motion.div 
         className="relative z-10 text-center px-6 max-w-4xl mx-auto"
+        style={{ y, opacity }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-          Discover Your
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-            {" "}Perfect Career
+        <motion.h1 
+          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight drop-shadow-2xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+        >
+          <span className="text-foreground/90">Discover Your</span>
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient-x">
+            Perfect Career
           </span>
-        </h1>
-        <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+        </motion.h1>
+        <motion.p 
+          className="text-lg md:text-xl text-muted-foreground/90 mb-12 max-w-2xl mx-auto backdrop-blur-sm drop-shadow-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+        >
           Take our intelligent assessment, chat with AI, and unlock personalized career insights tailored just for you
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        </motion.p>
+        <motion.div 
+          className="flex flex-col sm:flex-row gap-6 justify-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
+        >
           <Link href="/quiz">
             <Button 
               size="lg"
-              className="px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold hover:scale-105 transform transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="px-10 py-4 bg-primary text-primary-foreground rounded-2xl font-bold hover:scale-105 transform transition-all duration-300 shadow-2xl hover:shadow-primary/30 glassmorphism-button border border-primary/20 backdrop-blur-md"
               data-testid="start-quiz-button"
             >
-              <Play className="mr-2 h-5 w-5" />
+              <Play className="mr-3 h-6 w-6" />
               Start Career Quiz
             </Button>
           </Link>
@@ -55,14 +75,14 @@ export default function Hero() {
             <Button 
               variant="outline"
               size="lg"
-              className="px-8 py-4 glassmorphism rounded-xl font-semibold hover:scale-105 transform transition-all duration-300 border border-border"
+              className="px-10 py-4 glassmorphism rounded-2xl font-bold hover:scale-105 transform transition-all duration-300 border-2 border-border/30 backdrop-blur-md shadow-2xl hover:shadow-accent/20 hover:border-accent/50"
               data-testid="chat-ai-button"
             >
-              <Bot className="mr-2 h-5 w-5" />
+              <Bot className="mr-3 h-6 w-6" />
               Chat with AI
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

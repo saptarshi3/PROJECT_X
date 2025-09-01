@@ -1,0 +1,92 @@
+You are a senior React + TypeScript + Supabase full-stack engineer.
+I already have:
+
+Landing page, Chat page (Gemini AI), Dashboard, Quiz, Authentication (Supabase)
+
+Responsive layout, orange-grey theme, glassmorphism elements
+
+Supabase setup (auth & data fetching)
+
+Now implement PHASE 2 with this exact priority list:
+
+🔥 PHASE 1: ULTRA-MODERN UI WITH 3D HERO
+
+Make the Landing Page stunning with:
+
+A 3D animated globe or rotating object using react-three-fiber + three.
+
+Smooth parallax scroll animations.
+
+Hero text floating over the 3D canvas.
+
+Apply glassmorphism cards with blurred glass backgrounds and glowing borders.
+
+Upgrade Navbar: smooth scroll, animated active states, sticky header.
+
+Smooth light/dark theme toggle with framer-motion transitions.
+
+Optimize for mobile-first responsiveness.
+
+🔥 PHASE 2: CAREER EXPLORER (50+ CAREERS)
+
+Create a Career Explorer Page with Supabase integration.
+
+Supabase table: careers with fields id, title, description, skills, industry, resources.
+
+Fetch careers dynamically and display in animated career cards.
+
+Add filters (by industry/skills) and search bar.
+
+Add a “Save Career” button to store careers in a user’s dashboard.
+
+🔥 PHASE 3: PDF DOWNLOAD
+
+Add a Download PDF button to Dashboard.
+
+Use @react-pdf/renderer or jspdf to export a professionally styled PDF:
+
+User’s name + quiz results
+
+Saved careers with details and roadmaps
+
+App branding and styling
+
+🔥 PHASE 4: EXTRA FEATURES
+
+Scholarship Finder (static cards first, API later)
+
+Optional College Finder (Google Places or other API)
+
+Code-splitting, lazy-loading for performance
+
+Staggered animations for smooth page transitions
+
+🔧 TECH + LIBRARIES
+
+Vite + React + TS + TailwindCSS
+
+Supabase for auth + data
+
+framer-motion for animations
+
+react-three-fiber + three for 3D elements
+
+jspdf or @react-pdf/renderer for PDF
+
+react-icons for icons
+
+Keep clean, modular code; don’t rewrite working auth/chat/quiz—just integrate.
+
+🎯 GOAL
+
+Deliver a beautiful production-ready site with:
+
+3D animated hero & premium UI
+
+Career Explorer with dynamic data
+
+PDF report generator
+
+Extra pages (Scholarships, Colleges)
+
+⚡ Implement in this priority order: UI/3D → Careers → PDF → Extras.

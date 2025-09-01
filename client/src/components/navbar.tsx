@@ -3,7 +3,8 @@ import { useTheme } from "./theme-provider";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Compass, Home, MessageCircle, Brain, Sun, Moon, Menu, User, LogOut, LayoutDashboard } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import AuthModal from "./auth-modal";
 
 export default function Navbar() {
@@ -12,6 +13,15 @@ export default function Navbar() {
   const { user, isAuthenticated, login, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -24,11 +34,25 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 glassmorphism border-b border-border/20">
+    <motion.nav 
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'navbar-blur backdrop-blur-md border-b border-border/30 shadow-lg' 
+          : 'glassmorphism border-b border-border/20'
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <Link href="/" className="flex items-center space-x-2">
-          <Compass className="text-2xl text-primary" />
-          <h1 className="text-xl font-bold text-primary">CareerGuide</h1>
+        <Link href="/" className="flex items-center space-x-2 group">
+          <motion.div
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
+            <Compass className="text-2xl text-primary group-hover:text-accent transition-colors" />
+          </motion.div>
+          <h1 className="text-xl font-bold text-primary group-hover:text-accent transition-colors">CareerGuide</h1>
         </Link>
         
         <div className="hidden md:flex items-center space-x-6">
@@ -74,15 +98,39 @@ export default function Navbar() {
               </Button>
             </Link>
           )}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleTheme}
-            className="glassmorphism hover:bg-white/20 transition-all"
-            data-testid="theme-toggle"
-          >
-            {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-          </Button>
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="glassmorphism hover:bg-white/20 transition-all duration-300 relative overflow-hidden"
+              data-testid="theme-toggle"
+            >
+              <AnimatePresence mode="wait">
+                {theme === "dark" ? (
+                  <motion.div
+                    key="moon"
+                    initial={{ rotate: 180, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -180, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Moon className="h-4 w-4" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="sun"
+                    initial={{ rotate: -180, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 180, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Sun className="h-4 w-4" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Button>
+          </motion.div>
           
           {isAuthenticated ? (
             <div className="flex items-center space-x-2">
@@ -208,6 +256,6 @@ export default function Navbar() {
           setAuthModalOpen(false);
         }} 
       />
-    </nav>
+    </motion.nav>
   );
 }
