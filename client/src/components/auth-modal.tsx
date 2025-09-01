@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Eye, EyeOff, User as UserIcon, Mail, Lock } from "lucide-react";
+import { GoogleLogin } from '@react-oauth/google';
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -107,6 +108,35 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     loginMutation.mutate(data);
   };
 
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    try {
+      const response = await apiRequest("POST", "/api/auth/google", {
+        credential: credentialResponse.credential,
+      });
+      const data = await response.json();
+      toast({
+        title: "Welcome!",
+        description: "Successfully signed in with Google.",
+      });
+      onSuccess(data.user);
+      onClose();
+    } catch (error: any) {
+      toast({
+        title: "Google Sign-In Failed",
+        description: error.message || "Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleGoogleError = () => {
+    toast({
+      title: "Google Sign-In Error",
+      description: "Failed to sign in with Google. Please try again.",
+      variant: "destructive",
+    });
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="glassmorphism border-border/20 max-w-md">
@@ -127,6 +157,24 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
             >
               <Card className="glassmorphism border-border/20">
                 <CardContent className="p-6">
+                  {/* Google Sign-In */}
+                  <div className="mb-6">
+                    <GoogleLogin
+                      onSuccess={handleGoogleSuccess}
+                      onError={handleGoogleError}
+                      theme="outline"
+                      size="large"
+                      width="100%"
+                      text="signin_with"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="flex-1 h-px bg-border"></div>
+                    <span className="text-sm text-muted-foreground">or continue with email</span>
+                    <div className="flex-1 h-px bg-border"></div>
+                  </div>
+
                   <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="login-username" className="text-sm font-medium">
@@ -214,6 +262,24 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
             >
               <Card className="glassmorphism border-border/20">
                 <CardContent className="p-6">
+                  {/* Google Sign-Up */}
+                  <div className="mb-6">
+                    <GoogleLogin
+                      onSuccess={handleGoogleSuccess}
+                      onError={handleGoogleError}
+                      theme="outline"
+                      size="large"
+                      width="100%"
+                      text="signup_with"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="flex-1 h-px bg-border"></div>
+                    <span className="text-sm text-muted-foreground">or sign up with email</span>
+                    <div className="flex-1 h-px bg-border"></div>
+                  </div>
+
                   <form onSubmit={signupForm.handleSubmit(handleSignup)} className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="signup-fullname" className="text-sm font-medium">

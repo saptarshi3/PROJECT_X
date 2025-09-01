@@ -6,6 +6,7 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: string, data: Partial<User>): Promise<User>;
   validateUser(credentials: LoginUser): Promise<User | null>;
   createQuizResult(quizResult: InsertQuizResult): Promise<QuizResult>;
   getQuizResults(userId?: string): Promise<QuizResult[]>;
@@ -68,12 +69,25 @@ export class MemStorage implements IStorage {
     return null;
   }
 
+  async updateUser(id: string, data: Partial<User>): Promise<User> {
+    const user = this.users.get(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    
+    const updatedUser = { ...user, ...data };
+    this.users.set(id, updatedUser);
+    return updatedUser;
+  }
+
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
     const user: User = { 
       ...insertUser, 
       id,
       fullName: insertUser.fullName || null,
+      googleId: insertUser.googleId || null,
+      profilePicture: insertUser.profilePicture || null,
       createdAt: new Date() 
     };
     this.users.set(id, user);

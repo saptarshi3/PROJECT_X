@@ -2,6 +2,9 @@ import type { Express } from "express";
 import { storage } from "./storage";
 import { insertQuizResultSchema, insertChatLogSchema, insertUserSchema, loginUserSchema, insertCareerSchema, insertSavedCareerSchema } from "@shared/schema";
 import { getChatResponse, getCareerRecommendation } from "./lib/gemini";
+import { OAuth2Client } from 'google-auth-library';
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export async function registerRoutes(app: Express): Promise<void> {
   // Auth Routes
@@ -42,6 +45,59 @@ export async function registerRoutes(app: Express): Promise<void> {
     } catch (error) {
       console.error('Login error:', error);
       res.status(400).json({ error: "Failed to login" });
+    }
+  });
+
+  // Google OAuth Route
+  app.post("/api/auth/google", async (req, res) => {
+    try {
+      const { credential } = req.body;
+      
+      if (!credential) {
+        return res.status(400).json({ error: "No credential provided" });
+      }
+
+      // Verify the Google token
+      const ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+
+      const payload = ticket.getPayload();
+      if (!payload) {
+        return res.status(400).json({ error: "Invalid Google token" });
+      }
+
+      const { sub: googleId, email, name, picture } = payload;
+
+      if (!email || !name) {
+        return res.status(400).json({ error: "Missing required user information" });
+      }
+
+      // Check if user exists by email
+      let user = await storage.getUserByEmail(email);
+      
+      if (!user) {
+        // Create new user
+        const userData = {
+          username: email.split('@')[0] + '_' + Date.now(), // Generate unique username
+          email,
+          password: '', // No password needed for Google auth
+          fullName: name,
+          googleId,
+          profilePicture: picture,
+        };
+        
+        user = await storage.createUser(userData);
+      } else if (!user.googleId) {
+        // Link existing account with Google
+        user = await storage.updateUser(user.id, { googleId, profilePicture: picture });
+      }
+      
+      res.json({ success: true, user: { ...user, password: undefined } });
+    } catch (error) {
+      console.error('Google auth error:', error);
+      res.status(400).json({ error: "Failed to authenticate with Google" });
     }
   });
 

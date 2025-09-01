@@ -9,6 +9,8 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   fullName: text("full_name"),
+  googleId: text("google_id"), // For Google OAuth
+  profilePicture: text("profile_picture"), // User avatar URL
   createdAt: timestamp("created_at").default(sql`now()`),
 });
 
