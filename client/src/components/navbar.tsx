@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { useTheme } from "./theme-provider";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Compass, Home, MessageCircle, Brain, Sun, Moon, Menu, User, LogOut, LayoutDashboard, GraduationCap, Award } from "lucide-react";
+import { Compass, Home, MessageCircle, Brain, Sun, Moon, Menu, User, LogOut, LayoutDashboard, GraduationCap, Award, MapPin } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import AuthModal from "./auth-modal";
@@ -84,6 +84,16 @@ export default function Navbar() {
             >
               <GraduationCap className="mr-2 h-4 w-4" />
               Colleges
+            </Button>
+          </Link>
+          <Link href="/nearby-colleges">
+            <Button 
+              variant="ghost" 
+              className={`hover:text-primary transition-colors ${isActive("/nearby-colleges") ? "text-primary" : ""}`}
+              data-testid="nav-nearby-colleges"
+            >
+              <MapPin className="mr-2 h-4 w-4" />
+              Nearby
             </Button>
           </Link>
           <Link href="/scholarships">
