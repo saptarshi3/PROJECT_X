@@ -1,0 +1,204 @@
+🚀 REPLIT PROJECT PROMPT: Smart Career Guidance App with Marks Penalty Logic
+
+You are building a **full-stack Career Guidance Web App** that adapts recommendations based on **quiz answers + subject marks** with penalties for weak subjects.  
+
+Stack:  
+- **Frontend**: React 18 + TailwindCSS, React Router, React Flow  
+- **Backend**: Node.js + Express  
+- **Design**: Glassmorphism cards  
+- **Data**: Static JSON career clusters, weights, and penalties  
+
+---
+
+## 🔹 APP LOGIC
+
+1. **Class Selection** → Choose `10` or `11/12`.  
+2. **Marks Entry**  
+   - Class 10: Science, Math, English, Social Science, Regional/Other  
+   - Class 11/12: Select Stream (Science/Commerce/Arts) → Enter marks for relevant subjects  
+3. **Adaptive Quiz**  
+   - Class 10: Fun, kid-friendly questions (6 total)  
+   - Class 11/12: Mature, streamlined quiz (6 total, see below)  
+4. **Scoring**
+   - **Marks Score**: Weighted avg (0–40%)  
+   - **Penalty**: If marks <40 in core subjects, deduct score for careers tied to that subject  
+   - **Quiz Score**: Cluster from quiz answers (0–40%)  
+   - **Stream Weight**: Predefined score (20%)  
+5. **Results**  
+   - Top 3 Careers with explanation  
+   - Glassmorphic UI with Score Breakdown  
+   - Career Flowchart per stream  
+
+---
+
+## 🔹 QUIZ QUESTIONS
+
+### 🟢 For Class 10
+1. Which subject do you enjoy most? (Science, Math, History, English, Art)  
+2. What do you like doing in your free time? (Build things, Read, Draw, Solve puzzles, Organize events)  
+3. Who inspires you most? (Scientists, Entrepreneurs, Leaders, Artists, Teachers)  
+4. What excites you the most? (Experiments, Business ideas, Storytelling, Helping people, Designing)  
+5. How do you like learning? (Visual, Hands-on, Reading, Group discussions, Projects)  
+6. If you could choose a dream job, what would it be? (Doctor, Business Owner, Teacher, Artist, Politician)
+
+---
+
+### 🔵 For Class 11/12
+1. Which subject do you enjoy most?  
+2. Which activity excites you most in daily life?  
+3. After Class 12, which path are you most interested in?  
+4. Which factor matters most in choosing a career (salary, passion, social impact, balance, security)?  
+5. Do you prefer new-age jobs (AI, gaming, robotics) or traditional jobs (doctor, lawyer, govt)?  
+6. Where do you see yourself working best (corporate, startup, research, govt, creative field)?
+
+---
+
+## 🔹 BACKEND CODE (Node.js/Express)
+
+```javascript
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+// Career Clusters
+const careers = {
+  Science: ["Engineer","Doctor","Scientist","Data Scientist","Biotech","IT Developer"],
+  Commerce: ["Accountant","Entrepreneur","Banker","CA/CS","Economist","Marketing Manager"],
+  Arts: ["Lawyer","Journalist","Historian","Teacher","Psychologist","Politician"],
+  Creative: ["Designer","Musician","Writer","Actor","Filmmaker","Architect"],
+  Social: ["NGO Worker","Social Worker","Counselor","Public Servant","Environmentalist"]
+};
+
+// Marks Penalty Map
+const penalties = {
+  Science: ["science","math"],
+  Commerce: ["math","accounts","economics"],
+  Arts: ["history","english","political science"],
+};
+
+// Calculate Marks Score
+function calcMarksScore(marks) {
+  const total = Object.values(marks).reduce((a,b)=>a+Number(b),0);
+  const avg = total / Object.keys(marks).length;
+  return (avg/100)*10; // scaled to 0–10
+}
+
+// Apply Penalty
+function applyPenalty(cluster, marks) {
+  let penalty = 0;
+  const lowSubjects = penalties[cluster] || [];
+  lowSubjects.forEach(sub => {
+    if(marks[sub] && marks[sub]<40) penalty += 2; // -2 points for each weak subject
+  });
+  return penalty;
+}
+
+// Quiz Cluster
+function getQuizCluster(answers) {
+  let scores = {Science:0,Commerce:0,Arts:0,Creative:0,Social:0};
+  answers.forEach(ans=>{
+    const a = ans.toLowerCase();
+    if(a.includes("puzzle")||a.includes("lab")||a.includes("science")) scores.Science++;
+    if(a.includes("business")||a.includes("money")||a.includes("commerce")) scores.Commerce++;
+    if(a.includes("history")||a.includes("politics")||a.includes("research")) scores.Arts++;
+    if(a.includes("art")||a.includes("creative")||a.includes("design")) scores.Creative++;
+    if(a.includes("help")||a.includes("social")||a.includes("ngo")) scores.Social++;
+  });
+  const cluster = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0];
+  return {cluster: cluster[0], score: cluster[1]};
+}
+
+// Stream Weight
+function getStreamWeight(stream) {
+  if(stream==="Science") return 8;
+  if(stream==="Commerce") return 7;
+  if(stream==="Arts") return 6;
+  return 5;
+}
+
+// Endpoint
+app.post("/quiz", (req,res)=>{
+  const {classLevel, stream, marks, answers} = req.body;
+
+  const marksScore = calcMarksScore(marks);
+  const quizData = getQuizCluster(answers);
+  const streamWeight = getStreamWeight(stream);
+
+  // Apply penalty
+  const penalty = applyPenalty(quizData.cluster, marks);
+
+  // Weighted Final Score
+  let finalScore = (marksScore*0.4)+(quizData.score*0.4)+(streamWeight*0.2);
+  finalScore -= penalty;
+
+  res.json({
+    finalScore: Math.max(0,Math.round(finalScore*10)), // never below 0
+    cluster: quizData.cluster,
+    penalty,
+    suggestions: careers[quizData.cluster].slice(0,3),
+    breakdown: {
+      marks: Math.round(marksScore*10),
+      quiz: quizData.score*10,
+      stream: streamWeight,
+      penalty
+    }
+  });
+});
+
+app.listen(3000, ()=>console.log("Server running on port 3000"));
+🔹 FRONTEND DESIGN (React + Tailwind)
+Step 1: Class & Marks input form
+
+Step 2: Adaptive Quiz (cards with emojis for kids, simple MCQs for 11/12)
+
+Step 3: Results Page with:
+
+Final Score Card
+
+Breakdown (Marks, Quiz, Stream, Penalty)
+
+Top 3 Careers
+
+Career Flowchart
+
+Results Example
+jsx
+Copy code
+<div className="p-6 rounded-2xl bg-white/20 backdrop-blur-md shadow-xl text-center max-w-md mx-auto">
+  <h2 className="text-2xl font-bold">Your Career Path</h2>
+  <p className="mt-2">Cluster: {cluster}</p>
+  <p className="text-lg font-semibold">Final Score: {finalScore}</p>
+
+  <div className="mt-4 space-y-2">
+    <p>Marks Score: {breakdown.marks}</p>
+    <p>Quiz Score: {breakdown.quiz}</p>
+    <p>Stream Weight: {breakdown.stream}</p>
+    <p className="text-red-500">Penalty: -{penalty}</p>
+  </div>
+
+  <h3 className="mt-4 text-lg font-bold">Top Career Suggestions:</h3>
+  <ul className="mt-2 space-y-1">
+    {suggestions.map(c => <li key={c} className="font-medium">{c}</li>)}
+  </ul>
+</div>
+Career Flowcharts
+Use React Flow to render:
+
+Science → B.Sc. → M.Sc./MBA → Govt → Private → Startup
+
+Commerce → B.Com. → CA/CS → Banking → Entrepreneurship
+
+Arts → B.A. → UPSC → Media/NGO
+
+💡 This final system now:
+✅ Adjusts scores based on marks
+✅ Penalizes low marks in relevant subjects
+✅ Supports 20+ career paths
+✅ Adapts quiz per Class level
+✅ Has Glassmorphism UI & Flowcharts
+✅ Fully deployable in Replit
+
