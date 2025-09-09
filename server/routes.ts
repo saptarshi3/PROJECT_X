@@ -394,4 +394,158 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // Government Colleges API
+  app.get("/api/colleges", async (req, res) => {
+    try {
+      const { lat, lng } = req.query;
+      
+      if (!lat || !lng) {
+        return res.status(400).json({ error: "Latitude and longitude are required" });
+      }
+
+      const userLat = parseFloat(lat as string);
+      const userLng = parseFloat(lng as string);
+
+      // Mock government colleges data with realistic information
+      const governmentColleges = [
+        {
+          college_name: "Government Science College",
+          city: "Kolkata",
+          state: "West Bengal",
+          latitude: 22.5726,
+          longitude: 88.3639,
+          courses_offered: ["B.Sc Physics", "B.Sc Chemistry", "B.Sc Mathematics", "B.Sc Biology"],
+          cutoff_data: { "JEE": 75, "State Exam": 80, "NEET": 520 },
+          facilities: ["Library", "Hostel", "Computer Lab", "Physics Lab", "Chemistry Lab"],
+          website: "https://govsciencecollege.edu.in",
+          established: 1968,
+          affiliation: "University of Calcutta"
+        },
+        {
+          college_name: "Government Engineering College",
+          city: "Chennai",
+          state: "Tamil Nadu",
+          latitude: 13.0827,
+          longitude: 80.2707,
+          courses_offered: ["B.Tech Computer Science", "B.Tech Mechanical", "B.Tech Civil", "B.Tech Electrical"],
+          cutoff_data: { "JEE Main": 85, "TNEA": 180, "JEE Advanced": 220 },
+          facilities: ["Central Library", "Boys Hostel", "Girls Hostel", "Workshop", "CAD Lab", "Sports Complex"],
+          website: "https://govengcollege.ac.in",
+          established: 1956,
+          affiliation: "Anna University"
+        },
+        {
+          college_name: "Government Medical College",
+          city: "Mumbai",
+          state: "Maharashtra",
+          latitude: 19.0760,
+          longitude: 72.8777,
+          courses_offered: ["MBBS", "BDS", "B.Sc Nursing", "B.Pharm", "BAMS"],
+          cutoff_data: { "NEET UG": 580, "NEET PG": 450, "State CET": 170 },
+          facilities: ["Medical Library", "Hospital", "Hostel", "Anatomy Lab", "Pathology Lab", "Research Center"],
+          website: "https://govmedcollege.org",
+          established: 1845,
+          affiliation: "Mumbai University"
+        },
+        {
+          college_name: "Government Arts & Commerce College",
+          city: "Jaipur",
+          state: "Rajasthan",
+          latitude: 26.9124,
+          longitude: 75.7873,
+          courses_offered: ["B.A English", "B.A Hindi", "B.Com", "B.A History", "B.A Political Science"],
+          cutoff_data: { "Merit List": 65, "State Board": 70, "CBSE": 75 },
+          facilities: ["Library", "Computer Lab", "Auditorium", "Canteen", "Sports Ground"],
+          website: "https://govartscommerce.edu.in",
+          established: 1962,
+          affiliation: "University of Rajasthan"
+        },
+        {
+          college_name: "Government Polytechnic College",
+          city: "Hyderabad",
+          state: "Telangana",
+          latitude: 17.3850,
+          longitude: 78.4867,
+          courses_offered: ["Diploma Mechanical", "Diploma Civil", "Diploma Electrical", "Diploma Computer"],
+          cutoff_data: { "TS POLYCET": 120, "Merit Rank": 2500 },
+          facilities: ["Workshop", "Library", "Hostel", "CAD Lab", "Electronics Lab", "Placement Cell"],
+          website: "https://govpolytechnic.ac.in",
+          established: 1975,
+          affiliation: "State Board of Technical Education"
+        },
+        {
+          college_name: "Government Degree College",
+          city: "Pune",
+          state: "Maharashtra",
+          latitude: 18.5204,
+          longitude: 73.8567,
+          courses_offered: ["B.Sc IT", "BCA", "B.Com", "B.A Psychology", "B.Sc Biotechnology"],
+          cutoff_data: { "Merit List": 68, "MHT-CET": 85, "JEE Main": 70 },
+          facilities: ["IT Lab", "Library", "Canteen", "Seminar Hall", "Sports Facilities"],
+          website: "https://govdegreecollege.edu.in",
+          established: 1978,
+          affiliation: "Pune University"
+        },
+        {
+          college_name: "Government Teacher Training College",
+          city: "Bhopal",
+          state: "Madhya Pradesh",
+          latitude: 23.2599,
+          longitude: 77.4126,
+          courses_offered: ["B.Ed", "M.Ed", "D.El.Ed", "B.A B.Ed", "B.Sc B.Ed"],
+          cutoff_data: { "MP B.Ed Entrance": 75, "Merit Rank": 1200 },
+          facilities: ["Education Library", "Psychology Lab", "Teaching Practice School", "Hostel", "Computer Lab"],
+          website: "https://govteachertraining.mp.gov.in",
+          established: 1965,
+          affiliation: "Barkatullah University"
+        },
+        {
+          college_name: "Government Agriculture College",
+          city: "Coimbatore",
+          state: "Tamil Nadu",
+          latitude: 11.0168,
+          longitude: 76.9558,
+          courses_offered: ["B.Sc Agriculture", "B.Tech Agricultural Engineering", "B.Sc Horticulture", "B.Sc Forestry"],
+          cutoff_data: { "TNAU Entrance": 140, "ICAR AIEEA": 65 },
+          facilities: ["Research Farm", "Agricultural Lab", "Library", "Hostel", "Livestock Unit", "Processing Unit"],
+          website: "https://govagricollege.tnau.ac.in",
+          established: 1955,
+          affiliation: "Tamil Nadu Agricultural University"
+        }
+      ];
+
+      // Calculate distance using Haversine formula
+      const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+        const R = 6371; // Radius of Earth in kilometers
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = 
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+      };
+
+      // Add distance to each college and sort by distance
+      const collegesWithDistance = governmentColleges
+        .map(college => ({
+          ...college,
+          distance: Math.round(calculateDistance(userLat, userLng, college.latitude, college.longitude) * 10) / 10
+        }))
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 12); // Limit to 12 nearest colleges
+
+      res.json({
+        success: true,
+        colleges: collegesWithDistance,
+        total: collegesWithDistance.length
+      });
+
+    } catch (error) {
+      console.error('Error fetching colleges:', error);
+      res.status(500).json({ error: "Failed to fetch nearby colleges" });
+    }
+  });
+
 }
