@@ -16,6 +16,7 @@ import { useAuth } from "@/hooks/use-auth";
 import Navbar from "@/components/navbar";
 import { class10QuizData, class1112QuizData, careerStreamInfo, type QuizOption } from "@/lib/quiz-data";
 import { examData, scholarshipData } from "@/lib/scholarship-data";
+import CareerFlowchart from "@/components/career-flowchart";
 import jsPDF from 'jspdf';
 
 const iconMap = {
@@ -571,6 +572,22 @@ export default function Quiz() {
                       </div>
                     ))}
                   </div>
+                </CardContent>
+              </Card>
+
+              {/* Career Pathway Flowchart */}
+              <Card className="glassmorphism-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings className="w-5 h-5" />
+                    Career Pathway for {result.cluster}
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    Interactive flowchart showing your career progression path
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <CareerFlowchart stream={result.cluster as any} />
                 </CardContent>
               </Card>
 
