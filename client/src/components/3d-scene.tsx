@@ -23,10 +23,42 @@ export default function ThreeDScene({ className = "" }: ThreeDSceneProps) {
     const width = mountRef.current.clientWidth;
     const height = mountRef.current.clientHeight;
 
+    // Check if WebGL is available
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    
+    if (!gl) {
+      // WebGL not available, show fallback
+      mountRef.current.innerHTML = `
+        <div class="flex items-center justify-center h-full bg-gradient-to-br from-orange-500/20 to-indigo-500/20 rounded-lg border border-orange-500/30">
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-500 to-indigo-500 rounded-full opacity-80"></div>
+            <p class="text-sm text-muted-foreground">3D Preview</p>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    } catch (error) {
+      // WebGL context creation failed, show fallback
+      mountRef.current.innerHTML = `
+        <div class="flex items-center justify-center h-full bg-gradient-to-br from-orange-500/20 to-indigo-500/20 rounded-lg border border-orange-500/30">
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-500 to-indigo-500 rounded-full opacity-80"></div>
+            <p class="text-sm text-muted-foreground">3D Preview</p>
+          </div>
+        </div>
+      `;
+      return;
+    }
     
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -155,11 +187,13 @@ export default function ThreeDScene({ className = "" }: ThreeDSceneProps) {
         cancelAnimationFrame(sceneRef.current.animationId);
       }
       
-      if (mountRef.current && renderer.domElement) {
+      if (mountRef.current && renderer && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
       }
       
-      renderer.dispose();
+      if (renderer) {
+        renderer.dispose();
+      }
       sphereGeometry.dispose();
       sphereMaterial.dispose();
       wireframeGeometry.dispose();
