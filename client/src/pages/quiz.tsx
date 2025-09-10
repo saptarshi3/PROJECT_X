@@ -509,36 +509,66 @@ export default function Quiz() {
             >
               {/* Main Result Card */}
               <Card className="glassmorphism-card text-center p-8">
-                <div className="mb-6">
-                  <Trophy className="w-16 h-16 mx-auto mb-4 text-primary" />
-                  <h2 className="text-3xl font-bold mb-2">Your Career Path</h2>
-                  <p className="text-xl text-primary font-semibold">{result.cluster}</p>
-                  <div className="text-3xl font-bold text-primary mt-4">
-                    Final Score: {result.finalScore}/100
+                <div className="mb-8">
+                  <Trophy className="w-20 h-20 mx-auto mb-6 text-primary drop-shadow-lg" />
+                  <h2 className="text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
+                    Your Career Path
+                  </h2>
+                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/20 to-orange-500/20 rounded-full px-6 py-2 mb-4">
+                    <Award className="w-5 h-5 text-primary" />
+                    <p className="text-xl text-primary font-bold">{result.cluster}</p>
+                  </div>
+                  <div className="relative">
+                    <div className="text-5xl font-bold text-primary mt-6 drop-shadow-md">
+                      {result.finalScore}<span className="text-2xl text-muted-foreground">/100</span>
+                    </div>
+                    <div className="text-sm text-muted-foreground mt-2 font-medium">
+                      {result.finalScore >= 75 ? '🎉 Excellent Match!' : result.finalScore >= 50 ? '👍 Good Match!' : '💪 Keep Growing!'}
+                    </div>
                   </div>
                 </div>
                 
                 {/* Score Breakdown */}
-                <div className="grid md:grid-cols-4 gap-4 mb-6">
-                  <div className="glassmorphism p-4 rounded-lg">
-                    <div className="text-lg font-semibold">{result.breakdown.marks}</div>
-                    <div className="text-sm text-muted-foreground">Marks Score (40%)</div>
-                  </div>
-                  <div className="glassmorphism p-4 rounded-lg">
-                    <div className="text-lg font-semibold">{result.breakdown.quiz}</div>
-                    <div className="text-sm text-muted-foreground">Quiz Score (40%)</div>
-                  </div>
-                  <div className="glassmorphism p-4 rounded-lg">
-                    <div className="text-lg font-semibold">{result.breakdown.stream}</div>
-                    <div className="text-sm text-muted-foreground">Stream Weight (20%)</div>
-                  </div>
-                  {result.penalty > 0 && (
-                    <div className="glassmorphism p-4 rounded-lg border-red-500/20">
-                      <div className="text-lg font-semibold text-red-500">-{result.penalty}</div>
-                      <div className="text-sm text-red-400">Penalty (Weak Subjects)</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  <div className="glassmorphism p-6 rounded-xl border border-blue-500/20 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-blue-400"></div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <BookOpen className="w-5 h-5 text-blue-500" />
+                      <span className="text-sm font-medium text-blue-400">Academic Performance</span>
                     </div>
-                  )}
+                    <div className="text-2xl font-bold text-blue-500">{result.breakdown.marks}</div>
+                    <div className="text-xs text-muted-foreground mt-1">Marks Score (40%)</div>
+                  </div>
+                  <div className="glassmorphism p-6 rounded-xl border border-green-500/20 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-green-400"></div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <Heart className="w-5 h-5 text-green-500" />
+                      <span className="text-sm font-medium text-green-400">Interest Level</span>
+                    </div>
+                    <div className="text-2xl font-bold text-green-500">{result.breakdown.quiz}</div>
+                    <div className="text-xs text-muted-foreground mt-1">Quiz Score (40%)</div>
+                  </div>
+                  <div className="glassmorphism p-6 rounded-xl border border-purple-500/20 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-purple-400"></div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <GraduationCap className="w-5 h-5 text-purple-500" />
+                      <span className="text-sm font-medium text-purple-400">Stream Match</span>
+                    </div>
+                    <div className="text-2xl font-bold text-purple-500">{result.breakdown.stream}</div>
+                    <div className="text-xs text-muted-foreground mt-1">Stream Weight (20%)</div>
+                  </div>
                 </div>
+                
+                {/* Penalty Alert */}
+                {result.penalty > 0 && (
+                  <div className="glassmorphism p-4 rounded-lg border-amber-500/30 bg-amber-500/10 mb-6">
+                    <div className="flex items-center gap-2 text-amber-500 mb-1">
+                      <ExternalLink className="w-4 h-4" />
+                      <span className="font-semibold">Improvement Opportunity</span>
+                    </div>
+                    <div className="text-sm text-amber-400">-{result.penalty} points penalty for subjects under 40%</div>
+                  </div>
+                )}
 
                 <div className="flex flex-wrap gap-4 justify-center">
                   <Button onClick={downloadPDF} className="gap-2">
@@ -558,19 +588,62 @@ export default function Quiz() {
                 </div>
               </Card>
 
+              {/* Personalized Advice - Prominent Display */}
+              {result.aiAnalysis && result.aiAnalysis.includes('interest aligns with') && (
+                <Card className="glassmorphism-card border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-orange-500/10">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-amber-600">
+                      <ExternalLink className="w-5 h-5" />
+                      🎥 Action Required - Bridge the Gap!
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-amber-500/20">
+                      <p className="text-lg font-semibold text-amber-100 mb-2">
+                        💡 Your Path Forward:
+                      </p>
+                      <p className="text-amber-200 leading-relaxed">
+                        {result.aiAnalysis.split('|')[0].trim()}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Career Suggestions */}
               <Card className="glassmorphism-card">
                 <CardHeader>
-                  <CardTitle>Top Career Suggestions</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <Award className="w-5 h-5 text-primary" />
+                    🎆 Top Career Matches
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Based on your interests and academic performance
+                  </p>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    {result.suggestions.map((career, index) => (
-                      <div key={index} className="glassmorphism p-4 rounded-lg text-center">
-                        <div className="text-lg font-semibold mb-1">#{index + 1}</div>
-                        <div className="font-medium">{career}</div>
-                      </div>
-                    ))}
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {result.suggestions.map((career, index) => {
+                      const colors = ['from-blue-500/20 to-blue-600/20 border-blue-500/30', 'from-green-500/20 to-green-600/20 border-green-500/30', 'from-purple-500/20 to-purple-600/20 border-purple-500/30'];
+                      const textColors = ['text-blue-400', 'text-green-400', 'text-purple-400'];
+                      const bgColors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500'];
+                      return (
+                        <div key={index} className={`glassmorphism p-6 rounded-xl bg-gradient-to-br ${colors[index]} border relative overflow-hidden group hover:scale-105 transition-all duration-300`}>
+                          <div className={`absolute top-3 right-3 ${bgColors[index]} text-white text-xs px-2 py-1 rounded-full font-bold`}>
+                            #{index + 1}
+                          </div>
+                          <div className="text-center pt-4">
+                            <div className="text-2xl mb-2">
+                              {index === 0 ? '🏆' : index === 1 ? '🥈' : '🥉'}
+                            </div>
+                            <div className={`font-bold text-lg ${textColors[index]} mb-1`}>{career}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {index === 0 ? 'Best Match' : index === 1 ? 'Great Option' : 'Good Alternative'}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
@@ -597,13 +670,18 @@ export default function Quiz() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Settings className="w-5 h-5" />
-                      AI-Powered Analysis
+                      🤖 AI-Powered Insights
                     </CardTitle>
+                    <p className="text-sm text-muted-foreground">
+                      Detailed analysis based on your responses and academic performance
+                    </p>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {result.aiAnalysis}
-                    </p>
+                    <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-4 rounded-lg border border-blue-500/20">
+                      <p className="text-muted-foreground leading-relaxed">
+                        {result.aiAnalysis}
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               )}

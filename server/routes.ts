@@ -308,7 +308,13 @@ export async function registerRoutes(app: Express): Promise<void> {
           const careerAnalysis = getCareerSuggestions(subjectMarks, answerTexts, chosenStream);
           
           // Get AI recommendation
-          const aiRecommendation = await getCareerRecommendation(answers);
+          let aiRecommendation = '';
+          try {
+            aiRecommendation = await getCareerRecommendation(answers);
+          } catch (error) {
+            console.error('AI recommendation error:', error);
+            aiRecommendation = '';
+          }
           
           resultData = {
             finalScore: careerAnalysis.finalScore,
