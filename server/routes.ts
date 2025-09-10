@@ -3,6 +3,7 @@ import { storage } from "./storage";
 import { insertQuizResultSchema, insertChatLogSchema, insertUserSchema, loginUserSchema, insertCareerSchema, insertSavedCareerSchema } from "@shared/schema";
 import { getChatResponse, getCareerRecommendation } from "./lib/gemini";
 import { OAuth2Client } from 'google-auth-library';
+import { getCareerSuggestions, type SubjectMarks } from "../client/src/lib/career-logic.js";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -278,45 +279,93 @@ export async function registerRoutes(app: Express): Promise<void> {
       
       // Handle both old and new quiz formats
       if (marks && classLevel) {
-        // New adaptive scoring system
-        const marksScore = calcMarksScore(marks);
-        const answerTexts = Array.isArray(answers) ? answers.map((a: any) => a.text || a) : [];
-        const quizData = getQuizCluster(answerTexts);
-        const streamWeight = getStreamWeight(stream || quizData.cluster);
-
-        // Apply penalty
-        const penalty = applyPenalty(quizData.cluster, marks);
-
-        // Weighted Final Score
-        let finalScore = (marksScore*0.4)+(quizData.score*0.4)+(streamWeight*0.2);
-        finalScore -= penalty;
-        finalScore = Math.max(0, Math.round(finalScore*10)); // never below 0
-
-        // Get top career suggestions
-        const suggestions = careers[quizData.cluster as keyof typeof careers]?.slice(0,3) || [];
+        let resultData;
         
-        // Get AI recommendation
-        const aiRecommendation = await getCareerRecommendation(answers);
-        
-        const resultData = {
-          finalScore,
-          cluster: quizData.cluster,
-          penalty,
-          suggestions,
-          breakdown: {
-            marks: Math.round(marksScore*10),
-            quiz: quizData.score*10,
-            stream: streamWeight,
-            penalty
-          },
-          aiAnalysis: aiRecommendation
-        };
+        if (classLevel === "11-12") {
+          // Use new comprehensive career logic for class 11-12
+          const answerTexts = Array.isArray(answers) ? answers.map((a: any) => a.text || a) : [];
+          const streamMapping: { [key: string]: "science" | "commerce" | "arts" | "creative" | "social" } = {
+            "Science": "science",
+            "Commerce": "commerce", 
+            "Arts": "arts",
+            "Creative": "creative",
+            "Social": "social"
+          };
+          
+          // Convert marks object to match career logic interface
+          const subjectMarks: SubjectMarks = {};
+          Object.entries(marks).forEach(([subject, mark]) => {
+            const normalizedSubject = subject.toLowerCase()
+              .replace(/\s+/g, '')
+              .replace('mathematics', 'math')
+              .replace('accountancy', 'accounts')
+              .replace('businessstudies', 'economics')
+              .replace('politicalscience', 'psychology');
+            subjectMarks[normalizedSubject] = Number(mark);
+          });
+          
+          const chosenStream = streamMapping[stream] || "science";
+          const careerAnalysis = getCareerSuggestions(subjectMarks, answerTexts, chosenStream);
+          
+          // Get AI recommendation
+          const aiRecommendation = await getCareerRecommendation(answers);
+          
+          resultData = {
+            finalScore: careerAnalysis.finalScore,
+            cluster: careerAnalysis.primaryCluster,
+            penalty: Math.max(0, careerAnalysis.aptitudeScore - Math.round((Object.values(subjectMarks).reduce((a, b) => a + (b || 0), 0) / Object.keys(subjectMarks).length))),
+            suggestions: careerAnalysis.top3Careers,
+            breakdown: {
+              marks: careerAnalysis.aptitudeScore,
+              quiz: careerAnalysis.interestScore,
+              stream: careerAnalysis.streamWeight,
+              penalty: careerAnalysis.mismatchFlag ? 5 : 0
+            },
+            aiAnalysis: careerAnalysis.advice + (aiRecommendation ? ` | AI Insights: ${aiRecommendation}` : ''),
+            confidenceLevel: careerAnalysis.confidenceLevel,
+            mismatchFlag: careerAnalysis.mismatchFlag
+          };
+        } else {
+          // Use existing logic for class 10
+          const marksScore = calcMarksScore(marks);
+          const answerTexts = Array.isArray(answers) ? answers.map((a: any) => a.text || a) : [];
+          const quizData = getQuizCluster(answerTexts);
+          const streamWeight = getStreamWeight(stream || quizData.cluster);
+
+          // Apply penalty
+          const penalty = applyPenalty(quizData.cluster, marks);
+
+          // Weighted Final Score
+          let finalScore = (marksScore*0.4)+(quizData.score*0.4)+(streamWeight*0.2);
+          finalScore -= penalty;
+          finalScore = Math.max(0, Math.round(finalScore*10)); // never below 0
+
+          // Get top career suggestions
+          const suggestions = careers[quizData.cluster as keyof typeof careers]?.slice(0,3) || [];
+          
+          // Get AI recommendation
+          const aiRecommendation = await getCareerRecommendation(answers);
+          
+          resultData = {
+            finalScore,
+            cluster: quizData.cluster,
+            penalty,
+            suggestions,
+            breakdown: {
+              marks: Math.round(marksScore*10),
+              quiz: quizData.score*10,
+              stream: streamWeight,
+              penalty
+            },
+            aiAnalysis: aiRecommendation
+          };
+        }
         
         // Store in database
         const quizResult = await storage.createQuizResult({
           userId: userId || "anonymous",
           answers,
-          result: `${quizData.cluster} (Score: ${finalScore}) | AI Analysis: ${aiRecommendation}`,
+          result: `${resultData.cluster} (Score: ${resultData.finalScore}) | AI Analysis: ${resultData.aiAnalysis}`,
         });
         
         res.json({ success: true, result: resultData, dbResult: quizResult });

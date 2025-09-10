@@ -177,36 +177,40 @@ export function suggestCareers(cluster: keyof typeof CAREER_CLUSTERS, marks: Sub
   
   // Check specific requirements for certain career paths
   switch (cluster) {
-    case 'science':
+    case 'science': {
       const physics = marks.physics || 0;
       const math = marks.math || 0;
       const biology = marks.biology || 0;
+      const scienceData = CAREER_CLUSTERS.science;
       
       if (physics >= 70 && math >= 70) {
-        careers.push(...clusterData.careers.engineering);
+        careers.push(...scienceData.careers.engineering);
       }
       if (biology >= 70) {
-        careers.push(...clusterData.careers.medical);
+        careers.push(...scienceData.careers.medical);
       }
       if (careers.length === 0) {
-        careers.push(...clusterData.careers.research);
+        careers.push(...scienceData.careers.research);
         advice = `Your interest aligns with Science, but marks in ${physics < 70 ? 'Physics' : ''} ${math < 70 ? 'Math' : ''} ${biology < 70 ? 'Biology' : ''} need improvement. Consider bridging courses or alternative science careers.`;
       }
       break;
+    }
       
-    case 'commerce':
+    case 'commerce': {
       const accounts = marks.accounts || 0;
       const mathComm = marks.math || 0;
+      const commerceData = CAREER_CLUSTERS.commerce;
       
       if (accounts >= 65 && mathComm >= 65) {
-        careers.push(...clusterData.careers.finance);
+        careers.push(...commerceData.careers.finance);
       } else {
-        careers.push(...clusterData.careers.business);
+        careers.push(...commerceData.careers.business);
         if (accounts < 65 || mathComm < 65) {
           advice = `Your interest aligns with Commerce, but marks in ${accounts < 65 ? 'Accounts' : ''} ${mathComm < 65 ? 'Math' : ''} need improvement. Consider strengthening these areas or explore other business fields.`;
         }
       }
       break;
+    }
       
     case 'arts':
     case 'creative':
@@ -264,10 +268,13 @@ export function getCareerSuggestions(
   // Get career suggestions
   const { careers, advice } = suggestCareers(primaryCluster, marks);
   
+  // Convert cluster to title case for interface compatibility
+  const titleCaseCluster = primaryCluster.charAt(0).toUpperCase() + primaryCluster.slice(1) as 'Science' | 'Commerce' | 'Arts' | 'Creative' | 'Social';
+  
   return {
     finalScore: Math.max(0, Math.min(100, finalScore)),
     confidenceLevel,
-    primaryCluster,
+    primaryCluster: titleCaseCluster,
     top3Careers: careers,
     advice,
     aptitudeScore: Math.round(aptitudeScore),
