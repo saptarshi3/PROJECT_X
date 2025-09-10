@@ -313,7 +313,7 @@ export async function registerRoutes(app: Express): Promise<void> {
           resultData = {
             finalScore: careerAnalysis.finalScore,
             cluster: careerAnalysis.primaryCluster,
-            penalty: Math.max(0, careerAnalysis.aptitudeScore - Math.round((Object.values(subjectMarks).reduce((a, b) => a + (b || 0), 0) / Object.keys(subjectMarks).length))),
+            penalty: Math.max(0, careerAnalysis.aptitudeScore - Math.round((Object.values(subjectMarks).reduce((a, b) => (a || 0) + (b || 0), 0) / Math.max(1, Object.keys(subjectMarks).length)))),
             suggestions: careerAnalysis.top3Careers,
             breakdown: {
               marks: careerAnalysis.aptitudeScore,
