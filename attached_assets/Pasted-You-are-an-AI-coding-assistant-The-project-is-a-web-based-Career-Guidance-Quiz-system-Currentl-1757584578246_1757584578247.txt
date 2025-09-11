@@ -1,0 +1,74 @@
+You are an AI coding assistant. The project is a **web-based Career Guidance Quiz system**. Currently, Class 10 functionality is fully implemented and working. Do not modify Class 10.  
+
+Your task is to **update Class 11–12 logic** to include:  
+
+1. **Expanded career clusters and careers**:
+   - Science: Engineer, Doctor, Pilot, Merchant Navy, Data Scientist, Research Scientist
+   - Commerce: CA, Investment Banker, Entrepreneur, Business Manager, Economist
+   - Arts: IAS, IPS, Lawyer, Teacher, Historian
+   - Creative: Journalist, Designer, Filmmaker, Musician, Architect, Fashion Designer
+   - Social: Psychologist, Counselor, NGO Worker, Social Worker
+   - Vocational: Hotel Management, Chef, Tourism, Sports Coach
+
+2. **Quiz questions for Class 11–12** (6 questions) mapped to all career clusters:
+   - Q1: Subject Preference → career clusters
+   - Q2: Daily Activities → career clusters
+   - Q3: Post-12 Path → career clusters
+   - Q4: Career Motivation → career clusters
+   - Q5: Job Type Preference → career clusters
+   - Q6: Work Environment → career clusters
+
+3. **Marks logic & threshold checks**:
+   - Keep existing Class 11–12 marks input system
+   - Use thresholds for rare careers:
+     - Pilot/Merchant Navy → Physics + Math ≥ 70
+     - Doctor → Biology ≥ 70
+     - CA/Finance → Accounts + Math ≥ 65
+     - IAS/IPS → Pol. Science + History ≥ 65
+     - Creative/Social/Vocational → interest-heavy, marks optional
+
+4. **Interest scoring**:
+   - Scan answers for keywords
+   - Add points per cluster
+   - Highest cluster = primary career direction
+
+5. **Final score & confidence**:
+   - FinalScore = (MarksScore × 0.4) + (InterestScore × 0.4) + (StreamWeight × 2)
+   - Confidence: High ≥75, Moderate ≥50, Low <50
+   - Detect mismatches: InterestScore >70 & Marks <50 → "Interest Driven, Needs Skill Boost"
+
+6. **Career Recommendations**:
+   - Show top 3–6 careers from the primary cluster
+   - Include INR salary ranges
+
+7. **College Recommendations**:
+   - Map primary career cluster → relevant colleges
+   - Use existing React cards/animation, only add extra streams
+
+8. **Flowchart**:
+   - Keep the **current Class 11–12 animated flowchart**
+   - Add **new streams and rare careers** in the flowchart nodes
+   - Maintain animation style, just expand nodes for: Vocational, Social, Creative, and rare careers like Pilot, IAS, IPS, Merchant Navy, Hotel Management, Journalism, Chef, Tourism
+
+9. **Output**:
+   - Update dashboard to show:
+     - Primary Career Cluster + Confidence
+     - Top careers with salary
+     - Recommended colleges
+     - Personalized advice
+     - Flowchart animation showing full logic
+
+10. **Constraints**:
+    - Do not modify Class 10 system
+    - Maintain current design/animations
+    - Use modular JS/React functions for quiz, scoring, career mapping, and flowchart updates
+    - Ensure new careers and streams are fully integrated into scoring, recommendations, and flowchart
+
+Please generate **all code updates**, including:
+- Updated question mapping
+- Keyword-based scoring
+- Threshold checks for rare careers
+- Career recommendations
+- College cards
+- Updated animated flowchart for Class 11–12
+- Modular React/JS implementation ready for Replit

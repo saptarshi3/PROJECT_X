@@ -22,56 +22,71 @@ export interface SubjectMarks {
 export interface CareerSuggestion {
   finalScore: number;
   confidenceLevel: 'High' | 'Moderate' | 'Low';
-  primaryCluster: 'Science' | 'Commerce' | 'Arts' | 'Creative' | 'Social';
+  primaryCluster: 'Science' | 'Commerce' | 'Arts' | 'Creative' | 'Social' | 'Vocational';
   top3Careers: string[];
   advice: string;
   aptitudeScore: number;
   interestScore: number;
   streamWeight: number;
   mismatchFlag?: string;
+  penaltyDetails?: string;
 }
 
 // Career clusters with associated keywords and career options
 const CAREER_CLUSTERS = {
   science: {
-    keywords: ['research', 'experiment', 'analysis', 'discovery', 'innovation', 'technology', 'medicine', 'engineering', 'physics', 'chemistry', 'biology', 'math', 'problem-solving', 'logic'],
+    keywords: ['research', 'experiment', 'analysis', 'discovery', 'innovation', 'technology', 'medicine', 'engineering', 'physics', 'chemistry', 'biology', 'math', 'problem-solving', 'logic', 'pilot', 'aviation', 'navy', 'marine'],
     careers: {
-      engineering: ['Software Engineer', 'Mechanical Engineer', 'Civil Engineer'],
-      medical: ['Doctor', 'Surgeon', 'Medical Researcher'],
-      research: ['Research Scientist', 'Data Scientist', 'Biotechnologist'],
-      technology: ['AI Specialist', 'Cybersecurity Expert', 'Robotics Engineer']
+      engineering: ['Software Engineer', 'Mechanical Engineer', 'Civil Engineer', 'Aerospace Engineer'],
+      medical: ['Doctor', 'Surgeon', 'Medical Researcher', 'Pharmacist'],
+      research: ['Research Scientist', 'Data Scientist', 'Biotechnologist', 'Laboratory Technician'],
+      technology: ['AI Specialist', 'Cybersecurity Expert', 'Robotics Engineer', 'Space Scientist'],
+      specialized: ['Pilot', 'Merchant Navy Officer', 'Nuclear Engineer', 'Meteorologist']
     }
   },
   commerce: {
-    keywords: ['business', 'finance', 'management', 'economics', 'accounting', 'marketing', 'sales', 'entrepreneur', 'investment', 'banking', 'trade', 'commerce', 'profit', 'strategy'],
+    keywords: ['business', 'finance', 'management', 'economics', 'accounting', 'marketing', 'sales', 'entrepreneur', 'investment', 'banking', 'trade', 'commerce', 'profit', 'strategy', 'chartered', 'audit'],
     careers: {
-      finance: ['Chartered Accountant', 'Investment Banker', 'Financial Analyst'],
-      business: ['Business Manager', 'Entrepreneur', 'Marketing Manager'],
-      consulting: ['Management Consultant', 'Business Analyst', 'Strategy Consultant']
+      finance: ['Chartered Accountant', 'Investment Banker', 'Financial Analyst', 'Tax Consultant'],
+      business: ['Business Manager', 'Entrepreneur', 'Marketing Manager', 'Operations Manager'],
+      consulting: ['Management Consultant', 'Business Analyst', 'Strategy Consultant', 'Financial Advisor'],
+      economics: ['Economist', 'Market Research Analyst', 'Business Economist', 'Policy Analyst']
     }
   },
   arts: {
-    keywords: ['literature', 'writing', 'language', 'history', 'culture', 'philosophy', 'teaching', 'education', 'humanities', 'communication', 'journalism', 'translation'],
+    keywords: ['literature', 'writing', 'language', 'history', 'culture', 'philosophy', 'teaching', 'education', 'humanities', 'communication', 'journalism', 'translation', 'ias', 'ips', 'civil service', 'government', 'upsc', 'administration'],
     careers: {
-      education: ['Teacher', 'Professor', 'Educational Counselor'],
-      media: ['Journalist', 'Content Writer', 'Editor'],
-      humanities: ['Historian', 'Linguist', 'Philosopher']
+      education: ['Teacher', 'Professor', 'Educational Counselor', 'Academic Researcher'],
+      media: ['Journalist', 'Content Writer', 'Editor', 'News Anchor'],
+      humanities: ['Historian', 'Linguist', 'Philosopher', 'Archaeologist'],
+      government: ['IAS Officer', 'IPS Officer', 'IFS Officer', 'Civil Services'],
+      law: ['Lawyer', 'Judge', 'Legal Advisor', 'Public Prosecutor']
     }
   },
   creative: {
-    keywords: ['art', 'design', 'creativity', 'music', 'painting', 'drawing', 'fashion', 'photography', 'animation', 'film', 'theater', 'dance', 'creative', 'artistic'],
+    keywords: ['art', 'design', 'creativity', 'music', 'painting', 'drawing', 'fashion', 'photography', 'animation', 'film', 'theater', 'dance', 'creative', 'artistic', 'architecture', 'interior'],
     careers: {
-      design: ['Graphic Designer', 'Fashion Designer', 'Interior Designer'],
-      media: ['Film Director', 'Animator', 'Photographer'],
-      performing: ['Musician', 'Actor', 'Dancer']
+      design: ['Graphic Designer', 'Fashion Designer', 'Interior Designer', 'UX/UI Designer'],
+      media: ['Film Director', 'Animator', 'Photographer', 'Video Editor'],
+      performing: ['Musician', 'Actor', 'Dancer', 'Theater Artist'],
+      architecture: ['Architect', 'Landscape Architect', 'Urban Planner', 'Interior Architect']
     }
   },
   social: {
-    keywords: ['society', 'community', 'help', 'service', 'psychology', 'sociology', 'social work', 'counseling', 'therapy', 'public service', 'government', 'law'],
+    keywords: ['society', 'community', 'help', 'service', 'psychology', 'sociology', 'social work', 'counseling', 'therapy', 'public service', 'ngo', 'welfare', 'human rights'],
     careers: {
-      service: ['Social Worker', 'Counselor', 'Therapist'],
-      law: ['Lawyer', 'Judge', 'Legal Advisor'],
-      government: ['Civil Servant', 'Public Policy Analyst', 'Diplomat']
+      service: ['Social Worker', 'Counselor', 'Therapist', 'Community Organizer'],
+      psychology: ['Psychologist', 'Clinical Psychologist', 'Child Psychologist', 'Behavioral Therapist'],
+      nonprofit: ['NGO Worker', 'Human Rights Activist', 'Development Worker', 'Volunteer Coordinator']
+    }
+  },
+  vocational: {
+    keywords: ['hotel', 'hospitality', 'tourism', 'cooking', 'chef', 'culinary', 'sports', 'fitness', 'coaching', 'travel', 'event', 'catering', 'restaurant', 'food service'],
+    careers: {
+      hospitality: ['Hotel Manager', 'Event Manager', 'Tourism Guide', 'Travel Agent'],
+      culinary: ['Chef', 'Food Stylist', 'Restaurant Manager', 'Catering Manager'],
+      sports: ['Sports Coach', 'Fitness Trainer', 'Sports Nutritionist', 'Sports Manager'],
+      service: ['Air Hostess', 'Customer Service Manager', 'Retail Manager', 'Wedding Planner']
     }
   }
 };
@@ -82,7 +97,8 @@ const STREAM_WEIGHTS = {
   commerce: 7,
   arts: 6,
   creative: 5,
-  social: 5
+  social: 5,
+  vocational: 4
 };
 
 // Core subjects for penalty calculation by stream
@@ -91,13 +107,17 @@ const CORE_SUBJECTS = {
   commerce: ['accounts', 'economics', 'math'],
   arts: ['english', 'history', 'geography'],
   creative: ['arts', 'music', 'design'],
-  social: ['psychology', 'sociology', 'history']
+  social: ['psychology', 'sociology', 'history'],
+  vocational: ['english', 'math'] // Basic requirements for vocational streams
 };
 
-export function calculateAptitude(marks: SubjectMarks, chosenStream: keyof typeof STREAM_WEIGHTS): number {
+export function calculateAptitude(marks: SubjectMarks, chosenStream: keyof typeof STREAM_WEIGHTS): { 
+  score: number; 
+  penaltyDetails: string; 
+} {
   const markValues = Object.values(marks).filter((mark): mark is number => mark !== undefined && mark >= 0);
   
-  if (markValues.length === 0) return 0;
+  if (markValues.length === 0) return { score: 0, penaltyDetails: 'No marks provided' };
   
   // Calculate average marks
   const average = markValues.reduce((sum, mark) => sum + mark, 0) / markValues.length;
@@ -105,15 +125,24 @@ export function calculateAptitude(marks: SubjectMarks, chosenStream: keyof typeo
   // Apply penalty for core subjects under 40
   const coreSubjects = CORE_SUBJECTS[chosenStream] || [];
   let penalty = 0;
+  const penalizedSubjects: string[] = [];
   
   for (const subject of coreSubjects) {
     const mark = marks[subject];
     if (mark !== undefined && mark < 40) {
       penalty += 2;
+      penalizedSubjects.push(`${subject.charAt(0).toUpperCase() + subject.slice(1)} (${mark}%)`);
     }
   }
   
-  return Math.max(0, Math.min(100, average - penalty));
+  const penaltyDetails = penalizedSubjects.length > 0 
+    ? `Penalty Applied: -${penalty} points for core subjects below 40%: ${penalizedSubjects.join(', ')}`
+    : 'No penalty applied - all core subjects above 40%';
+  
+  return { 
+    score: Math.max(0, Math.min(100, average - penalty)),
+    penaltyDetails
+  };
 }
 
 export function calculateInterest(answers: string[]): { score: number; cluster: keyof typeof CAREER_CLUSTERS } {
@@ -122,7 +151,8 @@ export function calculateInterest(answers: string[]): { score: number; cluster: 
     commerce: 0,
     arts: 0,
     creative: 0,
-    social: 0
+    social: 0,
+    vocational: 0
   };
   
   // Count keyword matches for each cluster
@@ -181,17 +211,33 @@ export function suggestCareers(cluster: keyof typeof CAREER_CLUSTERS, marks: Sub
       const physics = marks.physics || 0;
       const math = marks.math || 0;
       const biology = marks.biology || 0;
+      const chemistry = marks.chemistry || 0;
       const scienceData = CAREER_CLUSTERS.science;
       
+      // High-threshold specialized careers
       if (physics >= 70 && math >= 70) {
         careers.push(...scienceData.careers.engineering);
+        // Add specialized careers for high performers
+        if (physics >= 75 && math >= 75) {
+          careers.push(...scienceData.careers.specialized.slice(0, 2)); // Pilot, Merchant Navy
+        }
       }
       if (biology >= 70) {
         careers.push(...scienceData.careers.medical);
       }
+      if (physics >= 65 && chemistry >= 65) {
+        careers.push(...scienceData.careers.technology);
+      }
+      
       if (careers.length === 0) {
         careers.push(...scienceData.careers.research);
-        advice = `Your interest aligns with Science, but marks in ${physics < 70 ? 'Physics' : ''} ${math < 70 ? 'Math' : ''} ${biology < 70 ? 'Biology' : ''} need improvement. Consider bridging courses or alternative science careers.`;
+        const weakSubjects = [];
+        if (physics < 70) weakSubjects.push('Physics');
+        if (math < 70) weakSubjects.push('Math');
+        if (biology < 70) weakSubjects.push('Biology');
+        advice = `Your interest aligns with Science, but marks in ${weakSubjects.join(', ')} need improvement. Consider bridging courses or focus on research-oriented careers.`;
+      } else {
+        advice = 'Excellent academic performance! You qualify for top-tier science careers including specialized fields.';
       }
       break;
     }
@@ -199,42 +245,106 @@ export function suggestCareers(cluster: keyof typeof CAREER_CLUSTERS, marks: Sub
     case 'commerce': {
       const accounts = marks.accounts || 0;
       const mathComm = marks.math || 0;
+      const economics = marks.economics || 0;
       const commerceData = CAREER_CLUSTERS.commerce;
       
       if (accounts >= 65 && mathComm >= 65) {
         careers.push(...commerceData.careers.finance);
+        advice = 'Strong foundation in Accounts and Math! CA and Investment Banking are excellent options.';
+      } else if (economics >= 60) {
+        careers.push(...commerceData.careers.economics);
+        careers.push(...commerceData.careers.business.slice(0, 2));
+        advice = 'Good economics foundation. Consider business management or economic analysis roles.';
       } else {
         careers.push(...commerceData.careers.business);
-        if (accounts < 65 || mathComm < 65) {
-          advice = `Your interest aligns with Commerce, but marks in ${accounts < 65 ? 'Accounts' : ''} ${mathComm < 65 ? 'Math' : ''} need improvement. Consider strengthening these areas or explore other business fields.`;
-        }
+        const weakSubjects = [];
+        if (accounts < 65) weakSubjects.push('Accounts');
+        if (mathComm < 65) weakSubjects.push('Math');
+        advice = `Your interest aligns with Commerce. Strengthen ${weakSubjects.join(' and ')} for finance careers, or explore business management paths.`;
       }
       break;
     }
       
-    case 'arts':
-    case 'creative':
-    case 'social':
-      // No hard cutoffs for these streams, but provide strengthening advice
-      const allCareers = Object.values(clusterData.careers).flat();
-      careers.push(...allCareers.slice(0, 3));
+    case 'arts': {
+      const history = marks.history || 0;
+      const english = marks.english || 0;
+      const artsData = CAREER_CLUSTERS.arts;
       
-      const lowMarks = Object.entries(marks).filter(([_, mark]) => mark !== undefined && mark < 50);
-      if (lowMarks.length > 0) {
-        const subjects = lowMarks.map(([subject]) => subject).join(', ');
-        advice = `Consider strengthening your foundation in ${subjects} to improve your prospects in ${cluster} fields.`;
+      // Check for IAS/IPS eligibility (high-threshold government careers)
+      if (history >= 65 && english >= 65) {
+        careers.push(...artsData.careers.government);
+        careers.push(...artsData.careers.law.slice(0, 2));
+        advice = 'Excellent academic foundation! You qualify for prestigious government services like IAS/IPS and legal careers.';
+      } else if (english >= 60) {
+        careers.push(...artsData.careers.media);
+        careers.push(...artsData.careers.education.slice(0, 2));
+        advice = 'Strong language skills! Journalism, teaching, and media careers suit your profile.';
+      } else {
+        careers.push(...artsData.careers.humanities);
+        careers.push(...artsData.careers.education.slice(0, 2));
+        advice = 'Focus on strengthening English and analytical skills for better opportunities in humanities and education.';
       }
       break;
+    }
+      
+    case 'creative': {
+      const arts = marks.arts || 0;
+      const english = marks.english || 0;
+      const creativeData = CAREER_CLUSTERS.creative;
+      
+      if (arts >= 60 || english >= 70) {
+        careers.push(...creativeData.careers.architecture);
+        careers.push(...creativeData.careers.design.slice(0, 2));
+        advice = 'Strong creative foundation! Architecture and advanced design fields are excellent choices.';
+      } else {
+        careers.push(...creativeData.careers.media);
+        careers.push(...creativeData.careers.performing.slice(0, 2));
+        advice = 'Explore multimedia and performing arts. Build a strong portfolio to showcase your creative talents.';
+      }
+      break;
+    }
+      
+    case 'social': {
+      const psychology = marks.psychology || 0;
+      const socialData = CAREER_CLUSTERS.social;
+      
+      if (psychology >= 60) {
+        careers.push(...socialData.careers.psychology);
+        advice = 'Strong foundation in psychology! Clinical and counseling psychology offer excellent career prospects.';
+      } else {
+        careers.push(...socialData.careers.service);
+        careers.push(...socialData.careers.nonprofit.slice(0, 2));
+        advice = 'Your empathy and social awareness are valuable. Social work and NGO sectors offer meaningful career paths.';
+      }
+      break;
+    }
+      
+    case 'vocational': {
+      const english = marks.english || 0;
+      const vocationData = CAREER_CLUSTERS.vocational;
+      
+      if (english >= 50) {
+        careers.push(...vocationData.careers.hospitality);
+        careers.push(...vocationData.careers.service.slice(0, 2));
+        advice = 'Good communication skills! Hospitality and customer service sectors offer diverse opportunities with practical skills focus.';
+      } else {
+        careers.push(...vocationData.careers.culinary);
+        careers.push(...vocationData.careers.sports.slice(0, 2));
+        advice = 'Hands-on vocational careers suit your interests. Focus on skill development and industry certifications.';
+      }
+      break;
+    }
   }
   
-  // Ensure we have at least 3 career suggestions
-  if (careers.length < 3) {
+  // Ensure we have at least 6 career suggestions for expanded display
+  while (careers.length < 6) {
     const remainingCareers = Object.values(clusterData.careers).flat().filter(c => !careers.includes(c));
-    careers.push(...remainingCareers.slice(0, 3 - careers.length));
+    if (remainingCareers.length === 0) break;
+    careers.push(remainingCareers[0]);
   }
   
   return {
-    careers: careers.slice(0, 3),
+    careers: careers.slice(0, 6), // Return up to 6 careers
     advice: advice || `Great alignment with ${cluster} careers! Continue developing your skills in this area.`
   };
 }
@@ -245,7 +355,7 @@ export function getCareerSuggestions(
   chosenStream: keyof typeof STREAM_WEIGHTS
 ): CareerSuggestion {
   // Calculate component scores
-  const aptitudeScore = calculateAptitude(marks, chosenStream);
+  const { score: aptitudeScore, penaltyDetails } = calculateAptitude(marks, chosenStream);
   const { score: interestScore, cluster: primaryCluster } = calculateInterest(answers);
   const streamWeight = STREAM_WEIGHTS[chosenStream];
   
@@ -269,7 +379,7 @@ export function getCareerSuggestions(
   const { careers, advice } = suggestCareers(primaryCluster, marks);
   
   // Convert cluster to title case for interface compatibility
-  const titleCaseCluster = primaryCluster.charAt(0).toUpperCase() + primaryCluster.slice(1) as 'Science' | 'Commerce' | 'Arts' | 'Creative' | 'Social';
+  const titleCaseCluster = primaryCluster.charAt(0).toUpperCase() + primaryCluster.slice(1) as 'Science' | 'Commerce' | 'Arts' | 'Creative' | 'Social' | 'Vocational';
   
   return {
     finalScore: Math.max(0, Math.min(100, finalScore)),
@@ -280,6 +390,7 @@ export function getCareerSuggestions(
     aptitudeScore: Math.round(aptitudeScore),
     interestScore: Math.round(interestScore),
     streamWeight,
-    mismatchFlag
+    mismatchFlag,
+    penaltyDetails
   };
 }

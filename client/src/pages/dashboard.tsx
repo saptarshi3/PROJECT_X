@@ -15,7 +15,9 @@ import {
   Star,
   Award,
   Target,
-  Building
+  Building,
+  AlertTriangle,
+  Info
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -62,47 +64,55 @@ const motivationalQuotes = [
   }
 ];
 
-// Career data with INR salaries
+// Enhanced Career data with INR salaries (including new specialized careers)
 const careerSalaryDataINR = {
   "Science": [
     { title: "Software Engineer", salaryRange: "₹6-25 LPA", description: "Design and develop software applications" },
     { title: "Data Scientist", salaryRange: "₹8-30 LPA", description: "Analyze complex data for insights" },
-    { title: "Mechanical Engineer", salaryRange: "₹4-18 LPA", description: "Design and develop mechanical systems" },
-    { title: "Civil Engineer", salaryRange: "₹3-15 LPA", description: "Plan and design infrastructure projects" },
+    { title: "Pilot", salaryRange: "₹15-80 LPA", description: "Fly commercial aircraft and ensure passenger safety" },
+    { title: "Merchant Navy Officer", salaryRange: "₹12-50 LPA", description: "Navigate ships and manage maritime operations" },
     { title: "Doctor", salaryRange: "₹8-50 LPA", description: "Provide medical care to patients" },
-    { title: "Research Scientist", salaryRange: "₹5-20 LPA", description: "Conduct scientific research" }
+    { title: "Aerospace Engineer", salaryRange: "₹6-28 LPA", description: "Design aircraft and spacecraft systems" }
   ],
   "Commerce": [
     { title: "Chartered Accountant", salaryRange: "₹6-35 LPA", description: "Manage financial accounts and taxation" },
     { title: "Investment Banker", salaryRange: "₹12-60 LPA", description: "Provide financial advisory services" },
+    { title: "Economist", salaryRange: "₹8-25 LPA", description: "Analyze economic trends and policies" },
     { title: "Business Manager", salaryRange: "₹5-25 LPA", description: "Oversee business operations" },
     { title: "Financial Analyst", salaryRange: "₹4-20 LPA", description: "Analyze financial data and trends" },
-    { title: "Marketing Manager", salaryRange: "₹5-22 LPA", description: "Develop marketing strategies" },
     { title: "Entrepreneur", salaryRange: "₹0-∞ LPA", description: "Start and run own business" }
   ],
   "Arts": [
-    { title: "Teacher", salaryRange: "₹3-12 LPA", description: "Educate and inspire students" },
-    { title: "Journalist", salaryRange: "₹3-15 LPA", description: "Report news and write articles" },
-    { title: "Lawyer", salaryRange: "₹5-40 LPA", description: "Provide legal representation" },
-    { title: "Content Writer", salaryRange: "₹3-10 LPA", description: "Create written content" },
-    { title: "Historian", salaryRange: "₹3-12 LPA", description: "Study and interpret historical events" },
-    { title: "Professor", salaryRange: "₹6-20 LPA", description: "Teach at university level" }
+    { title: "IAS Officer", salaryRange: "₹7-20 LPA", description: "Lead administrative services and governance" },
+    { title: "IPS Officer", salaryRange: "₹7-18 LPA", description: "Maintain law and order as police service" },
+    { title: "Lawyer", salaryRange: "₹5-40 LPA", description: "Provide legal representation and counsel" },
+    { title: "Judge", salaryRange: "₹10-30 LPA", description: "Preside over legal proceedings" },
+    { title: "Journalist", salaryRange: "₹3-15 LPA", description: "Report news and investigate stories" },
+    { title: "Teacher", salaryRange: "₹3-12 LPA", description: "Educate and inspire students" }
   ],
   "Creative": [
-    { title: "Graphic Designer", salaryRange: "₹3-15 LPA", description: "Create visual designs" },
-    { title: "Fashion Designer", salaryRange: "₹3-25 LPA", description: "Design clothing and accessories" },
-    { title: "Film Director", salaryRange: "₹5-50 LPA", description: "Direct movies and videos" },
-    { title: "Animator", salaryRange: "₹4-18 LPA", description: "Create animated content" },
-    { title: "Musician", salaryRange: "₹2-30 LPA", description: "Perform and create music" },
-    { title: "Interior Designer", salaryRange: "₹3-20 LPA", description: "Design interior spaces" }
+    { title: "Architect", salaryRange: "₹4-25 LPA", description: "Design buildings and structural spaces" },
+    { title: "Fashion Designer", salaryRange: "₹3-25 LPA", description: "Create clothing and fashion collections" },
+    { title: "Film Director", salaryRange: "₹5-50 LPA", description: "Direct movies and creative productions" },
+    { title: "UX/UI Designer", salaryRange: "₹4-20 LPA", description: "Design user experiences for digital products" },
+    { title: "Photographer", salaryRange: "₹2-15 LPA", description: "Capture and edit professional photographs" },
+    { title: "Interior Designer", salaryRange: "₹3-20 LPA", description: "Design interior spaces and décor" }
   ],
   "Social": [
-    { title: "Social Worker", salaryRange: "₹2-8 LPA", description: "Help communities and individuals" },
-    { title: "Counselor", salaryRange: "₹3-12 LPA", description: "Provide guidance and therapy" },
-    { title: "Civil Servant", salaryRange: "₹5-15 LPA", description: "Work in government administration" },
-    { title: "NGO Worker", salaryRange: "₹3-10 LPA", description: "Work for social causes" },
-    { title: "Public Policy Analyst", salaryRange: "₹6-18 LPA", description: "Analyze and develop policies" },
-    { title: "Diplomat", salaryRange: "₹8-25 LPA", description: "Represent country internationally" }
+    { title: "Psychologist", salaryRange: "₹4-15 LPA", description: "Provide mental health counseling and therapy" },
+    { title: "Social Worker", salaryRange: "₹2-8 LPA", description: "Help communities and vulnerable individuals" },
+    { title: "Counselor", salaryRange: "₹3-12 LPA", description: "Provide guidance and emotional support" },
+    { title: "NGO Worker", salaryRange: "₹3-10 LPA", description: "Work for social causes and development" },
+    { title: "Human Rights Activist", salaryRange: "₹3-12 LPA", description: "Advocate for human rights and justice" },
+    { title: "Therapist", salaryRange: "₹4-18 LPA", description: "Provide specialized therapeutic treatment" }
+  ],
+  "Vocational": [
+    { title: "Hotel Manager", salaryRange: "₹4-20 LPA", description: "Manage hotel operations and hospitality services" },
+    { title: "Chef", salaryRange: "₹3-25 LPA", description: "Create culinary experiences and manage kitchens" },
+    { title: "Sports Coach", salaryRange: "₹3-15 LPA", description: "Train athletes and develop sports programs" },
+    { title: "Event Manager", salaryRange: "₹3-18 LPA", description: "Plan and execute events and celebrations" },
+    { title: "Tourism Guide", salaryRange: "₹2-10 LPA", description: "Guide tourists and share cultural knowledge" },
+    { title: "Fitness Trainer", salaryRange: "₹2-12 LPA", description: "Help people achieve fitness and health goals" }
   ]
 };
 
@@ -134,21 +144,39 @@ export default function Dashboard() {
     if (!latestQuizResult) return null;
     
     try {
-      // Extract information from the result string
-      const resultText = latestQuizResult.result;
-      const clusterMatch = resultText.match(/(\w+)\s*\(Score:\s*(\d+)\)/);
-      
-      if (clusterMatch) {
-        const cluster = clusterMatch[1];
-        const score = parseInt(clusterMatch[2]);
-        
+      // Handle new enhanced career suggestion format or legacy format
+      if (latestQuizResult.enhancedResult) {
+        // New format with detailed career analysis
+        const result = latestQuizResult.enhancedResult;
         return {
-          cluster,
-          score,
+          cluster: result.primaryCluster,
+          score: result.finalScore,
+          aptitudeScore: result.aptitudeScore,
+          interestScore: result.interestScore,
+          penaltyDetails: result.penaltyDetails,
+          mismatchFlag: result.mismatchFlag,
+          advice: result.advice,
           answers: latestQuizResult.answers,
           date: new Date(latestQuizResult.createdAt).toLocaleDateString(),
-          recommendations: careerSalaryDataINR[cluster as keyof typeof careerSalaryDataINR] || []
+          recommendations: careerSalaryDataINR[result.primaryCluster as keyof typeof careerSalaryDataINR] || []
         };
+      } else {
+        // Legacy format - extract information from the result string
+        const resultText = latestQuizResult.result;
+        const clusterMatch = resultText.match(/(\w+)\s*\(Score:\s*(\d+)\)/);
+        
+        if (clusterMatch) {
+          const cluster = clusterMatch[1];
+          const score = parseInt(clusterMatch[2]);
+          
+          return {
+            cluster,
+            score,
+            answers: latestQuizResult.answers,
+            date: new Date(latestQuizResult.createdAt).toLocaleDateString(),
+            recommendations: careerSalaryDataINR[cluster as keyof typeof careerSalaryDataINR] || []
+          };
+        }
       }
     } catch (error) {
       console.error('Error parsing quiz data:', error);
@@ -178,6 +206,9 @@ export default function Dashboard() {
         break;
       case 'Social':
         streamFilter = ['Arts', 'Law', 'Social Work'];
+        break;
+      case 'Vocational':
+        streamFilter = ['Engineering', 'Management', 'Arts']; // Vocational can access multiple streams
         break;
     }
     
@@ -372,6 +403,58 @@ export default function Dashboard() {
                           </div>
                           <Progress value={quizData.score} className="h-3" />
                         </div>
+
+                        {/* Enhanced Assessment Details for Class 11-12 */}
+                        {(quizData.aptitudeScore || quizData.penaltyDetails) && (
+                          <div className="space-y-3 pt-4 border-t border-border/20">
+                            <h4 className="text-sm font-semibold text-muted-foreground">Assessment Breakdown</h4>
+                            
+                            {quizData.aptitudeScore && quizData.interestScore && (
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="text-center p-3 rounded-lg bg-muted/20">
+                                  <div className="text-lg font-bold text-blue-600">{quizData.aptitudeScore}</div>
+                                  <div className="text-xs text-muted-foreground">Academic Score</div>
+                                </div>
+                                <div className="text-center p-3 rounded-lg bg-muted/20">
+                                  <div className="text-lg font-bold text-purple-600">{quizData.interestScore}</div>
+                                  <div className="text-xs text-muted-foreground">Interest Score</div>
+                                </div>
+                              </div>
+                            )}
+
+                            {quizData.penaltyDetails && (
+                              <div className="p-3 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+                                <div className="flex items-start gap-2">
+                                  <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
+                                  <div>
+                                    <div className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                                      Assessment Penalty Information
+                                    </div>
+                                    <div className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">
+                                      {quizData.penaltyDetails}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
+                            {quizData.mismatchFlag && (
+                              <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                                <div className="flex items-start gap-2">
+                                  <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                                  <div>
+                                    <div className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                                      Career Guidance
+                                    </div>
+                                    <div className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                                      {quizData.mismatchFlag}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
 
                         <div className="flex gap-4">
                           <Button onClick={generateCareerReport} className="flex items-center gap-2">
