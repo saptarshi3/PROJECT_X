@@ -145,7 +145,7 @@ export function calculateAptitude(marks: SubjectMarks, chosenStream: keyof typeo
   };
 }
 
-export function calculateInterest(answers: string[]): { score: number; cluster: keyof typeof CAREER_CLUSTERS } {
+export function calculateInterest(answers: string[]): { score: number; cluster: keyof typeof CAREER_CLUSTERS; displayCluster: 'Science' | 'Commerce' | 'Arts' | 'Creative' | 'Social' | 'Vocational' } {
   const clusterScores: Record<keyof typeof CAREER_CLUSTERS, number> = {
     science: 0,
     commerce: 0,
@@ -178,9 +178,20 @@ export function calculateInterest(answers: string[]): { score: number; cluster: 
     clusterScores[a[0] as keyof typeof CAREER_CLUSTERS] > clusterScores[b[0] as keyof typeof CAREER_CLUSTERS] ? a : b
   )[0] as keyof typeof CAREER_CLUSTERS;
   
+  // Map internal cluster names to UI display names
+  const clusterDisplayMap: Record<keyof typeof CAREER_CLUSTERS, 'Science' | 'Commerce' | 'Arts' | 'Creative' | 'Social' | 'Vocational'> = {
+    science: 'Science',
+    commerce: 'Commerce',
+    arts: 'Arts',
+    creative: 'Creative',
+    social: 'Social',
+    vocational: 'Vocational'
+  };
+  
   return {
     score: clusterScores[primaryCluster],
-    cluster: primaryCluster
+    cluster: primaryCluster,
+    displayCluster: clusterDisplayMap[primaryCluster]
   };
 }
 
@@ -356,7 +367,7 @@ export function getCareerSuggestions(
 ): CareerSuggestion {
   // Calculate component scores
   const { score: aptitudeScore, penaltyDetails } = calculateAptitude(marks, chosenStream);
-  const { score: interestScore, cluster: primaryCluster } = calculateInterest(answers);
+  const { score: interestScore, cluster: primaryCluster, displayCluster } = calculateInterest(answers);
   const streamWeight = STREAM_WEIGHTS[chosenStream];
   
   // Calculate final score
@@ -378,13 +389,10 @@ export function getCareerSuggestions(
   // Get career suggestions
   const { careers, advice } = suggestCareers(primaryCluster, marks);
   
-  // Convert cluster to title case for interface compatibility
-  const titleCaseCluster = primaryCluster.charAt(0).toUpperCase() + primaryCluster.slice(1) as 'Science' | 'Commerce' | 'Arts' | 'Creative' | 'Social' | 'Vocational';
-  
   return {
     finalScore: Math.max(0, Math.min(100, finalScore)),
     confidenceLevel,
-    primaryCluster: titleCaseCluster,
+    primaryCluster: displayCluster,
     top3Careers: careers,
     advice,
     aptitudeScore: Math.round(aptitudeScore),

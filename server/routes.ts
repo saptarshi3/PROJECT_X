@@ -284,12 +284,13 @@ export async function registerRoutes(app: Express): Promise<void> {
         if (classLevel === "11-12") {
           // Use new comprehensive career logic for class 11-12
           const answerTexts = Array.isArray(answers) ? answers.map((a: any) => a.text || a) : [];
-          const streamMapping: { [key: string]: "science" | "commerce" | "arts" | "creative" | "social" } = {
+          const streamMapping: { [key: string]: "science" | "commerce" | "arts" | "creative" | "social" | "vocational" } = {
             "Science": "science",
             "Commerce": "commerce", 
             "Arts": "arts",
             "Creative": "creative",
-            "Social": "social"
+            "Social": "social",
+            "Vocational": "vocational"
           };
           
           // Convert marks object to match career logic interface
@@ -319,7 +320,7 @@ export async function registerRoutes(app: Express): Promise<void> {
           resultData = {
             finalScore: careerAnalysis.finalScore,
             cluster: careerAnalysis.primaryCluster,
-            penalty: Math.max(0, careerAnalysis.aptitudeScore - Math.round((Object.values(subjectMarks).reduce((a, b) => (a || 0) + (b || 0), 0) / Math.max(1, Object.keys(subjectMarks).length)))),
+            penalty: Math.max(0, careerAnalysis.aptitudeScore - Math.round((Object.values(subjectMarks).filter((mark): mark is number => mark !== undefined).reduce((a, b) => a + b, 0) / Math.max(1, Object.values(subjectMarks).filter((mark): mark is number => mark !== undefined).length)))),
             suggestions: careerAnalysis.top3Careers,
             breakdown: {
               marks: careerAnalysis.aptitudeScore,
