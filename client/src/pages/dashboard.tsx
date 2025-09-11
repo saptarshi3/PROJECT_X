@@ -111,33 +111,14 @@ export default function Dashboard() {
   const [selectedQuote] = useState(motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
   const { toast } = useToast();
 
-  // Redirect to home if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-background text-foreground">
-        <Navbar />
-        <div className="pt-24 px-6">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h1 className="text-3xl font-bold mb-4">Please sign in to access your dashboard</h1>
-            <Link href="/">
-              <Button className="bg-primary text-primary-foreground">
-                Go to Home
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Fetch user's quiz results
+  // Fetch user's quiz results - must be declared before any conditional returns
   const { data: quizResults = [] } = useQuery({
     queryKey: ["/api/quiz/results", user?.id],
     queryFn: async () => {
       const response = await apiRequest("GET", `/api/quiz/results?userId=${user?.id}`);
       return response.json();
     },
-    enabled: !!user?.id,
+    enabled: !!user?.id && isAuthenticated,
   });
 
   // Get latest quiz result
@@ -280,6 +261,25 @@ export default function Dashboard() {
 
   const streamInfo = quizData?.cluster ? careerStreamInfo[quizData.cluster as keyof typeof careerStreamInfo] : null;
   const IconComponent = streamInfo ? iconMap[streamInfo.icon as keyof typeof iconMap] || Settings : User;
+
+  // Redirect to home if not authenticated - moved after all hooks
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background text-foreground">
+        <Navbar />
+        <div className="pt-24 px-6">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h1 className="text-3xl font-bold mb-4">Please sign in to access your dashboard</h1>
+            <Link href="/">
+              <Button className="bg-primary text-primary-foreground">
+                Go to Home
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
