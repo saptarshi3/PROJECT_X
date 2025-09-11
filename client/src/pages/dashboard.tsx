@@ -1,228 +1,115 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowLeft, Download, BookmarkPlus, BookmarkMinus, Settings, Heart, PieChart, Palette, GraduationCap, ExternalLink } from "lucide-react";
+import { 
+  Download, 
+  Settings, 
+  Heart, 
+  PieChart, 
+  Palette, 
+  BookOpen,
+  TrendingUp,
+  GraduationCap,
+  Quote,
+  User,
+  Star,
+  Award,
+  Target,
+  Building
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Progress } from "@/components/ui/progress";
+import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { apiRequest } from "@/lib/queryClient";
 import Navbar from "@/components/navbar";
 import { careerStreamInfo } from "@/lib/quiz-data";
-import { type SavedCareer } from "@shared/schema";
+import { collegeData } from "@/lib/college-data";
+import jsPDF from 'jspdf';
 
 const iconMap = {
   Settings,
   Heart,
   PieChart,
   Palette,
+  BookOpen,
 };
 
-interface CareerData {
-  title: string;
-  stream: string;
-  salaryRange: string;
-  description: string;
-  requiredSkills: string[];
-  roadmap: RoadmapStep[];
-  exams: ExamInfo[];
-}
+// Motivational quotes for career guidance
+const motivationalQuotes = [
+  {
+    text: "Your career is your story. Make it a masterpiece.",
+    author: "Anonymous"
+  },
+  {
+    text: "Success is not the key to happiness. Happiness is the key to success.",
+    author: "Albert Schweitzer"
+  },
+  {
+    text: "Choose a job you love, and you will never have to work a day in your life.",
+    author: "Confucius"
+  },
+  {
+    text: "The future belongs to those who believe in the beauty of their dreams.",
+    author: "Eleanor Roosevelt"
+  },
+  {
+    text: "Your only limit is your mind. Dream big, work hard, achieve greatness.",
+    author: "Anonymous"
+  }
+];
 
-interface RoadmapStep {
-  title: string;
-  description: string;
-  timeframe: string;
-  items: string[];
-}
-
-interface ExamInfo {
-  name: string;
-  description: string;
-  website: string;
-  difficulty: "Beginner" | "Intermediate" | "Advanced";
-}
-
-const careerDatabase: Record<string, CareerData[]> = {
-  "Engineering & Technology": [
-    {
-      title: "Software Developer",
-      stream: "Engineering & Technology",
-      salaryRange: "$70k - $180k",
-      description: "Design, develop, and maintain software applications and systems using various programming languages and technologies.",
-      requiredSkills: ["Programming", "Problem Solving", "Version Control", "Testing", "System Design"],
-      roadmap: [
-        {
-          title: "Foundation Skills",
-          description: "Build core programming competencies",
-          timeframe: "0-6 months",
-          items: ["Learn a programming language (Python/JavaScript)", "Understand data structures and algorithms", "Practice coding challenges", "Learn version control (Git)"]
-        },
-        {
-          title: "Practical Experience",
-          description: "Apply skills through projects",
-          timeframe: "6-12 months",
-          items: ["Build 3-5 personal projects", "Contribute to open source", "Learn web frameworks", "Create a portfolio website"]
-        },
-        {
-          title: "Professional Development",
-          description: "Prepare for the job market",
-          timeframe: "12-18 months",
-          items: ["Apply for internships/entry jobs", "Network with developers", "Practice technical interviews", "Keep learning new technologies"]
-        }
-      ],
-      exams: [
-        { name: "AWS Certified Developer", description: "Cloud development certification", website: "https://aws.amazon.com/certification/", difficulty: "Intermediate" },
-        { name: "Oracle Java Certification", description: "Java programming certification", website: "https://education.oracle.com/java", difficulty: "Intermediate" },
-        { name: "Google Cloud Professional Developer", description: "Google Cloud development certification", website: "https://cloud.google.com/certification", difficulty: "Advanced" }
-      ]
-    },
-    {
-      title: "Data Scientist",
-      stream: "Engineering & Technology",
-      salaryRange: "$85k - $200k",
-      description: "Analyze complex data to derive insights and build predictive models using statistics, machine learning, and programming.",
-      requiredSkills: ["Python/R", "Statistics", "Machine Learning", "Data Visualization", "SQL"],
-      roadmap: [
-        {
-          title: "Mathematical Foundation",
-          description: "Build statistical and mathematical skills",
-          timeframe: "0-6 months",
-          items: ["Learn statistics and probability", "Master Python/R programming", "Understand linear algebra", "Practice data manipulation"]
-        },
-        {
-          title: "Machine Learning",
-          description: "Learn ML algorithms and tools",
-          timeframe: "6-12 months",
-          items: ["Study ML algorithms", "Use scikit-learn, pandas", "Build prediction models", "Learn data visualization"]
-        },
-        {
-          title: "Specialization",
-          description: "Focus on specific domain expertise",
-          timeframe: "12-24 months",
-          items: ["Choose specialization (NLP/Computer Vision/etc)", "Work on real datasets", "Build portfolio projects", "Apply for data science roles"]
-        }
-      ],
-      exams: [
-        { name: "Microsoft Azure Data Scientist", description: "Azure ML platform certification", website: "https://docs.microsoft.com/certifications/", difficulty: "Advanced" },
-        { name: "Google Professional Data Engineer", description: "Data engineering on Google Cloud", website: "https://cloud.google.com/certification", difficulty: "Advanced" },
-        { name: "Databricks Certified Data Scientist", description: "Databricks platform certification", website: "https://databricks.com/learn/certification", difficulty: "Intermediate" }
-      ]
-    }
+// Career data with INR salaries
+const careerSalaryDataINR = {
+  "Science": [
+    { title: "Software Engineer", salaryRange: "₹6-25 LPA", description: "Design and develop software applications" },
+    { title: "Data Scientist", salaryRange: "₹8-30 LPA", description: "Analyze complex data for insights" },
+    { title: "Mechanical Engineer", salaryRange: "₹4-18 LPA", description: "Design and develop mechanical systems" },
+    { title: "Civil Engineer", salaryRange: "₹3-15 LPA", description: "Plan and design infrastructure projects" },
+    { title: "Doctor", salaryRange: "₹8-50 LPA", description: "Provide medical care to patients" },
+    { title: "Research Scientist", salaryRange: "₹5-20 LPA", description: "Conduct scientific research" }
   ],
-  "Medicine & Healthcare": [
-    {
-      title: "Medical Doctor",
-      stream: "Medicine & Healthcare",
-      salaryRange: "$200k - $500k+",
-      description: "Diagnose, treat, and provide medical care to patients while maintaining the highest standards of medical practice.",
-      requiredSkills: ["Medical Knowledge", "Patient Care", "Communication", "Critical Thinking", "Empathy"],
-      roadmap: [
-        {
-          title: "Pre-Medical Education",
-          description: "Complete undergraduate requirements",
-          timeframe: "4 years",
-          items: ["Bachelor's degree (preferably in sciences)", "Complete pre-med requirements", "Maintain high GPA (3.7+)", "Gain healthcare experience"]
-        },
-        {
-          title: "Medical School",
-          description: "Complete medical education",
-          timeframe: "4 years",
-          items: ["Pass MCAT exam", "Complete MD program", "Pass USMLE Step 1 & 2", "Choose medical specialty"]
-        },
-        {
-          title: "Residency & Practice",
-          description: "Specialized training and practice",
-          timeframe: "3-7 years",
-          items: ["Complete residency program", "Pass USMLE Step 3", "Obtain medical license", "Consider fellowship training"]
-        }
-      ],
-      exams: [
-        { name: "MCAT", description: "Medical College Admission Test", website: "https://www.aamc.org/students/applying/mcat", difficulty: "Advanced" },
-        { name: "USMLE", description: "United States Medical Licensing Examination", website: "https://www.usmle.org/", difficulty: "Advanced" },
-        { name: "Board Certifications", description: "Specialty board examinations", website: "https://www.abms.org/", difficulty: "Advanced" }
-      ]
-    }
+  "Commerce": [
+    { title: "Chartered Accountant", salaryRange: "₹6-35 LPA", description: "Manage financial accounts and taxation" },
+    { title: "Investment Banker", salaryRange: "₹12-60 LPA", description: "Provide financial advisory services" },
+    { title: "Business Manager", salaryRange: "₹5-25 LPA", description: "Oversee business operations" },
+    { title: "Financial Analyst", salaryRange: "₹4-20 LPA", description: "Analyze financial data and trends" },
+    { title: "Marketing Manager", salaryRange: "₹5-22 LPA", description: "Develop marketing strategies" },
+    { title: "Entrepreneur", salaryRange: "₹0-∞ LPA", description: "Start and run own business" }
   ],
-  "Commerce & Finance": [
-    {
-      title: "Financial Analyst",
-      stream: "Commerce & Finance",
-      salaryRange: "$60k - $150k",
-      description: "Analyze financial data, market trends, and investment opportunities to provide recommendations for business decisions.",
-      requiredSkills: ["Financial Modeling", "Excel", "Data Analysis", "Communication", "Market Research"],
-      roadmap: [
-        {
-          title: "Educational Foundation",
-          description: "Build finance and business knowledge",
-          timeframe: "0-12 months",
-          items: ["Learn financial fundamentals", "Master Excel and financial modeling", "Study accounting principles", "Understand market analysis"]
-        },
-        {
-          title: "Professional Certification",
-          description: "Obtain relevant certifications",
-          timeframe: "12-24 months",
-          items: ["Pursue CFA Level 1", "Get familiar with Bloomberg/Reuters", "Build financial models", "Network with finance professionals"]
-        },
-        {
-          title: "Career Advancement",
-          description: "Progress to senior roles",
-          timeframe: "2-5 years",
-          items: ["Complete CFA program", "Specialize in sector/industry", "Lead analysis projects", "Mentor junior analysts"]
-        }
-      ],
-      exams: [
-        { name: "CFA Charter", description: "Chartered Financial Analyst certification", website: "https://www.cfainstitute.org/", difficulty: "Advanced" },
-        { name: "FRM", description: "Financial Risk Manager certification", website: "https://www.garp.org/frm", difficulty: "Advanced" },
-        { name: "FINRA Series 7", description: "Securities representative license", website: "https://www.finra.org/registration-exams-ce", difficulty: "Intermediate" }
-      ]
-    }
+  "Arts": [
+    { title: "Teacher", salaryRange: "₹3-12 LPA", description: "Educate and inspire students" },
+    { title: "Journalist", salaryRange: "₹3-15 LPA", description: "Report news and write articles" },
+    { title: "Lawyer", salaryRange: "₹5-40 LPA", description: "Provide legal representation" },
+    { title: "Content Writer", salaryRange: "₹3-10 LPA", description: "Create written content" },
+    { title: "Historian", salaryRange: "₹3-12 LPA", description: "Study and interpret historical events" },
+    { title: "Professor", salaryRange: "₹6-20 LPA", description: "Teach at university level" }
   ],
-  "Arts & Humanities": [
-    {
-      title: "UX/UI Designer",
-      stream: "Arts & Humanities",
-      salaryRange: "$65k - $140k",
-      description: "Create intuitive and visually appealing user interfaces while ensuring excellent user experiences across digital products.",
-      requiredSkills: ["Design Thinking", "Prototyping", "User Research", "Visual Design", "Collaboration"],
-      roadmap: [
-        {
-          title: "Design Fundamentals",
-          description: "Learn core design principles",
-          timeframe: "0-6 months",
-          items: ["Study design principles", "Learn Figma/Sketch", "Understand color theory", "Practice typography"]
-        },
-        {
-          title: "UX Skills",
-          description: "Develop user experience expertise",
-          timeframe: "6-12 months",
-          items: ["Learn user research methods", "Practice wireframing", "Study usability principles", "Build design portfolio"]
-        },
-        {
-          title: "Professional Practice",
-          description: "Apply skills in real projects",
-          timeframe: "12-18 months",
-          items: ["Work on client projects", "Join design communities", "Get feedback and iterate", "Apply for UX positions"]
-        }
-      ],
-      exams: [
-        { name: "Google UX Design Certificate", description: "Google's UX design program", website: "https://www.coursera.org/google-certificates/ux-design-certificate", difficulty: "Beginner" },
-        { name: "Adobe Certified Expert", description: "Adobe Creative Suite certification", website: "https://www.adobe.com/training/certification.html", difficulty: "Intermediate" },
-        { name: "Nielsen Norman UX Certification", description: "UX research and design certification", website: "https://www.nngroup.com/ux-certification/", difficulty: "Advanced" }
-      ]
-    }
+  "Creative": [
+    { title: "Graphic Designer", salaryRange: "₹3-15 LPA", description: "Create visual designs" },
+    { title: "Fashion Designer", salaryRange: "₹3-25 LPA", description: "Design clothing and accessories" },
+    { title: "Film Director", salaryRange: "₹5-50 LPA", description: "Direct movies and videos" },
+    { title: "Animator", salaryRange: "₹4-18 LPA", description: "Create animated content" },
+    { title: "Musician", salaryRange: "₹2-30 LPA", description: "Perform and create music" },
+    { title: "Interior Designer", salaryRange: "₹3-20 LPA", description: "Design interior spaces" }
+  ],
+  "Social": [
+    { title: "Social Worker", salaryRange: "₹2-8 LPA", description: "Help communities and individuals" },
+    { title: "Counselor", salaryRange: "₹3-12 LPA", description: "Provide guidance and therapy" },
+    { title: "Civil Servant", salaryRange: "₹5-15 LPA", description: "Work in government administration" },
+    { title: "NGO Worker", salaryRange: "₹3-10 LPA", description: "Work for social causes" },
+    { title: "Public Policy Analyst", salaryRange: "₹6-18 LPA", description: "Analyze and develop policies" },
+    { title: "Diplomat", salaryRange: "₹8-25 LPA", description: "Represent country internationally" }
   ]
 };
 
 export default function Dashboard() {
   const { user, isAuthenticated } = useAuth();
-  const [selectedCareer, setSelectedCareer] = useState<CareerData | null>(null);
-  const [roadmapOpen, setRoadmapOpen] = useState<Record<number, boolean>>({});
+  const [selectedQuote] = useState(motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
   // Redirect to home if not authenticated
   if (!isAuthenticated) {
@@ -243,377 +130,424 @@ export default function Dashboard() {
     );
   }
 
-  const { data: savedCareers = [] } = useQuery<SavedCareer[]>({
-    queryKey: ["/api/careers/saved", user?.id],
+  // Fetch user's quiz results
+  const { data: quizResults = [] } = useQuery({
+    queryKey: ["/api/quiz/results", user?.id],
+    queryFn: async () => {
+      const response = await apiRequest("GET", `/api/quiz/results?userId=${user?.id}`);
+      return response.json();
+    },
     enabled: !!user?.id,
   });
 
-  const saveCareerMutation = useMutation({
-    mutationFn: async (career: CareerData) => {
-      const response = await apiRequest("POST", "/api/careers/save", {
-        userId: user?.id,
-        careerTitle: career.title,
-        careerStream: career.stream,
-        salaryRange: career.salaryRange,
-        description: career.description,
-        requiredSkills: career.requiredSkills,
-        roadmap: career.roadmap,
-        exams: career.exams,
-      });
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Career Saved!",
-        description: "Added to your saved careers.",
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/careers/saved", user?.id] });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to save career. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
+  // Get latest quiz result
+  const latestQuizResult = useMemo(() => {
+    if (quizResults.length === 0) return null;
+    return quizResults.sort((a: any, b: any) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )[0];
+  }, [quizResults]);
 
-  const removeSavedCareerMutation = useMutation({
-    mutationFn: async (careerId: string) => {
-      const response = await apiRequest("DELETE", `/api/careers/saved/${careerId}?userId=${user?.id}`);
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Career Removed",
-        description: "Removed from your saved careers.",
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/careers/saved", user?.id] });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to remove career. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const isCareerSaved = (careerTitle: string) => {
-    return savedCareers.some((saved) => saved.careerTitle === careerTitle);
-  };
-
-  const exportToPDF = async () => {
+  // Parse quiz result data
+  const quizData = useMemo(() => {
+    if (!latestQuizResult) return null;
+    
     try {
-      const jsPDF = (await import("jspdf")).default;
-      const html2canvas = (await import("html2canvas")).default;
+      // Extract information from the result string
+      const resultText = latestQuizResult.result;
+      const clusterMatch = resultText.match(/(\w+)\s*\(Score:\s*(\d+)\)/);
       
+      if (clusterMatch) {
+        const cluster = clusterMatch[1];
+        const score = parseInt(clusterMatch[2]);
+        
+        return {
+          cluster,
+          score,
+          answers: latestQuizResult.answers,
+          date: new Date(latestQuizResult.createdAt).toLocaleDateString(),
+          recommendations: careerSalaryDataINR[cluster as keyof typeof careerSalaryDataINR] || []
+        };
+      }
+    } catch (error) {
+      console.error('Error parsing quiz data:', error);
+    }
+    
+    return null;
+  }, [latestQuizResult]);
+
+  // Get recommended colleges based on user's stream
+  const recommendedColleges = useMemo(() => {
+    if (!quizData?.cluster) return [];
+    
+    let streamFilter: string[] = [];
+    
+    switch (quizData.cluster) {
+      case 'Science':
+        streamFilter = ['Engineering', 'Medical', 'Science'];
+        break;
+      case 'Commerce':
+        streamFilter = ['Commerce', 'Management'];
+        break;
+      case 'Arts':
+        streamFilter = ['Arts', 'Law', 'Humanities'];
+        break;
+      case 'Creative':
+        streamFilter = ['Arts', 'Design'];
+        break;
+      case 'Social':
+        streamFilter = ['Arts', 'Law', 'Social Work'];
+        break;
+    }
+    
+    return collegeData
+      .filter(college => college.stream.some(s => streamFilter.includes(s)))
+      .sort((a, b) => (a.nirfRank || 999) - (b.nirfRank || 999))
+      .slice(0, 6);
+  }, [quizData?.cluster]);
+
+  // Generate downloadable career report
+  const generateCareerReport = async () => {
+    try {
       const pdf = new jsPDF();
       
       // Add title
       pdf.setFontSize(20);
-      pdf.setTextColor(255, 115, 34); // Orange color
-      pdf.text("CareerGuide Report", 20, 30);
+      pdf.text('Career Assessment Report', 20, 30);
       
       // Add user info
       pdf.setFontSize(12);
-      pdf.setTextColor(0, 0, 0);
-      pdf.text(`Name: ${user?.fullName || user?.username}`, 20, 50);
+      pdf.text(`Generated for: ${user?.fullName || user?.username || 'User'}`, 20, 50);
       pdf.text(`Date: ${new Date().toLocaleDateString()}`, 20, 60);
       
-      // Add saved careers
-      let yPosition = 80;
-      pdf.setFontSize(16);
-      pdf.text("Recommended Careers:", 20, yPosition);
-      yPosition += 20;
-      
-      savedCareers.forEach((career, index: number) => {
+      if (quizData) {
+        // Add quiz results
+        pdf.setFontSize(16);
+        pdf.text('Quiz Results', 20, 80);
+        
         pdf.setFontSize(12);
-        pdf.text(`${index + 1}. ${career.careerTitle}`, 30, yPosition);
-        yPosition += 10;
-        pdf.text(`Stream: ${career.careerStream}`, 40, yPosition);
-        yPosition += 10;
-        if (career.salaryRange) {
-          pdf.text(`Salary: ${career.salaryRange}`, 40, yPosition);
-          yPosition += 10;
+        pdf.text(`Recommended Stream: ${quizData.cluster}`, 20, 100);
+        pdf.text(`Assessment Score: ${quizData.score}/100`, 20, 110);
+        pdf.text(`Assessment Date: ${quizData.date}`, 20, 120);
+        
+        // Add career recommendations
+        pdf.setFontSize(16);
+        pdf.text('Recommended Careers', 20, 140);
+        
+        pdf.setFontSize(12);
+        let yPosition = 160;
+        quizData.recommendations.slice(0, 5).forEach((career, index) => {
+          pdf.text(`${index + 1}. ${career.title}`, 25, yPosition);
+          pdf.text(`   Salary: ${career.salaryRange}`, 25, yPosition + 10);
+          pdf.text(`   ${career.description}`, 25, yPosition + 20);
+          yPosition += 35;
+        });
+        
+        // Add college recommendations
+        if (recommendedColleges.length > 0) {
+          pdf.addPage();
+          pdf.setFontSize(16);
+          pdf.text('Recommended Colleges', 20, 30);
+          
+          pdf.setFontSize(12);
+          let collegeYPosition = 50;
+          recommendedColleges.slice(0, 5).forEach((college, index) => {
+            pdf.text(`${index + 1}. ${college.name}`, 25, collegeYPosition);
+            pdf.text(`   Location: ${college.city}, ${college.state}`, 25, collegeYPosition + 10);
+            pdf.text(`   NIRF Rank: ${college.nirfRank}`, 25, collegeYPosition + 20);
+            pdf.text(`   Courses: ${college.courses.join(', ')}`, 25, collegeYPosition + 30);
+            collegeYPosition += 45;
+          });
         }
-        yPosition += 10;
-      });
+      }
       
-      pdf.save(`${user?.username}-career-report.pdf`);
+      // Save the PDF
+      pdf.save(`career-report-${new Date().toISOString().split('T')[0]}.pdf`);
       
       toast({
-        title: "PDF Downloaded!",
-        description: "Your career report has been downloaded successfully.",
+        title: "Report Downloaded!",
+        description: "Your career assessment report has been saved.",
       });
     } catch (error) {
+      console.error('Error generating PDF:', error);
       toast({
-        title: "Export Failed",
-        description: "Failed to generate PDF. Please try again.",
+        title: "Error",
+        description: "Failed to generate report. Please try again.",
         variant: "destructive",
       });
     }
   };
 
-  const getAllCareers = () => {
-    return Object.values(careerDatabase).flat();
-  };
-
-  const toggleRoadmapStep = (stepIndex: number) => {
-    setRoadmapOpen(prev => ({
-      ...prev,
-      [stepIndex]: !prev[stepIndex]
-    }));
-  };
+  const streamInfo = quizData?.cluster ? careerStreamInfo[quizData.cluster as keyof typeof careerStreamInfo] : null;
+  const IconComponent = streamInfo ? iconMap[streamInfo.icon as keyof typeof iconMap] || Settings : User;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       
       <div className="pt-24 px-6">
-        <div className="container mx-auto max-w-6xl">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <Link href="/">
-                <Button 
-                  variant="ghost" 
-                  className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-4"
-                  data-testid="back-to-home"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Home
-                </Button>
-              </Link>
-              <motion.h1 
-                className="text-3xl md:text-4xl font-bold"
+        <div className="container mx-auto max-w-7xl">
+          {/* Header with User Profile */}
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex flex-col items-center mb-6">
+              {/* User Avatar */}
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center mb-4">
+                {user?.profilePicture ? (
+                  <img 
+                    src={user.profilePicture} 
+                    alt="Profile" 
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <User className="h-10 w-10 text-white" />
+                )}
+              </div>
+              
+              <h1 className="text-3xl md:text-4xl font-bold">
+                Welcome back, {user?.fullName || user?.username}! 👋
+              </h1>
+              <p className="text-muted-foreground mt-2">
+                Your personalized career dashboard
+              </p>
+            </div>
+
+            {/* Motivational Quote */}
+            <motion.div 
+              className="glassmorphism rounded-xl p-6 max-w-2xl mx-auto"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Quote className="h-8 w-8 mx-auto mb-4 text-primary" />
+              <blockquote className="text-lg italic font-medium mb-2">
+                "{selectedQuote.text}"
+              </blockquote>
+              <cite className="text-sm text-muted-foreground">
+                — {selectedQuote.author}
+              </cite>
+            </motion.div>
+          </motion.div>
+
+          {/* Main Dashboard Content */}
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Left Column - Quiz Results & Stream Info */}
+            <div className="lg:col-span-2 space-y-8">
+              
+              {/* Quiz Results Section */}
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
               >
-                Welcome, {user?.fullName || user?.username}!
-              </motion.h1>
-              <p className="text-muted-foreground mt-2">Explore and save your ideal career paths</p>
-            </div>
-            <Button
-              onClick={exportToPDF}
-              className="bg-primary text-primary-foreground hover:scale-105 transition-all"
-              data-testid="export-pdf"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              Download Report
-            </Button>
-          </div>
+                <Card className="glassmorphism border-border/20">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Target className="h-5 w-5 text-primary" />
+                      Your Quiz Results
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {quizData ? (
+                      <div className="space-y-6">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h3 className="text-2xl font-bold">{quizData.cluster} Stream</h3>
+                            <p className="text-muted-foreground">Assessment taken on {quizData.date}</p>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-3xl font-bold text-primary">{quizData.score}</div>
+                            <div className="text-sm text-muted-foreground">out of 100</div>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm font-medium">Assessment Score</span>
+                            <span className="text-sm text-muted-foreground">{quizData.score}%</span>
+                          </div>
+                          <Progress value={quizData.score} className="h-3" />
+                        </div>
 
-          {/* Saved Careers Count */}
-          <div className="mb-8">
-            <Card className="glassmorphism border-border/20">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-2">Your Career Journey</h3>
-                <p className="text-muted-foreground">
-                  You have <span className="text-primary font-semibold">{savedCareers.length}</span> saved career{savedCareers.length !== 1 ? 's' : ''} to explore
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+                        <div className="flex gap-4">
+                          <Button onClick={generateCareerReport} className="flex items-center gap-2">
+                            <Download className="h-4 w-4" />
+                            Download Report
+                          </Button>
+                          <Link href="/quiz">
+                            <Button variant="outline">Retake Quiz</Button>
+                          </Link>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <TrendingUp className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                        <h3 className="text-lg font-semibold mb-2">No Quiz Results Yet</h3>
+                        <p className="text-muted-foreground mb-4">
+                          Take our career assessment to get personalized recommendations
+                        </p>
+                        <Link href="/quiz">
+                          <Button>Take Career Quiz</Button>
+                        </Link>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-          {/* Career Cards Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {getAllCareers().map((career, index) => {
-              const streamInfo = careerStreamInfo[career.stream as keyof typeof careerStreamInfo];
-              const IconComponent = iconMap[streamInfo?.icon as keyof typeof iconMap] || Settings;
-              const isSaved = isCareerSaved(career.title);
-              
-              return (
+              {/* Recommended Careers */}
+              {quizData && (
                 <motion.div
-                  key={index}
-                  className="tilt-card"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
-                  data-testid={`career-card-${index}`}
+                  transition={{ duration: 0.6, delay: 0.4 }}
                 >
-                  <Card className="glassmorphism border-border/20 h-full cursor-pointer"
-                        onClick={() => setSelectedCareer(career)}>
+                  <Card className="glassmorphism border-border/20">
                     <CardHeader>
-                      <div className="flex justify-between items-start">
-                        <div className={`w-12 h-12 bg-gradient-to-br ${streamInfo?.gradient} rounded-xl flex items-center justify-center mb-4`}>
-                          <IconComponent className="h-6 w-6 text-white" />
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (isSaved) {
-                              const savedCareer = savedCareers.find((s) => s.careerTitle === career.title);
-                              if (savedCareer) {
-                                removeSavedCareerMutation.mutate(savedCareer.id);
-                              }
-                            } else {
-                              saveCareerMutation.mutate(career);
-                            }
-                          }}
-                          className="p-2 hover:scale-110 transition-all"
-                          data-testid={`save-career-${index}`}
-                        >
-                          {isSaved ? 
-                            <BookmarkMinus className="h-4 w-4 text-primary" /> : 
-                            <BookmarkPlus className="h-4 w-4 text-muted-foreground hover:text-primary" />
-                          }
-                        </Button>
-                      </div>
-                      <CardTitle className="text-lg">{career.title}</CardTitle>
+                      <CardTitle className="flex items-center gap-2">
+                        <Award className="h-5 w-5 text-primary" />
+                        Recommended Careers for You
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <Badge variant="secondary" className="mb-3">{career.stream}</Badge>
-                      <p className="text-sm text-muted-foreground mb-3">{career.description}</p>
-                      <div className="mb-3">
-                        <p className="text-sm font-semibold text-primary">{career.salaryRange}</p>
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {career.requiredSkills.slice(0, 3).map((skill, skillIndex) => (
-                          <Badge key={skillIndex} variant="outline" className="text-xs">
-                            {skill}
-                          </Badge>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        {quizData.recommendations.slice(0, 6).map((career, index) => (
+                          <div key={index} className="p-4 rounded-lg bg-muted/20 border border-border/20">
+                            <h4 className="font-semibold mb-1">{career.title}</h4>
+                            <p className="text-sm text-primary font-medium mb-2">{career.salaryRange}</p>
+                            <p className="text-sm text-muted-foreground">{career.description}</p>
+                          </div>
                         ))}
-                        {career.requiredSkills.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{career.requiredSkills.length - 3} more
-                          </Badge>
-                        )}
                       </div>
                     </CardContent>
                   </Card>
                 </motion.div>
-              );
-            })}
+              )}
+
+              {/* Recommended Colleges */}
+              {recommendedColleges.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                  <Card className="glassmorphism border-border/20">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <GraduationCap className="h-5 w-5 text-primary" />
+                        Recommended Colleges
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        {recommendedColleges.map((college, index) => (
+                          <div key={index} className="p-4 rounded-lg bg-muted/20 border border-border/20">
+                            <div className="flex items-start justify-between mb-2">
+                              <h4 className="font-semibold text-sm">{college.name}</h4>
+                              <Badge variant="secondary">#{college.nirfRank}</Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-2">
+                              {college.city}, {college.state}
+                            </p>
+                            <p className="text-xs text-primary">
+                              {college.courses.slice(0, 3).join(', ')}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-4 text-center">
+                        <Link href="/colleges">
+                          <Button variant="outline" size="sm">View All Colleges</Button>
+                        </Link>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Right Column - Stream Information */}
+            <div className="space-y-8">
+              {streamInfo && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                >
+                  <Card className="glassmorphism border-border/20">
+                    <CardHeader>
+                      <div className={`w-12 h-12 bg-gradient-to-br ${streamInfo.gradient} rounded-xl flex items-center justify-center mb-4`}>
+                        <IconComponent className="h-6 w-6 text-white" />
+                      </div>
+                      <CardTitle>{quizData?.cluster} Stream</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <p className="text-sm text-muted-foreground">
+                        {streamInfo.description}
+                      </p>
+                      
+                      <div>
+                        <h4 className="font-semibold mb-2">Popular Careers:</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {streamInfo.careers.slice(0, 4).map((career, index) => (
+                            <Badge key={index} variant="secondary">{career}</Badge>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-semibold mb-2">Recommended Exams:</h4>
+                        <div className="space-y-1">
+                          {streamInfo.recommendedExams.slice(0, 3).map((exam, index) => (
+                            <p key={index} className="text-sm text-muted-foreground">• {exam}</p>
+                          ))}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+
+              {/* Quick Actions */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+              >
+                <Card className="glassmorphism border-border/20">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Quick Actions</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/chat" className="block">
+                      <Button variant="outline" className="w-full justify-start">
+                        <Heart className="h-4 w-4 mr-2" />
+                        Chat with AI Counselor
+                      </Button>
+                    </Link>
+                    <Link href="/colleges" className="block">
+                      <Button variant="outline" className="w-full justify-start">
+                        <Building className="h-4 w-4 mr-2" />
+                        Explore Colleges
+                      </Button>
+                    </Link>
+                    <Link href="/quiz" className="block">
+                      <Button variant="outline" className="w-full justify-start">
+                        <Star className="h-4 w-4 mr-2" />
+                        Retake Assessment
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Career Detail Modal */}
-      <Dialog open={!!selectedCareer} onOpenChange={() => setSelectedCareer(null)}>
-        <DialogContent className="glassmorphism border-border/20 max-w-4xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">{selectedCareer?.title}</DialogTitle>
-          </DialogHeader>
-          
-          {selectedCareer && (
-            <div className="space-y-6">
-              {/* Career Overview */}
-              <Card className="glassmorphism border-border/20">
-                <CardContent className="p-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-2">Description</h4>
-                      <p className="text-muted-foreground">{selectedCareer.description}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">Salary Range</h4>
-                      <p className="text-primary font-semibold">{selectedCareer.salaryRange}</p>
-                      
-                      <h4 className="font-semibold mt-4 mb-2">Required Skills</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedCareer.requiredSkills.map((skill, index) => (
-                          <Badge key={index} variant="secondary">{skill}</Badge>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Career Roadmap */}
-              <Card className="glassmorphism border-border/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <GraduationCap className="mr-2 h-5 w-5 text-primary" />
-                    Career Roadmap
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {selectedCareer.roadmap.map((step, stepIndex) => (
-                    <Collapsible
-                      key={stepIndex}
-                      open={roadmapOpen[stepIndex]}
-                      onOpenChange={() => toggleRoadmapStep(stepIndex)}
-                    >
-                      <CollapsibleTrigger asChild>
-                        <Card className="glassmorphism border-border/20 cursor-pointer hover:scale-105 transition-all">
-                          <CardContent className="p-4">
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <h4 className="font-semibold">{step.title}</h4>
-                                <p className="text-sm text-muted-foreground">{step.description}</p>
-                              </div>
-                              <Badge variant="outline">{step.timeframe}</Badge>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="mt-2">
-                        <Card className="glassmorphism border-border/20 ml-4">
-                          <CardContent className="p-4">
-                            <ul className="space-y-2">
-                              {step.items.map((item, itemIndex) => (
-                                <li key={itemIndex} className="flex items-start">
-                                  <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                                  <span className="text-sm">{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </CardContent>
-                        </Card>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  ))}
-                </CardContent>
-              </Card>
-
-              {/* Recommended Exams */}
-              <Card className="glassmorphism border-border/20">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <GraduationCap className="mr-2 h-5 w-5 text-primary" />
-                    Recommended Certifications & Exams
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {selectedCareer.exams.map((exam, examIndex) => (
-                    <Card key={examIndex} className="glassmorphism border-border/20">
-                      <CardContent className="p-4">
-                        <div className="flex justify-between items-start">
-                          <div className="flex-1">
-                            <h4 className="font-semibold mb-1">{exam.name}</h4>
-                            <p className="text-sm text-muted-foreground mb-2">{exam.description}</p>
-                            <Badge 
-                              variant={exam.difficulty === "Beginner" ? "secondary" : exam.difficulty === "Intermediate" ? "outline" : "default"}
-                              className="text-xs"
-                            >
-                              {exam.difficulty}
-                            </Badge>
-                          </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => window.open(exam.website, '_blank')}
-                            className="ml-4 hover:scale-105 transition-all"
-                            data-testid={`exam-link-${examIndex}`}
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
