@@ -756,27 +756,37 @@ export default function Quiz() {
                 <CardContent>
                   <div className="grid md:grid-cols-3 gap-6">
                     {result.suggestions.map((career, index) => {
-                      const colors = ['from-blue-500/20 to-blue-600/20 border-blue-500/30', 'from-green-500/20 to-green-600/20 border-green-500/30', 'from-purple-500/20 to-purple-600/20 border-purple-500/30'];
-                      const textColors = ['text-blue-400', 'text-green-400', 'text-purple-400'];
-                      const bgColors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500'];
+                      const colors = [
+                        'from-blue-500/20 to-blue-600/20 border-blue-500/30', 
+                        'from-green-500/20 to-green-600/20 border-green-500/30', 
+                        'from-purple-500/20 to-purple-600/20 border-purple-500/30',
+                        'from-orange-500/20 to-orange-600/20 border-orange-500/30',
+                        'from-pink-500/20 to-pink-600/20 border-pink-500/30',
+                        'from-teal-500/20 to-teal-600/20 border-teal-500/30'
+                      ];
+                      const textColors = ['text-blue-400', 'text-green-400', 'text-purple-400', 'text-orange-400', 'text-pink-400', 'text-teal-400'];
+                      const bgColors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-teal-500'];
+                      const icons = ['🏆', '🥈', '🥉', '⭐', '💎', '🌟'];
+                      const labels = ['Best Match', 'Great Option', 'Good Alternative', 'Strong Fit', 'Potential Match', 'Worth Exploring'];
+                      
                       return (
                         <motion.div 
                           key={index} 
-                          className={`glassmorphism p-6 rounded-xl bg-gradient-to-br ${colors[index]} border relative overflow-hidden group hover:scale-105 transition-all duration-300 cursor-pointer`}
+                          className={`glassmorphism p-6 rounded-xl bg-gradient-to-br ${colors[index % colors.length]} border relative overflow-hidden group hover:scale-105 transition-all duration-300 cursor-pointer`}
                           onClick={() => openCareerModal(career)}
                           whileHover={{ scale: 1.05, y: -4 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          <div className={`absolute top-3 right-3 ${bgColors[index]} text-white text-xs px-2 py-1 rounded-full font-bold`}>
+                          <div className={`absolute top-3 right-3 ${bgColors[index % bgColors.length]} text-white text-xs px-2 py-1 rounded-full font-bold`}>
                             #{index + 1}
                           </div>
                           <div className="text-center pt-4">
                             <div className="text-2xl mb-2">
-                              {index === 0 ? '🏆' : index === 1 ? '🥈' : '🥉'}
+                              {icons[index % icons.length]}
                             </div>
-                            <div className={`font-bold text-lg ${textColors[index]} mb-1`}>{career}</div>
+                            <div className={`font-bold text-lg ${textColors[index % textColors.length]} mb-1`}>{career}</div>
                             <div className="text-xs text-muted-foreground">
-                              {index === 0 ? 'Best Match' : index === 1 ? 'Great Option' : 'Good Alternative'}
+                              {labels[index % labels.length]}
                             </div>
                             <div className="text-xs text-blue-300 mt-2 opacity-70">
                               Click for details
