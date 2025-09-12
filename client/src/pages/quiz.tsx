@@ -76,45 +76,77 @@ export default function Quiz() {
   const { toast } = useToast();
   const { user } = useAuth();
 
-  // Enhanced function to find career details with fuzzy matching
+  // Enhanced function to find career details with improved fuzzy matching
   const findCareerDetails = (careerTitle: string): CareerMatchData | null => {
     if (!careerTitle) return null;
     
-    const searchTerm = careerTitle.toLowerCase().trim();
+    // Normalize search term: remove common prefixes/suffixes, extra spaces, special chars
+    const normalizeText = (text: string) => 
+      text.toLowerCase()
+          .trim()
+          .replace(/[^\w\s]/g, ' ') // Replace special chars with spaces
+          .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+          .replace(/\b(a|an|the|and|of|in|for|with|at|by|to|from)\b/g, '') // Remove articles/prepositions
+          .trim();
     
-    // 1. Exact title match
+    const searchTerm = normalizeText(careerTitle);
+    
+    // 1. Exact title match (normalized)
     let match = careerMatchesData.find(career => 
-      career.title.toLowerCase() === searchTerm
+      normalizeText(career.title) === searchTerm
     );
     if (match) return match;
     
-    // 2. Contains match (both directions)
+    // 2. Exact original match (fallback for edge cases)
     match = careerMatchesData.find(career => 
-      career.title.toLowerCase().includes(searchTerm) ||
-      searchTerm.includes(career.title.toLowerCase())
+      career.title.toLowerCase().trim() === careerTitle.toLowerCase().trim()
     );
     if (match) return match;
     
-    // 3. Keyword matching for common career terms
-    const keywords = searchTerm.split(/\s+/);
+    // 3. Contains match (both directions, normalized)
     match = careerMatchesData.find(career => {
-      const careerWords = career.title.toLowerCase().split(/\s+/);
-      return keywords.some(keyword => 
-        careerWords.some(word => word.includes(keyword) || keyword.includes(word))
-      );
+      const normalizedCareerTitle = normalizeText(career.title);
+      return normalizedCareerTitle.includes(searchTerm) ||
+             searchTerm.includes(normalizedCareerTitle);
     });
     if (match) return match;
     
-    // 4. Check career roles within each career
+    // 4. Word overlap matching (at least 70% of words match)
+    const searchWords = searchTerm.split(/\s+/).filter(w => w.length > 2);
+    match = careerMatchesData.find(career => {
+      const careerWords = normalizeText(career.title).split(/\s+/).filter(w => w.length > 2);
+      if (searchWords.length === 0 || careerWords.length === 0) return false;
+      
+      const matchingWords = searchWords.filter(searchWord =>
+        careerWords.some(careerWord => 
+          careerWord.includes(searchWord) || 
+          searchWord.includes(careerWord) ||
+          // Levenshtein-like: allow 1-2 character differences for words > 4 chars
+          (searchWord.length > 4 && careerWord.length > 4 && 
+           Math.abs(searchWord.length - careerWord.length) <= 2 &&
+           searchWord.substring(0, 3) === careerWord.substring(0, 3))
+        )
+      );
+      
+      return (matchingWords.length / searchWords.length) >= 0.7;
+    });
+    if (match) return match;
+    
+    // 5. Check career roles within each career (normalized)
     match = careerMatchesData.find(career => 
-      career.careers.some(role => 
-        role.toLowerCase().includes(searchTerm) || 
-        searchTerm.includes(role.toLowerCase())
-      )
+      career.careers.some(role => {
+        const normalizedRole = normalizeText(role);
+        return normalizedRole.includes(searchTerm) || 
+               searchTerm.includes(normalizedRole) ||
+               // Check if significant word overlap
+               searchTerm.split(/\s+/).some(word => 
+                 word.length > 3 && normalizedRole.includes(word)
+               );
+      })
     );
     if (match) return match;
     
-    // 5. Fallback to cluster matching for broad categories
+    // 6. Enhanced fallback to cluster matching and career aliases
     const clusterKeywords = {
       'software': 'software-engineer',
       'programming': 'software-engineer',
@@ -122,16 +154,68 @@ export default function Quiz() {
       'developer': 'software-engineer',
       'pilot': 'pilot',
       'flying': 'pilot',
+      'aviation': 'pilot',
       'doctor': 'doctor',
       'medical': 'doctor',
+      'physician': 'doctor',
       'engineer': 'software-engineer',
       'business': 'entrepreneur',
+      'entrepreneur': 'entrepreneur',
+      'startup': 'entrepreneur',
       'finance': 'chartered-accountant',
       'accounting': 'chartered-accountant',
+      'chartered': 'chartered-accountant',
+      'investment': 'investment-banker',
+      'banker': 'investment-banker',
+      'banking': 'investment-banker',
       'law': 'lawyer',
       'legal': 'lawyer',
+      'advocate': 'lawyer',
       'design': 'graphic-designer',
-      'art': 'graphic-designer'
+      'art': 'graphic-designer',
+      'graphic': 'graphic-designer',
+      'economics': 'economist',
+      'economist': 'economist',
+      'economic': 'economist',
+      'market research': 'market-research-analyst',
+      'research': 'market-research-analyst',
+      'analyst': 'market-research-analyst',
+      'market': 'market-research-analyst',
+      'business economist': 'business-economist',
+      'business economic': 'business-economist',
+      'policy': 'policy-analyst',
+      'policy analyst': 'policy-analyst',
+      'government': 'policy-analyst',
+      'public policy': 'policy-analyst',
+      'manager': 'business-manager',
+      'management': 'business-manager',
+      'business manager': 'business-manager',
+      'operations': 'business-manager',
+      'ias': 'ias-officer',
+      'civil service': 'ias-officer',
+      'upsc': 'ias-officer',
+      'journalist': 'journalist',
+      'media': 'journalist',
+      'news': 'journalist',
+      'reporter': 'journalist',
+      'architect': 'architect',
+      'architecture': 'architect',
+      'building': 'architect',
+      'psychology': 'psychologist',
+      'psychologist': 'psychologist',
+      'counseling': 'psychologist',
+      'therapy': 'psychologist',
+      'chef': 'chef',
+      'cooking': 'chef',
+      'culinary': 'chef',
+      'food': 'chef',
+      'hotel': 'hotel-manager',
+      'hospitality': 'hotel-manager',
+      'tourism': 'hotel-manager',
+      'data': 'data-scientist',
+      'scientist': 'data-scientist',
+      'analytics': 'data-scientist',
+      'machine learning': 'data-scientist'
     };
     
     for (const [keyword, careerId] of Object.entries(clusterKeywords)) {
