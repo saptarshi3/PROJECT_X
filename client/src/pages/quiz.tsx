@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
 import Navbar from "@/components/navbar";
-import { class10QuizData, class1112QuizData, careerStreamInfo, type QuizOption } from "@/lib/quiz-data";
+import { class10QuizData, class1112QuizData, scienceStreamQuizData, commerceStreamQuizData, artsStreamQuizData, careerStreamInfo, type QuizOption } from "@/lib/quiz-data";
 import { examData, scholarshipData } from "@/lib/scholarship-data";
 import CareerFlowchart from "@/components/career-flowchart";
 import jsPDF from 'jspdf';
@@ -74,7 +74,15 @@ export default function Quiz() {
   const { toast } = useToast();
   const { user } = useAuth();
 
-  const currentQuizData = classLevel === "10" ? class10QuizData : class1112QuizData;
+  const currentQuizData = classLevel === "10" 
+    ? class10QuizData 
+    : classLevel === "11-12" && stream === "Science" 
+      ? scienceStreamQuizData
+      : classLevel === "11-12" && stream === "Commerce"
+        ? commerceStreamQuizData
+        : classLevel === "11-12" && stream === "Arts"
+          ? artsStreamQuizData
+          : class1112QuizData; // fallback for backward compatibility
 
   const submitQuizMutation = useMutation({
     mutationFn: async (data: {

@@ -72,75 +72,182 @@ export const class10QuizData: QuizQuestion[] = [
   },
 ];
 
-// Class 11/12 Quiz Questions (Student-friendly with clear career mapping)
-export const class1112QuizData: QuizQuestion[] = [
+// Science Stream Quiz Questions (6 Questions, 4-5 options each)
+export const scienceStreamQuizData: QuizQuestion[] = [
   {
     question: "Which subject excites you the most?",
     options: [
       { text: "Physics & Math – Logic & problem-solving → Engineer, Pilot, Data Scientist", stream: "Science" },
       { text: "Chemistry & Biology – Life & matter → Doctor, Marine Biologist, Geneticist", stream: "Science" },
-      { text: "Accounts & Economics → CA, Financial Analyst, Investment Banker", stream: "Commerce" },
-      { text: "History & Political Science → IAS, IPS, Lawyer", stream: "Arts" },
-      { text: "Literature & English → Teacher, Journalist, Writer", stream: "Creative" },
-      { text: "Tourism & Hospitality → Hotel Management, Chef, Tourism Professional", stream: "Vocational" },
+      { text: "Computer Science – Coding & AI → AI Specialist, Software Engineer", stream: "Science" },
+      { text: "Environmental Science – Nature & sustainability → Environmental Scientist, Robotics Engineer", stream: "Science" }
     ],
   },
   {
     question: "What activity excites you most in daily life?",
     options: [
-      { text: "Conducting experiments or solving puzzles → Research Scientist, Software Engineer", stream: "Science" },
-      { text: "Managing finances or running a business → CA, Entrepreneur, Business Manager", stream: "Commerce" },
-      { text: "Debates & public speaking → IAS, IPS, Lawyer", stream: "Arts" },
-      { text: "Writing & storytelling or creating art → Journalist, Designer, Filmmaker", stream: "Creative" },
-      { text: "Helping friends or volunteering → Social Worker, Counselor, Psychologist", stream: "Social" },
-      { text: "Cooking or planning events → Chef, Hotel Manager, Event Manager", stream: "Vocational" },
+      { text: "Conducting experiments → Research Scientist, Chemist", stream: "Science" },
+      { text: "Solving puzzles or algorithms → Data Scientist, Software Engineer", stream: "Science" },
+      { text: "Flying drones or simulations → Pilot, Astronaut", stream: "Science" },
+      { text: "Exploring oceans/labs → Marine Biologist, Environmental Scientist", stream: "Science" }
     ],
   },
   {
     question: "What kind of work environment suits you best?",
     options: [
-      { text: "Lab or tech company → Research Scientist, Software Engineer, AI Specialist", stream: "Science" },
-      { text: "Corporate office or startup → CA, Investment Banker, Entrepreneur", stream: "Commerce" },
-      { text: "Government office or court → IAS, IPS, Lawyer, Judge", stream: "Arts" },
-      { text: "Studio or creative agency → Designer, Filmmaker, Musician", stream: "Creative" },
-      { text: "Community center or hospital → Social Worker, Counselor, Therapist", stream: "Social" },
-      { text: "Hotels & restaurants → Hotel Manager, Chef, Tourism Professional", stream: "Vocational" },
+      { text: "Lab or research institute → Research Scientist, Doctor", stream: "Science" },
+      { text: "Tech company/startup → Software Engineer, AI Specialist", stream: "Science" },
+      { text: "Air/sea operations → Pilot, Merchant Navy", stream: "Science" },
+      { text: "Field & nature → Environmental Scientist, Marine Biologist", stream: "Science" }
     ],
   },
   {
-    question: "What motivates you most in choosing a career?",
+    question: "Which factor matters most in choosing a career?",
     options: [
-      { text: "Innovation & discovery → Research Scientist, AI Specialist, Engineer", stream: "Science" },
-      { text: "High income & financial success → Investment Banker, CA, Entrepreneur", stream: "Commerce" },
-      { text: "Societal impact & governance → IAS, IPS, Social Worker", stream: "Arts" },
-      { text: "Creativity & artistic expression → Designer, Filmmaker, Musician", stream: "Creative" },
-      { text: "Helping people & making a difference → Psychologist, Counselor, NGO Worker", stream: "Social" },
-      { text: "Service & hospitality → Hotel Manager, Chef, Tourism Professional", stream: "Vocational" },
+      { text: "Innovation & discovery → Research Scientist, AI Specialist", stream: "Science" },
+      { text: "Helping people → Doctor, Geneticist", stream: "Science" },
+      { text: "Leadership & responsibility → Pilot, Merchant Navy", stream: "Science" },
+      { text: "Adventure & exploration → Astronaut, Marine Biologist", stream: "Science" }
     ],
   },
   {
-    question: "How do you approach problem-solving?",
+    question: "What describes your problem-solving style?",
     options: [
-      { text: "Analytical & logical → Software Engineer, Data Scientist, Pilot", stream: "Science" },
-      { text: "Strategic & business-minded → Economist, Business Manager, Financial Analyst", stream: "Commerce" },
-      { text: "Research-based & systematic → Teacher, Journalist, IAS Officer", stream: "Arts" },
-      { text: "Creative & expressive → Designer, Filmmaker, Architect", stream: "Creative" },
-      { text: "Empathetic & people-focused → Psychologist, Social Worker, Counselor", stream: "Social" },
-      { text: "Practical & hands-on → Chef, Sports Coach, Event Manager", stream: "Vocational" },
+      { text: "Analytical & logical → Software Engineer, Data Scientist", stream: "Science" },
+      { text: "Hands-on experimentation → Chemist, Geneticist", stream: "Science" },
+      { text: "Creative tech solutions → Robotics Engineer, AI Specialist", stream: "Science" },
+      { text: "Strategic & operational → Pilot, Merchant Navy", stream: "Science" }
     ],
   },
   {
-    question: "What's your dream career path?",
+    question: "Your dream profession is?",
     options: [
-      { text: "Doctor, Engineer, or Pilot → Medicine, Technology, Aviation", stream: "Science" },
-      { text: "CA, Entrepreneur, or Investment Banker → Finance, Business Leadership", stream: "Commerce" },
-      { text: "IAS, IPS, or Lawyer → Civil Services, Law, Governance", stream: "Arts" },
-      { text: "Designer, Filmmaker, or Architect → Arts, Media, Entertainment", stream: "Creative" },
-      { text: "Psychologist, Social Worker, or NGO Leader → Community Service, Mental Health", stream: "Social" },
-      { text: "Hotel Manager, Chef, or Sports Coach → Hospitality, Culinary, Sports", stream: "Vocational" },
+      { text: "Doctor → Doctor, Surgeon", stream: "Science" },
+      { text: "Engineer → Software Engineer, Mechanical Engineer", stream: "Science" },
+      { text: "Explorer → Pilot, Astronaut, Marine Biologist", stream: "Science" },
+      { text: "Tech Innovator → AI Specialist, Robotics Engineer", stream: "Science" }
     ],
-  },
+  }
 ];
+
+// Commerce Stream Quiz Questions (6 Questions, 4 options each)
+export const commerceStreamQuizData: QuizQuestion[] = [
+  {
+    question: "Which subject do you enjoy the most?",
+    options: [
+      { text: "Accounts & Economics → CA, Financial Analyst", stream: "Commerce" },
+      { text: "Business Studies → Entrepreneur, Business Manager", stream: "Commerce" },
+      { text: "Marketing & Strategy → Digital Marketer, Marketing Manager", stream: "Commerce" },
+      { text: "Maths & Data Analysis → Investment Banker, Economist", stream: "Commerce" }
+    ],
+  },
+  {
+    question: "Your ideal work activity?",
+    options: [
+      { text: "Managing finances → CA, Financial Analyst", stream: "Commerce" },
+      { text: "Running a company → Entrepreneur, Business Manager", stream: "Commerce" },
+      { text: "Research & planning → Economist, Policy Analyst", stream: "Commerce" },
+      { text: "Creative campaigns → Digital Marketer, Marketing Manager", stream: "Commerce" }
+    ],
+  },
+  {
+    question: "What motivates you most in a career?",
+    options: [
+      { text: "High income → Investment Banker, CA", stream: "Commerce" },
+      { text: "Leadership → Entrepreneur, Business Manager", stream: "Commerce" },
+      { text: "Strategic impact → Economist, Policy Analyst", stream: "Commerce" },
+      { text: "Creativity → Marketing Manager, Digital Marketer", stream: "Commerce" }
+    ],
+  },
+  {
+    question: "Preferred work environment?",
+    options: [
+      { text: "Corporate office → CA, Investment Banker", stream: "Commerce" },
+      { text: "Startup → Entrepreneur, Business Manager", stream: "Commerce" },
+      { text: "Research institute → Economist, Policy Analyst", stream: "Commerce" },
+      { text: "Creative agency → Digital Marketer, Marketing Manager", stream: "Commerce" }
+    ],
+  },
+  {
+    question: "How do you approach challenges?",
+    options: [
+      { text: "Analytical → CA, Financial Analyst", stream: "Commerce" },
+      { text: "Risk-taking → Entrepreneur", stream: "Commerce" },
+      { text: "Strategy-driven → Economist, Policy Analyst", stream: "Commerce" },
+      { text: "Innovative & creative → Marketing Manager, Digital Marketer", stream: "Commerce" }
+    ],
+  },
+  {
+    question: "Dream career path?",
+    options: [
+      { text: "Finance & Accounts → CA, Investment Banker", stream: "Commerce" },
+      { text: "Business Leadership → Entrepreneur, Business Manager", stream: "Commerce" },
+      { text: "Policy & Governance → Economist, Policy Analyst", stream: "Commerce" },
+      { text: "Marketing & Branding → Marketing Manager, Digital Marketer", stream: "Commerce" }
+    ],
+  }
+];
+
+// Arts Stream Quiz Questions (6 Questions, 4-5 options each)
+export const artsStreamQuizData: QuizQuestion[] = [
+  {
+    question: "Which subject excites you the most?",
+    options: [
+      { text: "History & Political Science → IAS, IPS, Lawyer", stream: "Arts" },
+      { text: "Literature & English → Teacher, Journalist, Writer", stream: "Arts" },
+      { text: "Fine Arts & Music → Designer, Filmmaker, Musician", stream: "Creative" },
+      { text: "Tourism & Hospitality → Hotel Management, Chef, Tourism Professional", stream: "Vocational" }
+    ],
+  },
+  {
+    question: "Which activity excites you most?",
+    options: [
+      { text: "Debates & Public Speaking → IAS, IPS, Lawyer", stream: "Arts" },
+      { text: "Writing & storytelling → Journalist, Writer", stream: "Arts" },
+      { text: "Creating art/design → Designer, Filmmaker, Musician", stream: "Creative" },
+      { text: "Planning events → Hotel Manager, Tourism Professional", stream: "Vocational" }
+    ],
+  },
+  {
+    question: "What motivates you in a career?",
+    options: [
+      { text: "Societal impact → IAS, IPS, Social Worker", stream: "Arts" },
+      { text: "Creativity → Designer, Filmmaker, Musician", stream: "Creative" },
+      { text: "Knowledge & teaching → Teacher, Journalist", stream: "Arts" },
+      { text: "Service & hospitality → Hotel Management, Tourism Professional", stream: "Vocational" }
+    ],
+  },
+  {
+    question: "Preferred work environment?",
+    options: [
+      { text: "Government/Public Office → IAS, IPS", stream: "Arts" },
+      { text: "Studio/Creative agency → Filmmaker, Designer, Musician", stream: "Creative" },
+      { text: "Classroom → Teacher", stream: "Arts" },
+      { text: "Hotels & tourism → Hotel Management, Tourism Professional", stream: "Vocational" }
+    ],
+  },
+  {
+    question: "Problem-solving style?",
+    options: [
+      { text: "Logical & strategic → IAS, IPS, Lawyer", stream: "Arts" },
+      { text: "Creative & expressive → Designer, Filmmaker, Musician", stream: "Creative" },
+      { text: "Analytical & research-based → Teacher, Journalist", stream: "Arts" },
+      { text: "Operational & service-oriented → Hotel Management, Tourism Professional", stream: "Vocational" }
+    ],
+  },
+  {
+    question: "Dream career?",
+    options: [
+      { text: "Civil Services → IAS, IPS", stream: "Arts" },
+      { text: "Media & Writing → Journalist, Writer", stream: "Arts" },
+      { text: "Arts & Entertainment → Designer, Filmmaker, Musician", stream: "Creative" },
+      { text: "Hospitality → Hotel Manager, Chef, Tourism Professional", stream: "Vocational" }
+    ],
+  }
+];
+
+// Class 11/12 Quiz Questions (Legacy - now points to stream-specific data)
+export const class1112QuizData: QuizQuestion[] = scienceStreamQuizData; // Default to Science for backward compatibility
 
 // Legacy quiz for backward compatibility
 export const quizData = class1112QuizData;
