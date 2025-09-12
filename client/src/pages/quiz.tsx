@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Trophy, RotateCcw, MessageCircle, Settings, Heart, PieChart, Palette, Download, Loader2, BookOpen, Award, ExternalLink, GraduationCap } from "lucide-react";
+import { ArrowLeft, ArrowRight, Trophy, RotateCcw, MessageCircle, Settings, Heart, PieChart, Palette, Download, Loader2, BookOpen, Award, ExternalLink, GraduationCap, X, DollarSign, TrendingUp, Building, Users, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -16,6 +16,7 @@ import { useAuth } from "@/hooks/use-auth";
 import Navbar from "@/components/navbar";
 import { class10QuizData, class1112QuizData, scienceStreamQuizData, commerceStreamQuizData, artsStreamQuizData, careerStreamInfo, type QuizOption } from "@/lib/quiz-data";
 import { examData, scholarshipData } from "@/lib/scholarship-data";
+import { careerMatchesData, type CareerMatchData } from "@/lib/career-matches-data";
 import CareerFlowchart from "@/components/career-flowchart";
 import jsPDF from 'jspdf';
 
@@ -71,8 +72,131 @@ export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState<QuizOption[]>([]);
   const [result, setResult] = useState<QuizResult | null>(null);
+  const [selectedCareer, setSelectedCareer] = useState<CareerMatchData | null>(null);
   const { toast } = useToast();
   const { user } = useAuth();
+
+  // Enhanced function to find career details with fuzzy matching
+  const findCareerDetails = (careerTitle: string): CareerMatchData | null => {
+    if (!careerTitle) return null;
+    
+    const searchTerm = careerTitle.toLowerCase().trim();
+    
+    // 1. Exact title match
+    let match = careerMatchesData.find(career => 
+      career.title.toLowerCase() === searchTerm
+    );
+    if (match) return match;
+    
+    // 2. Contains match (both directions)
+    match = careerMatchesData.find(career => 
+      career.title.toLowerCase().includes(searchTerm) ||
+      searchTerm.includes(career.title.toLowerCase())
+    );
+    if (match) return match;
+    
+    // 3. Keyword matching for common career terms
+    const keywords = searchTerm.split(/\s+/);
+    match = careerMatchesData.find(career => {
+      const careerWords = career.title.toLowerCase().split(/\s+/);
+      return keywords.some(keyword => 
+        careerWords.some(word => word.includes(keyword) || keyword.includes(word))
+      );
+    });
+    if (match) return match;
+    
+    // 4. Check career roles within each career
+    match = careerMatchesData.find(career => 
+      career.careers.some(role => 
+        role.toLowerCase().includes(searchTerm) || 
+        searchTerm.includes(role.toLowerCase())
+      )
+    );
+    if (match) return match;
+    
+    // 5. Fallback to cluster matching for broad categories
+    const clusterKeywords = {
+      'software': 'software-engineer',
+      'programming': 'software-engineer',
+      'coding': 'software-engineer',
+      'developer': 'software-engineer',
+      'pilot': 'pilot',
+      'flying': 'pilot',
+      'doctor': 'doctor',
+      'medical': 'doctor',
+      'engineer': 'software-engineer',
+      'business': 'entrepreneur',
+      'finance': 'chartered-accountant',
+      'accounting': 'chartered-accountant',
+      'law': 'lawyer',
+      'legal': 'lawyer',
+      'design': 'graphic-designer',
+      'art': 'graphic-designer'
+    };
+    
+    for (const [keyword, careerId] of Object.entries(clusterKeywords)) {
+      if (searchTerm.includes(keyword)) {
+        match = careerMatchesData.find(career => career.id === careerId);
+        if (match) return match;
+      }
+    }
+    
+    return null;
+  };
+
+  const openCareerModal = (careerTitle: string) => {
+    const careerDetails = findCareerDetails(careerTitle);
+    if (careerDetails) {
+      setSelectedCareer(careerDetails);
+    } else {
+      // Show user feedback when career not found
+      toast({
+        title: "Career Information Not Available",
+        description: `Detailed information for "${careerTitle}" is not available yet. Please try our AI chat for more guidance.`,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const closeCareerModal = useCallback(() => {
+    setSelectedCareer(null);
+  }, []);
+  
+  // Keyboard accessibility and focus management
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && selectedCareer) {
+        closeCareerModal();
+      }
+    };
+    
+    if (selectedCareer) {
+      // Prevent body scroll when modal is open
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = 'hidden';
+      
+      // Add keyboard listener
+      document.addEventListener('keydown', handleKeyDown);
+      
+      // Focus management - focus the modal when it opens
+      setTimeout(() => {
+        const modalElement = document.querySelector('[data-career-modal]') as HTMLElement;
+        if (modalElement) {
+          modalElement.focus();
+        }
+      }, 100);
+      
+      return () => {
+        // Restore body scroll
+        document.body.style.overflow = originalStyle;
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedCareer, closeCareerModal]);
 
   const currentQuizData = classLevel === "10" 
     ? class10QuizData 
@@ -636,7 +760,13 @@ export default function Quiz() {
                       const textColors = ['text-blue-400', 'text-green-400', 'text-purple-400'];
                       const bgColors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500'];
                       return (
-                        <div key={index} className={`glassmorphism p-6 rounded-xl bg-gradient-to-br ${colors[index]} border relative overflow-hidden group hover:scale-105 transition-all duration-300`}>
+                        <motion.div 
+                          key={index} 
+                          className={`glassmorphism p-6 rounded-xl bg-gradient-to-br ${colors[index]} border relative overflow-hidden group hover:scale-105 transition-all duration-300 cursor-pointer`}
+                          onClick={() => openCareerModal(career)}
+                          whileHover={{ scale: 1.05, y: -4 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
                           <div className={`absolute top-3 right-3 ${bgColors[index]} text-white text-xs px-2 py-1 rounded-full font-bold`}>
                             #{index + 1}
                           </div>
@@ -648,8 +778,11 @@ export default function Quiz() {
                             <div className="text-xs text-muted-foreground">
                               {index === 0 ? 'Best Match' : index === 1 ? 'Great Option' : 'Good Alternative'}
                             </div>
+                            <div className="text-xs text-blue-300 mt-2 opacity-70">
+                              Click for details
+                            </div>
                           </div>
-                        </div>
+                        </motion.div>
                       );
                     })}
                   </div>
@@ -695,6 +828,214 @@ export default function Quiz() {
               )}
             </motion.div>
           )}
+
+          {/* Career Detail Modal */}
+          <AnimatePresence>
+            {selectedCareer && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                onClick={closeCareerModal}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: 50 }}
+                  transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
+                  className="glassmorphism max-w-4xl max-h-[90vh] overflow-y-auto border-border/30 rounded-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                  data-career-modal
+                  tabIndex={-1}
+                >
+                  {/* Modal Header */}
+                  <div className="bg-gradient-to-br from-primary/20 to-accent/20 p-8 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-black/20" />
+                    <div className="relative z-10 flex justify-between items-start">
+                      <div>
+                        <h2 className="text-3xl font-bold text-white mb-2">
+                          {selectedCareer.title}
+                        </h2>
+                        <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                          {selectedCareer.cluster}
+                        </Badge>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={closeCareerModal}
+                        className="text-white hover:bg-white/20 rounded-full"
+                      >
+                        <X className="h-6 w-6" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Modal Content */}
+                  <div className="p-8 space-y-8">
+                    {/* Description */}
+                    <div>
+                      <h3 className="text-2xl font-bold mb-4 text-foreground">About This Career</h3>
+                      <p className="text-muted-foreground text-lg leading-relaxed">
+                        {selectedCareer.description}
+                      </p>
+                    </div>
+
+                    {/* Key Information Grid */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {/* Salary & Growth */}
+                      <div className="glassmorphism p-6 rounded-xl border-border/20">
+                        <h4 className="font-semibold mb-4 flex items-center gap-2">
+                          <DollarSign className="h-5 w-5 text-green-500" />
+                          Salary Range
+                        </h4>
+                        <p className="text-2xl font-bold text-primary mb-2">{selectedCareer.salaryRange}</p>
+                        <p className="text-sm text-muted-foreground">{selectedCareer.futureScope}</p>
+                      </div>
+
+                      {/* Career Path */}
+                      <div className="glassmorphism p-6 rounded-xl border-border/20">
+                        <h4 className="font-semibold mb-4 flex items-center gap-2">
+                          <TrendingUp className="h-5 w-5 text-blue-500" />
+                          Career Path
+                        </h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{selectedCareer.path}</p>
+                      </div>
+                    </div>
+
+                    {/* Opportunities */}
+                    <div>
+                      <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                        <Building className="h-5 w-5 text-purple-500" />
+                        Career Opportunities
+                      </h3>
+                      <div className="grid md:grid-cols-3 gap-3">
+                        {selectedCareer.opportunities.map((opportunity, index) => (
+                          <motion.div
+                            key={opportunity}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="glassmorphism p-4 rounded-lg border-border/20 text-center"
+                          >
+                            <p className="font-medium">{opportunity}</p>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Courses */}
+                    <div>
+                      <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                        <BookOpen className="h-5 w-5 text-orange-500" />
+                        Recommended Courses
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedCareer.courses.map((course) => (
+                          <Badge 
+                            key={course} 
+                            className="bg-primary/10 text-primary hover:bg-primary/20"
+                          >
+                            {course}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Top Colleges */}
+                    <div>
+                      <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                        <Users className="h-5 w-5 text-teal-500" />
+                        Top Colleges
+                      </h3>
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead>
+                            <tr className="border-b border-border/20">
+                              <th className="text-left py-3 px-4 font-semibold">College</th>
+                              <th className="text-left py-3 px-4 font-semibold">Cutoff</th>
+                              <th className="text-left py-3 px-4 font-semibold">Fees</th>
+                              <th className="text-left py-3 px-4 font-semibold">Location</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {selectedCareer.colleges.map((college, index) => (
+                              <motion.tr
+                                key={college.name}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className="border-b border-border/10 hover:bg-primary/5 transition-colors"
+                              >
+                                <td className="py-3 px-4 font-medium">{college.name}</td>
+                                <td className="py-3 px-4 text-muted-foreground">{college.cutoff}</td>
+                                <td className="py-3 px-4 text-green-600 font-medium">{college.fees}</td>
+                                <td className="py-3 px-4 text-muted-foreground">{college.location || "N/A"}</td>
+                              </motion.tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* Skills & Work Environment */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold mb-4">Required Skills</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedCareer.skills.map((skill) => (
+                            <Badge 
+                              key={skill} 
+                              variant="secondary" 
+                              className="bg-blue-500/10 text-blue-700 dark:text-blue-300"
+                            >
+                              {skill}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-semibold mb-4">Work Environments</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedCareer.workEnvironments.map((env) => (
+                            <Badge 
+                              key={env} 
+                              variant="secondary" 
+                              className="bg-green-500/10 text-green-700 dark:text-green-300"
+                            >
+                              {env}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Related Careers */}
+                    <div>
+                      <h4 className="font-semibold mb-4">Related Career Roles</h4>
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {selectedCareer.careers.map((career) => (
+                          <div
+                            key={career}
+                            className="glassmorphism p-3 rounded-lg border-border/20 text-center"
+                          >
+                            <p className="text-sm font-medium">{career}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
