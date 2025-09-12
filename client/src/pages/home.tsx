@@ -2,6 +2,7 @@ import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import Features from "@/components/features";
 import Showcase from "@/components/showcase";
+import ExamNotifications from "@/components/exam-notifications";
 import { Twitter, Linkedin, Github, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -12,6 +13,13 @@ export default function Home() {
       <Hero />
       <Features />
       <Showcase />
+      
+      {/* Exam Notifications Section */}
+      <section className="py-20 px-6 relative overflow-hidden">
+        <div className="container mx-auto max-w-7xl">
+          <ExamNotifications />
+        </div>
+      </section>
       
       {/* Footer */}
       <footer className="bg-card/50 border-t border-border/20 py-12">
