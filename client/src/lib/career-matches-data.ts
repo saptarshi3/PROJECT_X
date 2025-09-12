@@ -106,6 +106,473 @@ export const careerMatchesData: CareerMatchData[] = [
     futureScope: "Explosive growth with AI boom, high demand across industries, emerging roles in AI ethics and governance"
   },
 
+  // ENGINEERING CLUSTER
+  {
+    id: "mechanical-engineer",
+    title: "Mechanical Engineer",
+    cluster: "Science - Engineering",
+    description: "Mechanical Engineers design, develop, build, and test mechanical and thermal sensors and devices. They work on engines, machines, and various mechanical systems across industries.",
+    opportunities: ["Manufacturing", "Automotive", "Aerospace", "Energy", "Consulting", "R&D", "Government"],
+    path: "Class 12 Science (PCM) → JEE Main/Advanced → B.Tech Mechanical → Internships → Junior Engineer → Senior Engineer",
+    courses: ["B.Tech Mechanical Engineering", "M.Tech Mechanical", "Diploma in Mechanical", "CAD/CAM Certification"],
+    colleges: [
+      { name: "IIT Bombay", cutoff: "JEE Advanced Rank < 500", fees: "₹2.5L/year", location: "Mumbai" },
+      { name: "IIT Delhi", cutoff: "JEE Advanced Rank < 600", fees: "₹2.5L/year", location: "Delhi" },
+      { name: "NIT Trichy", cutoff: "JEE Main Rank < 2000", fees: "₹1.5L/year", location: "Trichy" },
+      { name: "BITS Pilani", cutoff: "BITSAT > 320", fees: "₹5.5L/year", location: "Pilani" }
+    ],
+    careers: ["Design Engineer", "Production Engineer", "Quality Engineer", "Project Manager", "R&D Engineer", "Consultant"],
+    salaryRange: "₹4-30 LPA",
+    skills: ["CAD/CAM", "Thermodynamics", "Machine Design", "Manufacturing Processes", "Project Management", "Problem Solving"],
+    workEnvironments: ["Manufacturing Plants", "Design Studios", "R&D Labs", "Construction Sites", "Corporate Offices"],
+    futureScope: "Industry 4.0 integration, renewable energy focus, automation and robotics, sustainable manufacturing"
+  },
+
+  {
+    id: "civil-engineer",
+    title: "Civil Engineer",
+    cluster: "Science - Engineering",
+    description: "Civil Engineers design, build, supervise, operate, and maintain construction projects and systems in public and private sectors, including roads, buildings, airports, tunnels, dams, and bridges.",
+    opportunities: ["Construction", "Infrastructure", "Government", "Real Estate", "Consulting", "Urban Planning", "Environmental"],
+    path: "Class 12 Science (PCM) → JEE Main → B.Tech Civil → Internships → Junior Engineer → Project Engineer → Manager",
+    courses: ["B.Tech Civil Engineering", "M.Tech Structural/Environmental", "Diploma in Civil", "Project Management"],
+    colleges: [
+      { name: "IIT Madras", cutoff: "JEE Advanced Rank < 800", fees: "₹2.5L/year", location: "Chennai" },
+      { name: "NIT Warangal", cutoff: "JEE Main Rank < 3000", fees: "₹1.5L/year", location: "Warangal" },
+      { name: "Delhi Technological University", cutoff: "JEE Main Rank < 8000", fees: "₹1.5L/year", location: "Delhi" },
+      { name: "Jadavpur University", cutoff: "WBJEE Rank < 2000", fees: "₹50K/year", location: "Kolkata" }
+    ],
+    careers: ["Structural Engineer", "Project Manager", "Site Engineer", "Urban Planner", "Environmental Engineer", "Consultant"],
+    salaryRange: "₹3-25 LPA",
+    skills: ["AutoCAD", "Structural Analysis", "Project Management", "Construction Management", "Environmental Planning", "Site Supervision"],
+    workEnvironments: ["Construction Sites", "Design Offices", "Government Departments", "Consulting Firms", "Field Locations"],
+    futureScope: "Smart cities development, green building technologies, infrastructure modernization, disaster-resistant construction"
+  },
+
+  {
+    id: "aerospace-engineer",
+    title: "Aerospace Engineer",
+    cluster: "Science - Engineering",
+    description: "Aerospace Engineers design aircraft, spacecraft, satellites, and missiles. They develop new technologies for use in aviation, defense systems, and space exploration.",
+    opportunities: ["ISRO", "DRDO", "HAL", "Private Aerospace", "Airlines", "Defense", "Research Institutes"],
+    path: "Class 12 Science (PCM) → JEE Advanced → B.Tech Aerospace → Internships → Junior Engineer → Systems Engineer",
+    courses: ["B.Tech Aerospace Engineering", "M.Tech Aeronautical", "Aircraft Maintenance Engineering", "Space Technology"],
+    colleges: [
+      { name: "IIT Bombay", cutoff: "JEE Advanced Rank < 300", fees: "₹2.5L/year", location: "Mumbai" },
+      { name: "IIT Madras", cutoff: "JEE Advanced Rank < 400", fees: "₹2.5L/year", location: "Chennai" },
+      { name: "IIT Kanpur", cutoff: "JEE Advanced Rank < 500", fees: "₹2.5L/year", location: "Kanpur" },
+      { name: "Indian Institute of Space Science", cutoff: "IIST Entrance", fees: "Free", location: "Thiruvananthapuram" }
+    ],
+    careers: ["Aircraft Design Engineer", "Flight Test Engineer", "Systems Engineer", "Mission Analyst", "Avionics Engineer"],
+    salaryRange: "₹6-40 LPA",
+    skills: ["Aerodynamics", "Propulsion", "Avionics", "Materials Science", "Flight Dynamics", "System Integration"],
+    workEnvironments: ["ISRO Centers", "Aircraft Manufacturing", "Defense Labs", "Testing Facilities", "Mission Control"],
+    futureScope: "Space missions expansion, commercial space industry, drone technology, sustainable aviation fuels"
+  },
+
+  {
+    id: "robotics-engineer",
+    title: "Robotics Engineer",
+    cluster: "Science - Engineering",
+    description: "Robotics Engineers design, build, and maintain robots and robotic systems. They work on automation, AI integration, and developing robotic solutions for various industries.",
+    opportunities: ["Manufacturing", "Healthcare", "Defense", "Tech Companies", "Research Labs", "Startups", "Automotive"],
+    path: "Class 12 Science (PCM) → B.Tech (CS/EE/Mech) → Robotics Specialization → Internships → Robotics Engineer",
+    courses: ["B.Tech Computer Science", "B.Tech Electronics", "M.Tech Robotics", "AI/ML Certification"],
+    colleges: [
+      { name: "IIT Delhi", cutoff: "JEE Advanced Rank < 200", fees: "₹2.5L/year", location: "Delhi" },
+      { name: "IIT Kanpur", cutoff: "JEE Advanced Rank < 300", fees: "₹2.5L/year", location: "Kanpur" },
+      { name: "IISc Bangalore", cutoff: "KVPY/JEE Advanced", fees: "₹25K/year", location: "Bangalore" },
+      { name: "IIIT Hyderabad", cutoff: "JEE Main Rank < 1000", fees: "₹3L/year", location: "Hyderabad" }
+    ],
+    careers: ["Automation Engineer", "AI Robotics Engineer", "Control Systems Engineer", "Research Scientist", "Product Developer"],
+    salaryRange: "₹6-45 LPA",
+    skills: ["Programming (C++/Python)", "Control Systems", "AI/ML", "Computer Vision", "Mechanical Design", "Electronics"],
+    workEnvironments: ["R&D Labs", "Manufacturing Plants", "Tech Companies", "Research Institutes", "Startups"],
+    futureScope: "Industrial automation growth, AI integration, service robots, autonomous vehicles, space robotics"
+  },
+
+  // MEDICAL SPECIALIZATION
+  {
+    id: "surgeon",
+    title: "Surgeon",
+    cluster: "Science - Medical",
+    description: "Surgeons perform operations to treat diseases, injuries, and deformities. They specialize in various fields and use advanced surgical techniques to save lives and improve patient outcomes.",
+    opportunities: ["Hospitals", "Medical Centers", "Private Practice", "Research", "Medical Colleges", "International Practice"],
+    path: "Class 12 Science (PCB) → NEET → MBBS → Internship → MS Surgery → Specialization → Senior Surgeon",
+    courses: ["MBBS", "MS (Master of Surgery)", "MCh (Super Specialization)", "Fellowship Programs"],
+    colleges: [
+      { name: "AIIMS Delhi", cutoff: "NEET Rank < 50", fees: "₹5,500/year", location: "Delhi" },
+      { name: "Christian Medical College", cutoff: "NEET Rank < 200", fees: "₹80K/year", location: "Vellore" },
+      { name: "Armed Forces Medical College", cutoff: "NEET + AFMC Test", fees: "Free (Bond)", location: "Pune" },
+      { name: "King George Medical University", cutoff: "NEET State Rank < 500", fees: "₹50K/year", location: "Lucknow" }
+    ],
+    careers: ["Cardiac Surgeon", "Neurosurgeon", "Orthopedic Surgeon", "Plastic Surgeon", "General Surgeon", "Transplant Surgeon"],
+    salaryRange: "₹10-80 LPA",
+    skills: ["Surgical Techniques", "Medical Knowledge", "Precision", "Decision Making", "Emergency Response", "Leadership"],
+    workEnvironments: ["Operation Theaters", "Hospitals", "Trauma Centers", "Research Facilities", "Medical Colleges"],
+    futureScope: "Minimally invasive surgery, robotic surgery, organ transplantation advances, regenerative medicine"
+  },
+
+  {
+    id: "medical-researcher",
+    title: "Medical Researcher",
+    cluster: "Science - Medical",
+    description: "Medical Researchers conduct scientific studies to advance medical knowledge, develop new treatments, and improve healthcare outcomes through evidence-based research.",
+    opportunities: ["Research Institutes", "Pharmaceutical Companies", "Hospitals", "Government Labs", "Universities", "International Organizations"],
+    path: "Class 12 Science (PCB) → MBBS/B.Sc. Life Sciences → MD/Ph.D. → Postdoc → Research Scientist",
+    courses: ["MBBS", "B.Sc. Life Sciences", "M.Sc. Medical Research", "Ph.D. Medical Sciences", "Clinical Research"],
+    colleges: [
+      { name: "AIIMS Delhi", cutoff: "NEET/Research Entrance", fees: "₹5,500/year", location: "Delhi" },
+      { name: "Indian Institute of Science", cutoff: "KVPY/GATE", fees: "₹25K/year", location: "Bangalore" },
+      { name: "Tata Memorial Centre", cutoff: "Research Entrance", fees: "₹50K/year", location: "Mumbai" },
+      { name: "PGIMER Chandigarh", cutoff: "NEET PG", fees: "₹40K/year", location: "Chandigarh" }
+    ],
+    careers: ["Clinical Research Associate", "Biomedical Researcher", "Epidemiologist", "Drug Development Scientist", "Research Director"],
+    salaryRange: "₹5-35 LPA",
+    skills: ["Research Methodology", "Statistical Analysis", "Medical Writing", "Data Analysis", "Laboratory Techniques", "Critical Thinking"],
+    workEnvironments: ["Research Labs", "Clinical Trial Centers", "Pharmaceutical Companies", "Universities", "Government Institutes"],
+    futureScope: "Personalized medicine, gene therapy research, vaccine development, AI in medical research, global health initiatives"
+  },
+
+  {
+    id: "pharmacist",
+    title: "Pharmacist",
+    cluster: "Science - Medical",
+    description: "Pharmacists dispense medications, provide drug information, ensure medication safety, and work with healthcare teams to optimize patient care and treatment outcomes.",
+    opportunities: ["Hospitals", "Retail Pharmacy", "Pharmaceutical Industry", "Clinical Research", "Government", "Academia"],
+    path: "Class 12 Science (PCB) → GPAT → B.Pharmacy → M.Pharmacy → Pharmacist License → Practice/Industry",
+    courses: ["B.Pharmacy", "Pharm.D", "M.Pharmacy", "Clinical Pharmacy", "Industrial Pharmacy"],
+    colleges: [
+      { name: "National Institute of Pharmaceutical Education", cutoff: "GPAT Rank < 100", fees: "₹2L/year", location: "Mohali" },
+      { name: "Jamia Hamdard", cutoff: "GPAT Rank < 500", fees: "₹1.5L/year", location: "Delhi" },
+      { name: "Manipal College of Pharmaceutical Sciences", cutoff: "GPAT/MET", fees: "₹3L/year", location: "Manipal" },
+      { name: "L.M. College of Pharmacy", cutoff: "Gujarat CET", fees: "₹80K/year", location: "Ahmedabad" }
+    ],
+    careers: ["Clinical Pharmacist", "Hospital Pharmacist", "Industrial Pharmacist", "Regulatory Affairs", "Drug Inspector", "Research Associate"],
+    salaryRange: "₹3-20 LPA",
+    skills: ["Pharmacology", "Drug Interaction", "Patient Counseling", "Medication Management", "Quality Control", "Regulatory Knowledge"],
+    workEnvironments: ["Hospitals", "Retail Pharmacies", "Pharmaceutical Companies", "Research Labs", "Regulatory Bodies"],
+    futureScope: "Clinical pharmacy expansion, telepharmacy, personalized medicine, pharmaceutical care, drug development"
+  },
+
+  {
+    id: "geneticist",
+    title: "Geneticist",
+    cluster: "Science - Medical",
+    description: "Geneticists study genes, heredity, and genetic variation in living organisms. They work on genetic research, testing, counseling, and developing gene-based therapies.",
+    opportunities: ["Research Institutes", "Hospitals", "Diagnostic Labs", "Pharmaceutical Companies", "Biotechnology", "Government Labs"],
+    path: "Class 12 Science (PCB) → B.Sc. Genetics/Life Sciences → M.Sc. Genetics → Ph.D. → Research/Clinical Practice",
+    courses: ["B.Sc. Genetics", "M.Sc. Human Genetics", "Ph.D. Genetics", "Genetic Counseling", "Molecular Biology"],
+    colleges: [
+      { name: "Indian Institute of Science", cutoff: "KVPY/GATE", fees: "₹25K/year", location: "Bangalore" },
+      { name: "Jawaharlal Nehru University", cutoff: "JNU Entrance", fees: "₹5K/year", location: "Delhi" },
+      { name: "University of Delhi", cutoff: "DU Entrance", fees: "₹15K/year", location: "Delhi" },
+      { name: "Banaras Hindu University", cutoff: "BHU PET", fees: "₹20K/year", location: "Varanasi" }
+    ],
+    careers: ["Clinical Geneticist", "Genetic Counselor", "Research Scientist", "Molecular Biologist", "Bioinformatician", "Lab Director"],
+    salaryRange: "₹4-30 LPA",
+    skills: ["Molecular Biology", "Genetic Analysis", "Bioinformatics", "Laboratory Techniques", "Data Analysis", "Patient Counseling"],
+    workEnvironments: ["Research Labs", "Genetic Testing Labs", "Hospitals", "Universities", "Biotechnology Companies"],
+    futureScope: "Gene therapy advancement, CRISPR technology, personalized medicine, genetic testing expansion, rare disease research"
+  },
+
+  // RESEARCH SCIENCES
+  {
+    id: "research-scientist",
+    title: "Research Scientist",
+    cluster: "Science - Research",
+    description: "Research Scientists conduct scientific research to advance knowledge in their field, develop new technologies, and solve complex problems through systematic investigation and experimentation.",
+    opportunities: ["Research Institutes", "Universities", "Government Labs", "Private R&D", "International Organizations", "Think Tanks"],
+    path: "Class 12 Science → B.Sc./B.Tech → M.Sc./M.Tech → Ph.D. → Postdoc → Research Scientist",
+    courses: ["B.Sc. (Physics/Chemistry/Biology)", "M.Sc.", "Ph.D.", "Research Methodology", "Specialized Certifications"],
+    colleges: [
+      { name: "Indian Institute of Science", cutoff: "KVPY/GATE", fees: "₹25K/year", location: "Bangalore" },
+      { name: "Tata Institute of Fundamental Research", cutoff: "TIFR Entrance", fees: "Stipend Provided", location: "Mumbai" },
+      { name: "Indian Institute of Science Education", cutoff: "KVPY/JEE Advanced", fees: "₹50K/year", location: "Multiple" },
+      { name: "Jawaharlal Nehru University", cutoff: "JNU Entrance", fees: "₹5K/year", location: "Delhi" }
+    ],
+    careers: ["Principal Scientist", "Research Director", "Laboratory Head", "Scientific Advisor", "Innovation Manager", "Patent Researcher"],
+    salaryRange: "₹4-25 LPA",
+    skills: ["Research Methodology", "Data Analysis", "Scientific Writing", "Grant Writing", "Laboratory Management", "Critical Thinking"],
+    workEnvironments: ["Research Labs", "Universities", "Government Institutes", "R&D Centers", "Field Research Sites"],
+    futureScope: "Interdisciplinary research growth, AI-assisted research, global collaboration, innovation-driven economy, emerging technologies"
+  },
+
+  {
+    id: "biotechnologist",
+    title: "Biotechnologist",
+    cluster: "Science - Research",
+    description: "Biotechnologists use biological systems, living organisms, or derivatives to develop products and technologies that improve lives and the health of our planet.",
+    opportunities: ["Biotechnology Companies", "Pharmaceutical Industry", "Research Institutes", "Food Industry", "Environmental Companies", "Agriculture"],
+    path: "Class 12 Science (PCB) → B.Tech Biotechnology → M.Tech/M.Sc. → Ph.D. (optional) → Industry/Research",
+    courses: ["B.Tech Biotechnology", "M.Sc. Biotechnology", "M.Tech Bioprocess Engineering", "Ph.D. Biotechnology"],
+    colleges: [
+      { name: "IIT Roorkee", cutoff: "JEE Advanced Rank < 1500", fees: "₹2.5L/year", location: "Roorkee" },
+      { name: "Anna University", cutoff: "TNEA Rank < 2000", fees: "₹80K/year", location: "Chennai" },
+      { name: "Amity University", cutoff: "JEE Main + Amity Test", fees: "₹3L/year", location: "Noida" },
+      { name: "VIT University", cutoff: "VITEEE Rank < 10000", fees: "₹2.5L/year", location: "Vellore" }
+    ],
+    careers: ["Bioprocess Engineer", "Quality Control Analyst", "Product Development Scientist", "Research Associate", "Regulatory Affairs"],
+    salaryRange: "₹3-25 LPA",
+    skills: ["Molecular Biology", "Bioprocess Engineering", "Quality Control", "Product Development", "Regulatory Affairs", "Data Analysis"],
+    workEnvironments: ["Biotechnology Companies", "Research Labs", "Manufacturing Plants", "Quality Control Labs", "Field Sites"],
+    futureScope: "Biopharmaceuticals growth, sustainable biotechnology, personalized medicine, agricultural biotechnology, environmental solutions"
+  },
+
+  {
+    id: "laboratory-technician",
+    title: "Laboratory Technician",
+    cluster: "Science - Research",
+    description: "Laboratory Technicians perform routine laboratory tests and procedures, maintain equipment, and support scientific research and diagnostic activities in various laboratory settings.",
+    opportunities: ["Medical Labs", "Research Institutes", "Pharmaceutical Companies", "Food Testing", "Environmental Labs", "Quality Control"],
+    path: "Class 12 Science → B.Sc./Diploma Lab Technology → Certification → Junior Technician → Senior Technician",
+    courses: ["B.Sc. Medical Laboratory Technology", "Diploma in Medical Lab Technology", "B.Sc. Life Sciences", "Specialized Certifications"],
+    colleges: [
+      { name: "All India Institute of Medical Sciences", cutoff: "AIIMS BSc Nursing", fees: "₹5,500/year", location: "Delhi" },
+      { name: "Christian Medical College", cutoff: "CMC Entrance", fees: "₹80K/year", location: "Vellore" },
+      { name: "Manipal Academy of Higher Education", cutoff: "MET", fees: "₹2.5L/year", location: "Manipal" },
+      { name: "Jamia Hamdard", cutoff: "University Entrance", fees: "₹1L/year", location: "Delhi" }
+    ],
+    careers: ["Medical Lab Technician", "Research Technician", "Quality Control Technician", "Pathology Technician", "Clinical Lab Scientist"],
+    salaryRange: "₹2-12 LPA",
+    skills: ["Laboratory Techniques", "Equipment Operation", "Quality Control", "Data Recording", "Safety Protocols", "Analytical Skills"],
+    workEnvironments: ["Medical Labs", "Research Labs", "Hospitals", "Pharmaceutical Companies", "Quality Control Labs"],
+    futureScope: "Automated laboratory systems, molecular diagnostics, point-of-care testing, digital lab management, specialized testing"
+  },
+
+  {
+    id: "marine-biologist",
+    title: "Marine Biologist",
+    cluster: "Science - Research",
+    description: "Marine Biologists study life in oceans and other saltwater environments. They research marine organisms, ecosystems, and the impact of human activities on marine life.",
+    opportunities: ["Research Institutes", "Marine Parks", "Government Agencies", "Environmental Consulting", "Aquaculture", "Conservation Organizations"],
+    path: "Class 12 Science (PCB) → B.Sc. Marine Biology → M.Sc. Marine Biology → Ph.D. → Research/Conservation Work",
+    courses: ["B.Sc. Marine Biology", "M.Sc. Marine Sciences", "Ph.D. Marine Biology", "Oceanography", "Aquaculture"],
+    colleges: [
+      { name: "Cochin University of Science and Technology", cutoff: "Kerala CEE", fees: "₹15K/year", location: "Kochi" },
+      { name: "Annamalai University", cutoff: "University Entrance", fees: "₹25K/year", location: "Chidambaram" },
+      { name: "Goa University", cutoff: "Goa CET", fees: "₹20K/year", location: "Goa" },
+      { name: "Pondicherry University", cutoff: "PU CET", fees: "₹15K/year", location: "Puducherry" }
+    ],
+    careers: ["Marine Research Scientist", "Aquaculture Specialist", "Marine Conservation Officer", "Oceanographer", "Environmental Consultant"],
+    salaryRange: "₹3-18 LPA",
+    skills: ["Marine Biology", "Diving", "Data Collection", "Environmental Assessment", "GIS", "Scientific Writing"],
+    workEnvironments: ["Research Vessels", "Marine Labs", "Coastal Areas", "Aquariums", "Field Research Sites", "Government Offices"],
+    futureScope: "Marine conservation urgency, blue economy development, sustainable fisheries, marine biotechnology, climate change research"
+  },
+
+  {
+    id: "environmental-scientist",
+    title: "Environmental Scientist",
+    cluster: "Science - Research",
+    description: "Environmental Scientists study the environment and solve problems related to pollution, climate change, and natural resource conservation to protect human health and the environment.",
+    opportunities: ["Environmental Consulting", "Government Agencies", "Research Institutes", "NGOs", "Corporate Sustainability", "International Organizations"],
+    path: "Class 12 Science → B.Sc. Environmental Science → M.Sc. Environmental Science → Ph.D. → Research/Consulting",
+    courses: ["B.Sc. Environmental Science", "M.Sc. Environmental Science", "Environmental Engineering", "Climate Change Studies"],
+    colleges: [
+      { name: "The Energy and Resources Institute", cutoff: "TERI Entrance", fees: "₹3L/year", location: "Delhi" },
+      { name: "Jawaharlal Nehru University", cutoff: "JNU Entrance", fees: "₹5K/year", location: "Delhi" },
+      { name: "University of Delhi", cutoff: "DU Entrance", fees: "₹15K/year", location: "Delhi" },
+      { name: "Banaras Hindu University", cutoff: "BHU PET", fees: "₹20K/year", location: "Varanasi" }
+    ],
+    careers: ["Environmental Consultant", "Pollution Control Officer", "Sustainability Manager", "Climate Change Analyst", "Environmental Auditor"],
+    salaryRange: "₹3-20 LPA",
+    skills: ["Environmental Assessment", "Data Analysis", "GIS", "Environmental Law", "Project Management", "Scientific Writing"],
+    workEnvironments: ["Field Sites", "Consulting Firms", "Government Offices", "Research Labs", "Corporate Offices", "International Organizations"],
+    futureScope: "Climate change mitigation, renewable energy projects, sustainable development goals, environmental regulations, green technologies"
+  },
+
+  // TECHNOLOGY SPECIALIZATION
+  {
+    id: "ai-specialist",
+    title: "AI Specialist",
+    cluster: "Science - Technology",
+    description: "AI Specialists design and develop artificial intelligence systems, machine learning algorithms, and intelligent applications that can perform tasks typically requiring human intelligence.",
+    opportunities: ["Tech Companies", "Research Labs", "Startups", "Consulting", "Healthcare", "Finance", "Automotive"],
+    path: "Class 12 Science (PCM) → B.Tech CS/IT → AI/ML Specialization → Internships → AI Engineer → AI Specialist",
+    courses: ["B.Tech Computer Science", "M.Tech AI", "AI/ML Certification", "Deep Learning", "Natural Language Processing"],
+    colleges: [
+      { name: "IIT Delhi", cutoff: "JEE Advanced Rank < 100", fees: "₹2.5L/year", location: "Delhi" },
+      { name: "IIT Bombay", cutoff: "JEE Advanced Rank < 150", fees: "₹2.5L/year", location: "Mumbai" },
+      { name: "IISc Bangalore", cutoff: "KVPY/JEE Advanced", fees: "₹25K/year", location: "Bangalore" },
+      { name: "IIIT Hyderabad", cutoff: "JEE Main Rank < 500", fees: "₹3L/year", location: "Hyderabad" }
+    ],
+    careers: ["Machine Learning Engineer", "Deep Learning Engineer", "NLP Engineer", "Computer Vision Engineer", "AI Research Scientist"],
+    salaryRange: "₹10-60 LPA",
+    skills: ["Machine Learning", "Deep Learning", "Python/R", "TensorFlow/PyTorch", "Data Science", "Mathematics"],
+    workEnvironments: ["Tech Companies", "Research Labs", "Startups", "Remote Work", "AI Labs", "Corporate R&D"],
+    futureScope: "AI revolution across industries, generative AI, autonomous systems, AI ethics, quantum machine learning"
+  },
+
+  {
+    id: "cybersecurity-expert",
+    title: "Cybersecurity Expert",
+    cluster: "Science - Technology",
+    description: "Cybersecurity Experts protect organizations from digital threats by implementing security measures, monitoring for breaches, and responding to cyber attacks.",
+    opportunities: ["IT Companies", "Banks", "Government", "Consulting", "Healthcare", "Defense", "Startups"],
+    path: "Class 12 Science (PCM) → B.Tech CS/IT → Cybersecurity Certification → Security Analyst → Cybersecurity Expert",
+    courses: ["B.Tech Computer Science", "M.Tech Cybersecurity", "CISSP", "CEH", "CISM", "Information Security"],
+    colleges: [
+      { name: "IIT Kanpur", cutoff: "JEE Advanced Rank < 300", fees: "₹2.5L/year", location: "Kanpur" },
+      { name: "NIT Surathkal", cutoff: "JEE Main Rank < 2000", fees: "₹1.5L/year", location: "Mangalore" },
+      { name: "IIIT Hyderabad", cutoff: "JEE Main Rank < 1000", fees: "₹3L/year", location: "Hyderabad" },
+      { name: "Amity University", cutoff: "JEE Main + Amity Test", fees: "₹3L/year", location: "Noida" }
+    ],
+    careers: ["Security Analyst", "Penetration Tester", "Security Architect", "CISO", "Incident Response Specialist", "Security Consultant"],
+    salaryRange: "₹6-40 LPA",
+    skills: ["Network Security", "Ethical Hacking", "Risk Assessment", "Incident Response", "Security Tools", "Compliance"],
+    workEnvironments: ["Corporate IT Departments", "Security Consulting Firms", "Government Agencies", "SOC Centers", "Remote Work"],
+    futureScope: "Increasing cyber threats, cloud security, IoT security, AI-driven security, zero-trust architecture"
+  },
+
+  {
+    id: "computer-scientist",
+    title: "Computer Scientist",
+    cluster: "Science - Technology",
+    description: "Computer Scientists research and develop new computing technologies, algorithms, and systems. They work on fundamental problems in computation and create innovative solutions.",
+    opportunities: ["Research Institutes", "Tech Companies", "Universities", "Government Labs", "R&D Centers", "Startups"],
+    path: "Class 12 Science (PCM) → B.Tech CS → M.Tech/M.S. → Ph.D. → Research/Industry → Computer Scientist",
+    courses: ["B.Tech Computer Science", "M.Tech Computer Science", "Ph.D. Computer Science", "Algorithms", "Theory of Computation"],
+    colleges: [
+      { name: "IIT Bombay", cutoff: "JEE Advanced Rank < 50", fees: "₹2.5L/year", location: "Mumbai" },
+      { name: "IISc Bangalore", cutoff: "KVPY/JEE Advanced", fees: "₹25K/year", location: "Bangalore" },
+      { name: "IIT Delhi", cutoff: "JEE Advanced Rank < 100", fees: "₹2.5L/year", location: "Delhi" },
+      { name: "Chennai Mathematical Institute", cutoff: "CMI Entrance", fees: "₹4L/year", location: "Chennai" }
+    ],
+    careers: ["Research Scientist", "Algorithm Designer", "System Architect", "Technology Consultant", "Academic Researcher", "CTO"],
+    salaryRange: "₹8-50 LPA",
+    skills: ["Algorithms", "Data Structures", "Mathematical Analysis", "Programming", "Research Methodology", "System Design"],
+    workEnvironments: ["Research Labs", "Universities", "Tech Companies", "R&D Centers", "Innovation Labs", "Think Tanks"],
+    futureScope: "Quantum computing, AI advancement, distributed systems, computational theory, emerging technologies"
+  },
+
+  {
+    id: "space-scientist",
+    title: "Space Scientist",
+    cluster: "Science - Technology",
+    description: "Space Scientists study celestial bodies, space phenomena, and develop technologies for space exploration. They work on missions, satellites, and space research.",
+    opportunities: ["ISRO", "DRDO", "Research Institutes", "Space Agencies", "Aerospace Companies", "Universities"],
+    path: "Class 12 Science (PCM) → B.Tech/B.Sc. Physics → M.Tech/M.Sc. → Ph.D. → ISRO/Research → Space Scientist",
+    courses: ["B.Tech Aerospace", "B.Sc. Physics", "M.Tech Space Technology", "Ph.D. Space Sciences", "Astrophysics"],
+    colleges: [
+      { name: "Indian Institute of Space Science", cutoff: "IIST Entrance", fees: "Free", location: "Thiruvananthapuram" },
+      { name: "IIT Bombay", cutoff: "JEE Advanced Rank < 200", fees: "₹2.5L/year", location: "Mumbai" },
+      { name: "IISc Bangalore", cutoff: "KVPY/JAM", fees: "₹25K/year", location: "Bangalore" },
+      { name: "Physical Research Laboratory", cutoff: "JEST/NET", fees: "Stipend Provided", location: "Ahmedabad" }
+    ],
+    careers: ["Mission Scientist", "Satellite Engineer", "Astrophysicist", "Mission Planning Engineer", "Space Applications Scientist"],
+    salaryRange: "₹6-30 LPA",
+    skills: ["Space Sciences", "Satellite Technology", "Mission Planning", "Data Analysis", "Programming", "Physics"],
+    workEnvironments: ["ISRO Centers", "Space Research Labs", "Mission Control Centers", "Universities", "Observatories"],
+    futureScope: "Mars missions, lunar exploration, commercial space industry, satellite constellations, space tourism"
+  },
+
+  // SPECIALIZED SCIENCES
+  {
+    id: "merchant-navy-officer",
+    title: "Merchant Navy Officer",
+    cluster: "Science - Specialized",
+    description: "Merchant Navy Officers operate commercial ships, manage cargo transportation, and ensure safe navigation across international waters for global trade and commerce.",
+    opportunities: ["Shipping Companies", "Cargo Vessels", "Cruise Lines", "Oil Tankers", "Container Ships", "Port Operations"],
+    path: "Class 12 Science (PCM) → IMU CET → B.Tech Marine Engineering/Nautical Science → Sea Training → Officer License",
+    courses: ["B.Tech Marine Engineering", "B.Sc. Nautical Science", "Maritime Studies", "Ship Management"],
+    colleges: [
+      { name: "Indian Maritime University", cutoff: "IMU CET", fees: "₹1.5L/year", location: "Chennai" },
+      { name: "TOLANI Maritime Institute", cutoff: "IMU CET", fees: "₹3L/year", location: "Pune" },
+      { name: "Samundra Institute of Maritime Studies", cutoff: "IMU CET", fees: "₹4L/year", location: "Mumbai" },
+      { name: "Marine Engineering & Research Institute", cutoff: "IMU CET", fees: "₹2L/year", location: "Kolkata" }
+    ],
+    careers: ["Ship Captain", "Marine Engineer", "Port Officer", "Ship Surveyor", "Marine Superintendent", "Fleet Manager"],
+    salaryRange: "₹8-50 LPA",
+    skills: ["Navigation", "Marine Engineering", "Ship Operations", "Safety Management", "Leadership", "Communication"],
+    workEnvironments: ["Ships", "Ports", "Maritime Offices", "International Waters", "Shipping Companies", "Coast Guard"],
+    futureScope: "Global trade growth, sustainable shipping, automation in maritime, offshore energy, maritime security"
+  },
+
+  {
+    id: "astronaut",
+    title: "Astronaut",
+    cluster: "Science - Specialized",
+    description: "Astronauts travel to space to conduct scientific experiments, maintain spacecraft, and advance human space exploration through missions to space stations and celestial bodies.",
+    opportunities: ["ISRO", "International Space Agencies", "Private Space Companies", "Space Research", "Mission Control", "Space Training"],
+    path: "Class 12 Science (PCM) → B.Tech/B.Sc. → M.Tech/Ph.D. → Test Pilot/Research → ISRO Selection → Astronaut Training",
+    courses: ["B.Tech Aerospace", "B.Sc. Physics", "Test Pilot Training", "Space Sciences", "Life Sciences"],
+    colleges: [
+      { name: "Indian Institute of Space Science", cutoff: "IIST Entrance", fees: "Free", location: "Thiruvananthapuram" },
+      { name: "Indian Air Force Academy", cutoff: "NDA/CDS", fees: "Sponsored", location: "Hyderabad" },
+      { name: "IIT Bombay", cutoff: "JEE Advanced Rank < 100", fees: "₹2.5L/year", location: "Mumbai" },
+      { name: "IISc Bangalore", cutoff: "KVPY/JEE Advanced", fees: "₹25K/year", location: "Bangalore" }
+    ],
+    careers: ["Mission Specialist", "Pilot Astronaut", "Flight Engineer", "Space Station Commander", "Mission Commander"],
+    salaryRange: "₹15-50 LPA",
+    skills: ["Space Sciences", "Physical Fitness", "Problem Solving", "Teamwork", "Technical Skills", "Emergency Response"],
+    workEnvironments: ["Space Stations", "Spacecraft", "Training Centers", "Mission Control", "Research Facilities"],
+    futureScope: "Human Mars missions, lunar base development, commercial space travel, international space cooperation"
+  },
+
+  {
+    id: "nuclear-engineer",
+    title: "Nuclear Engineer",
+    cluster: "Science - Specialized",
+    description: "Nuclear Engineers design and operate nuclear power plants, develop nuclear technologies, and work on applications of nuclear energy for power generation and medical uses.",
+    opportunities: ["Nuclear Power Plants", "BARC", "NPCIL", "Research Institutes", "Medical Applications", "Defense"],
+    path: "Class 12 Science (PCM) → B.Tech Nuclear Engineering → Training → M.Tech → BARC/NPCIL → Nuclear Engineer",
+    courses: ["B.Tech Nuclear Engineering", "M.Tech Nuclear Engineering", "Nuclear Science", "Radiation Safety"],
+    colleges: [
+      { name: "IIT Kanpur", cutoff: "JEE Advanced Rank < 500", fees: "₹2.5L/year", location: "Kanpur" },
+      { name: "Homi Bhabha National Institute", cutoff: "HBNI Entrance", fees: "₹50K/year", location: "Mumbai" },
+      { name: "Amity University", cutoff: "JEE Main + Amity", fees: "₹3L/year", location: "Noida" },
+      { name: "University of Delhi", cutoff: "DU Entrance", fees: "₹15K/year", location: "Delhi" }
+    ],
+    careers: ["Nuclear Plant Engineer", "Radiation Safety Officer", "Nuclear Research Scientist", "Reactor Operator", "Nuclear Consultant"],
+    salaryRange: "₹6-35 LPA",
+    skills: ["Nuclear Physics", "Radiation Safety", "Plant Operations", "Safety Protocols", "Problem Solving", "Technical Analysis"],
+    workEnvironments: ["Nuclear Power Plants", "Research Labs", "BARC Centers", "Medical Facilities", "Government Agencies"],
+    futureScope: "Clean energy focus, advanced reactor designs, nuclear medicine growth, waste management, international cooperation"
+  },
+
+  {
+    id: "meteorologist",
+    title: "Meteorologist",
+    cluster: "Science - Specialized",
+    description: "Meteorologists study weather patterns, climate change, and atmospheric phenomena to forecast weather conditions and understand climate systems for various applications.",
+    opportunities: ["India Meteorological Department", "Research Institutes", "Media", "Aviation", "Agriculture", "Disaster Management"],
+    path: "Class 12 Science (PCM) → B.Sc. Physics/Mathematics → M.Sc. Meteorology → IMD Exam → Meteorologist",
+    courses: ["B.Sc. Physics", "M.Sc. Meteorology", "Atmospheric Sciences", "Climate Studies", "Environmental Science"],
+    colleges: [
+      { name: "Pune University", cutoff: "Maharashtra CET", fees: "₹25K/year", location: "Pune" },
+      { name: "Andhra University", cutoff: "APECET", fees: "₹20K/year", location: "Visakhapatnam" },
+      { name: "Cochin University of Science Technology", cutoff: "Kerala CEE", fees: "₹15K/year", location: "Kochi" },
+      { name: "IIT Delhi", cutoff: "JEE Advanced", fees: "₹2.5L/year", location: "Delhi" }
+    ],
+    careers: ["Weather Forecaster", "Climate Researcher", "Atmospheric Scientist", "Environmental Consultant", "TV Weather Presenter"],
+    salaryRange: "₹4-20 LPA",
+    skills: ["Atmospheric Physics", "Data Analysis", "Weather Modeling", "Computer Programming", "Communication", "Research"],
+    workEnvironments: ["Weather Stations", "Research Centers", "Media Houses", "Government Offices", "Field Locations"],
+    futureScope: "Climate change research, extreme weather prediction, agricultural meteorology, renewable energy forecasting, disaster preparedness"
+  },
+
+  {
+    id: "chemist",
+    title: "Chemist",
+    cluster: "Science - Specialized",
+    description: "Chemists study the composition, structure, properties, and reactions of matter. They develop new materials, medicines, and chemical processes for various industries.",
+    opportunities: ["Pharmaceutical Companies", "Chemical Industries", "Research Labs", "Quality Control", "Government Labs", "Academia"],
+    path: "Class 12 Science (PCM/PCB) → B.Sc. Chemistry → M.Sc. Chemistry → Ph.D. → Research/Industry → Chemist",
+    courses: ["B.Sc. Chemistry", "M.Sc. Chemistry", "Ph.D. Chemistry", "Industrial Chemistry", "Analytical Chemistry"],
+    colleges: [
+      { name: "Indian Institute of Science", cutoff: "KVPY/JAM", fees: "₹25K/year", location: "Bangalore" },
+      { name: "University of Delhi", cutoff: "DU Entrance", fees: "₹15K/year", location: "Delhi" },
+      { name: "Jadavpur University", cutoff: "WBJEE", fees: "₹5K/year", location: "Kolkata" },
+      { name: "Banaras Hindu University", cutoff: "BHU PET", fees: "₹20K/year", location: "Varanasi" }
+    ],
+    careers: ["Research Chemist", "Analytical Chemist", "Quality Control Chemist", "Process Chemist", "Materials Scientist", "Chemical Engineer"],
+    salaryRange: "₹3-25 LPA",
+    skills: ["Chemical Analysis", "Laboratory Techniques", "Research Methods", "Data Analysis", "Safety Protocols", "Scientific Writing"],
+    workEnvironments: ["Research Labs", "Chemical Plants", "Quality Control Labs", "Universities", "Pharmaceutical Companies"],
+    futureScope: "Green chemistry, nanotechnology, pharmaceutical development, materials science, sustainable chemistry, drug discovery"
+  },
+
   // COMMERCE CLUSTER
   {
     id: "chartered-accountant",
