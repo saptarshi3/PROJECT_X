@@ -77,55 +77,55 @@ export const scienceStreamQuizData: QuizQuestion[] = [
   {
     question: "Which subject excites you the most?",
     options: [
-      { text: "Physics & Math – Logic & problem-solving → Engineer, Pilot, Data Scientist", stream: "Science" },
-      { text: "Chemistry & Biology – Life & matter → Doctor, Marine Biologist, Geneticist", stream: "Science" },
-      { text: "Computer Science – Coding & AI → AI Specialist, Software Engineer", stream: "Science" },
-      { text: "Environmental Science – Nature & sustainability → Environmental Scientist, Robotics Engineer", stream: "Science" }
+      { text: "Physics & Math – Logic & problem-solving", stream: "Science" },
+      { text: "Chemistry & Biology – Life & matter", stream: "Science" },
+      { text: "Computer Science – Coding & AI", stream: "Science" },
+      { text: "Environmental Science – Nature & sustainability", stream: "Science" }
     ],
   },
   {
     question: "What activity excites you most in daily life?",
     options: [
-      { text: "Conducting experiments → Research Scientist, Chemist", stream: "Science" },
-      { text: "Solving puzzles or algorithms → Data Scientist, Software Engineer", stream: "Science" },
-      { text: "Flying drones or simulations → Pilot, Astronaut", stream: "Science" },
-      { text: "Exploring oceans/labs → Marine Biologist, Environmental Scientist", stream: "Science" }
+      { text: "Conducting experiments", stream: "Science" },
+      { text: "Solving puzzles or algorithms", stream: "Science" },
+      { text: "Flying drones or simulations", stream: "Science" },
+      { text: "Exploring oceans/labs", stream: "Science" }
     ],
   },
   {
     question: "What kind of work environment suits you best?",
     options: [
-      { text: "Lab or research institute → Research Scientist, Doctor", stream: "Science" },
-      { text: "Tech company/startup → Software Engineer, AI Specialist", stream: "Science" },
-      { text: "Air/sea operations → Pilot, Merchant Navy", stream: "Science" },
-      { text: "Field & nature → Environmental Scientist, Marine Biologist", stream: "Science" }
+      { text: "Lab or research institute", stream: "Science" },
+      { text: "Tech company/startup", stream: "Science" },
+      { text: "Air/sea operations", stream: "Science" },
+      { text: "Field & nature", stream: "Science" }
     ],
   },
   {
     question: "Which factor matters most in choosing a career?",
     options: [
-      { text: "Innovation & discovery → Research Scientist, AI Specialist", stream: "Science" },
-      { text: "Helping people → Doctor, Geneticist", stream: "Science" },
-      { text: "Leadership & responsibility → Pilot, Merchant Navy", stream: "Science" },
-      { text: "Adventure & exploration → Astronaut, Marine Biologist", stream: "Science" }
+      { text: "Innovation & discovery", stream: "Science" },
+      { text: "Helping people", stream: "Science" },
+      { text: "Leadership & responsibility", stream: "Science" },
+      { text: "Adventure & exploration", stream: "Science" }
     ],
   },
   {
     question: "What describes your problem-solving style?",
     options: [
-      { text: "Analytical & logical → Software Engineer, Data Scientist", stream: "Science" },
-      { text: "Hands-on experimentation → Chemist, Geneticist", stream: "Science" },
-      { text: "Creative tech solutions → Robotics Engineer, AI Specialist", stream: "Science" },
-      { text: "Strategic & operational → Pilot, Merchant Navy", stream: "Science" }
+      { text: "Analytical & logical", stream: "Science" },
+      { text: "Hands-on experimentation", stream: "Science" },
+      { text: "Creative tech solutions", stream: "Science" },
+      { text: "Strategic & operational", stream: "Science" }
     ],
   },
   {
     question: "Your dream profession is?",
     options: [
-      { text: "Doctor → Doctor, Surgeon", stream: "Science" },
-      { text: "Engineer → Software Engineer, Mechanical Engineer", stream: "Science" },
-      { text: "Explorer → Pilot, Astronaut, Marine Biologist", stream: "Science" },
-      { text: "Tech Innovator → AI Specialist, Robotics Engineer", stream: "Science" }
+      { text: "Doctor", stream: "Science" },
+      { text: "Engineer", stream: "Science" },
+      { text: "Explorer", stream: "Science" },
+      { text: "Tech Innovator", stream: "Science" }
     ],
   }
 ];
@@ -135,55 +135,55 @@ export const commerceStreamQuizData: QuizQuestion[] = [
   {
     question: "Which subject do you enjoy the most?",
     options: [
-      { text: "Accounts & Economics → CA, Financial Analyst", stream: "Commerce" },
-      { text: "Business Studies → Entrepreneur, Business Manager", stream: "Commerce" },
-      { text: "Marketing & Strategy → Digital Marketer, Marketing Manager", stream: "Commerce" },
-      { text: "Maths & Data Analysis → Investment Banker, Economist", stream: "Commerce" }
+      { text: "Accounts & Economics", stream: "Commerce" },
+      { text: "Business Studies", stream: "Commerce" },
+      { text: "Marketing & Strategy", stream: "Commerce" },
+      { text: "Maths & Data Analysis", stream: "Commerce" }
     ],
   },
   {
     question: "Your ideal work activity?",
     options: [
-      { text: "Managing finances → CA, Financial Analyst", stream: "Commerce" },
-      { text: "Running a company → Entrepreneur, Business Manager", stream: "Commerce" },
-      { text: "Research & planning → Economist, Policy Analyst", stream: "Commerce" },
-      { text: "Creative campaigns → Digital Marketer, Marketing Manager", stream: "Commerce" }
+      { text: "Managing finances", stream: "Commerce" },
+      { text: "Running a company", stream: "Commerce" },
+      { text: "Research & planning", stream: "Commerce" },
+      { text: "Creative campaigns", stream: "Commerce" }
     ],
   },
   {
     question: "What motivates you most in a career?",
     options: [
-      { text: "High income → Investment Banker, CA", stream: "Commerce" },
-      { text: "Leadership → Entrepreneur, Business Manager", stream: "Commerce" },
-      { text: "Strategic impact → Economist, Policy Analyst", stream: "Commerce" },
-      { text: "Creativity → Marketing Manager, Digital Marketer", stream: "Commerce" }
+      { text: "High income", stream: "Commerce" },
+      { text: "Leadership", stream: "Commerce" },
+      { text: "Strategic impact", stream: "Commerce" },
+      { text: "Creativity", stream: "Commerce" }
     ],
   },
   {
     question: "Preferred work environment?",
     options: [
-      { text: "Corporate office → CA, Investment Banker", stream: "Commerce" },
-      { text: "Startup → Entrepreneur, Business Manager", stream: "Commerce" },
-      { text: "Research institute → Economist, Policy Analyst", stream: "Commerce" },
-      { text: "Creative agency → Digital Marketer, Marketing Manager", stream: "Commerce" }
+      { text: "Corporate office", stream: "Commerce" },
+      { text: "Startup", stream: "Commerce" },
+      { text: "Research institute", stream: "Commerce" },
+      { text: "Creative agency", stream: "Commerce" }
     ],
   },
   {
     question: "How do you approach challenges?",
     options: [
-      { text: "Analytical → CA, Financial Analyst", stream: "Commerce" },
-      { text: "Risk-taking → Entrepreneur", stream: "Commerce" },
-      { text: "Strategy-driven → Economist, Policy Analyst", stream: "Commerce" },
-      { text: "Innovative & creative → Marketing Manager, Digital Marketer", stream: "Commerce" }
+      { text: "Analytical", stream: "Commerce" },
+      { text: "Risk-taking", stream: "Commerce" },
+      { text: "Strategy-driven", stream: "Commerce" },
+      { text: "Innovative & creative", stream: "Commerce" }
     ],
   },
   {
     question: "Dream career path?",
     options: [
-      { text: "Finance & Accounts → CA, Investment Banker", stream: "Commerce" },
-      { text: "Business Leadership → Entrepreneur, Business Manager", stream: "Commerce" },
-      { text: "Policy & Governance → Economist, Policy Analyst", stream: "Commerce" },
-      { text: "Marketing & Branding → Marketing Manager, Digital Marketer", stream: "Commerce" }
+      { text: "Finance & Accounts", stream: "Commerce" },
+      { text: "Business Leadership", stream: "Commerce" },
+      { text: "Policy & Governance", stream: "Commerce" },
+      { text: "Marketing & Branding", stream: "Commerce" }
     ],
   }
 ];
@@ -193,55 +193,55 @@ export const artsStreamQuizData: QuizQuestion[] = [
   {
     question: "Which subject excites you the most?",
     options: [
-      { text: "History & Political Science → IAS, IPS, Lawyer", stream: "Arts" },
-      { text: "Literature & English → Teacher, Journalist, Writer", stream: "Arts" },
-      { text: "Fine Arts & Music → Designer, Filmmaker, Musician", stream: "Creative" },
-      { text: "Tourism & Hospitality → Hotel Management, Chef, Tourism Professional", stream: "Vocational" }
+      { text: "History & Political Science", stream: "Arts" },
+      { text: "Literature & English", stream: "Arts" },
+      { text: "Fine Arts & Music", stream: "Creative" },
+      { text: "Tourism & Hospitality", stream: "Vocational" }
     ],
   },
   {
     question: "Which activity excites you most?",
     options: [
-      { text: "Debates & Public Speaking → IAS, IPS, Lawyer", stream: "Arts" },
-      { text: "Writing & storytelling → Journalist, Writer", stream: "Arts" },
-      { text: "Creating art/design → Designer, Filmmaker, Musician", stream: "Creative" },
-      { text: "Planning events → Hotel Manager, Tourism Professional", stream: "Vocational" }
+      { text: "Debates & Public Speaking", stream: "Arts" },
+      { text: "Writing & storytelling", stream: "Arts" },
+      { text: "Creating art/design", stream: "Creative" },
+      { text: "Planning events", stream: "Vocational" }
     ],
   },
   {
     question: "What motivates you in a career?",
     options: [
-      { text: "Societal impact → IAS, IPS, Social Worker", stream: "Arts" },
-      { text: "Creativity → Designer, Filmmaker, Musician", stream: "Creative" },
-      { text: "Knowledge & teaching → Teacher, Journalist", stream: "Arts" },
-      { text: "Service & hospitality → Hotel Management, Tourism Professional", stream: "Vocational" }
+      { text: "Societal impact", stream: "Arts" },
+      { text: "Creativity", stream: "Creative" },
+      { text: "Knowledge & teaching", stream: "Arts" },
+      { text: "Service & hospitality", stream: "Vocational" }
     ],
   },
   {
     question: "Preferred work environment?",
     options: [
-      { text: "Government/Public Office → IAS, IPS", stream: "Arts" },
-      { text: "Studio/Creative agency → Filmmaker, Designer, Musician", stream: "Creative" },
-      { text: "Classroom → Teacher", stream: "Arts" },
-      { text: "Hotels & tourism → Hotel Management, Tourism Professional", stream: "Vocational" }
+      { text: "Government/Public Office", stream: "Arts" },
+      { text: "Studio/Creative agency", stream: "Creative" },
+      { text: "Classroom", stream: "Arts" },
+      { text: "Hotels & tourism", stream: "Vocational" }
     ],
   },
   {
     question: "Problem-solving style?",
     options: [
-      { text: "Logical & strategic → IAS, IPS, Lawyer", stream: "Arts" },
-      { text: "Creative & expressive → Designer, Filmmaker, Musician", stream: "Creative" },
-      { text: "Analytical & research-based → Teacher, Journalist", stream: "Arts" },
-      { text: "Operational & service-oriented → Hotel Management, Tourism Professional", stream: "Vocational" }
+      { text: "Logical & strategic", stream: "Arts" },
+      { text: "Creative & expressive", stream: "Creative" },
+      { text: "Analytical & research-based", stream: "Arts" },
+      { text: "Operational & service-oriented", stream: "Vocational" }
     ],
   },
   {
     question: "Dream career?",
     options: [
-      { text: "Civil Services → IAS, IPS", stream: "Arts" },
-      { text: "Media & Writing → Journalist, Writer", stream: "Arts" },
-      { text: "Arts & Entertainment → Designer, Filmmaker, Musician", stream: "Creative" },
-      { text: "Hospitality → Hotel Manager, Chef, Tourism Professional", stream: "Vocational" }
+      { text: "Civil Services", stream: "Arts" },
+      { text: "Media & Writing", stream: "Arts" },
+      { text: "Arts & Entertainment", stream: "Creative" },
+      { text: "Hospitality", stream: "Vocational" }
     ],
   }
 ];
