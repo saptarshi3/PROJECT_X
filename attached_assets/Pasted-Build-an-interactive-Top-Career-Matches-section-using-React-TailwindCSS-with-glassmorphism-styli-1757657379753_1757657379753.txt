@@ -1,0 +1,50 @@
+Build an interactive "Top Career Matches" section using React + TailwindCSS with glassmorphism styling.
+
+Requirements:
+1. Display all career clusters (Science, Commerce, Arts, Creative, Social, Vocational, Legacy) as **clickable career cards** in a grid.
+   - Each card should show the career name and cluster.
+   - Cards should have glassmorphism effect: semi-transparent background, blurred backdrop, soft glow, rounded-xl, and hover animation (slight scale-up + shadow).
+
+2. On clicking any career card:
+   - Open a **beautiful modal (glassmorphic popup)** with smooth animation (fade + scale).
+   - The modal should display detailed info about that career:
+     - **Description**
+     - **Future Opportunities**
+     - **Path to Follow**
+     - **Courses to Take**
+     - **Top Colleges with cutoffs & fees** (example data can be shown as a table)
+     - **Career Opportunities**
+   - Modal should have a close button (X) at the top-right and a blurred background overlay.
+
+3. Keep the design **sexy, modern, and minimal**:
+   - Use Tailwind for glassmorphism:
+     - `bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl`
+   - Add hover animations using Framer Motion or Tailwind transitions.
+   - Cards should look premium (rounded-2xl, glowing edges on hover).
+
+4. Organize data:
+   - Store all careers and their details in a JSON file or JS object.
+   - Example:
+     ```js
+     {
+       title: "Research Scientist",
+       cluster: "Science - Research",
+       description: "Research Scientists conduct experiments...",
+       opportunities: ["Academia", "Pharma", "Space Research"],
+       path: "Class 12 Science → B.Sc → M.Sc/PhD",
+       courses: ["B.Sc Physics", "M.Sc Biotech"],
+       colleges: [
+         { name: "IIT Bombay", cutoff: "98%", fees: "₹2L/year" },
+         { name: "IISc Bangalore", cutoff: "95%", fees: "₹1.8L/year" }
+       ],
+       careers: ["Research Fellow", "Lab Scientist", "Professor"]
+     }
+     ```
+
+5. Make sure:
+   - All clusters and careers from the provided list are included.
+   - User can scroll through modal if content is long.
+   - Responsive design for mobile & desktop.
+
+Deliverable:
+A React + Tailwind app with clickable glassmorphic cards for each career, where clicking opens a detailed modal showing description, future scope, courses, colleges with cutoffs/fees, and opportunities.
