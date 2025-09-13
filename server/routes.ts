@@ -308,14 +308,8 @@ export async function registerRoutes(app: Express): Promise<void> {
           const chosenStream = streamMapping[stream] || "science";
           const careerAnalysis = getCareerSuggestions(subjectMarks, answerTexts, chosenStream);
           
-          // Get AI recommendation
+          // Skip AI recommendation for faster response
           let aiRecommendation = '';
-          try {
-            aiRecommendation = await getCareerRecommendation(answers);
-          } catch (error) {
-            console.error('AI recommendation error:', error);
-            aiRecommendation = '';
-          }
           
           resultData = {
             finalScore: careerAnalysis.finalScore,
@@ -350,8 +344,8 @@ export async function registerRoutes(app: Express): Promise<void> {
           // Get top career suggestions
           const suggestions = careers[quizData.cluster as keyof typeof careers]?.slice(0,3) || [];
           
-          // Get AI recommendation
-          const aiRecommendation = await getCareerRecommendation(answers);
+          // Skip AI recommendation for faster response
+          const aiRecommendation = '';
           
           resultData = {
             finalScore,

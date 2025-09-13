@@ -41,7 +41,7 @@ Please provide:
 Keep the response encouraging and actionable.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-pro",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
 
