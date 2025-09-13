@@ -374,8 +374,8 @@ export async function registerRoutes(app: Express): Promise<void> {
         // Legacy quiz format
         const data = insertQuizResultSchema.parse(req.body);
         
-        // Get AI recommendation for the quiz results
-        const aiRecommendation = await getCareerRecommendation(data.answers as any[]);
+        // Skip AI recommendation for faster response
+        const aiRecommendation = '';
         
         const quizResult = await storage.createQuizResult({
           ...data,
