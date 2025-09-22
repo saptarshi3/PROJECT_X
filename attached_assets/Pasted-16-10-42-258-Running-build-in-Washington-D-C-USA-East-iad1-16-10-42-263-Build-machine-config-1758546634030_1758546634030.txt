@@ -1,0 +1,61 @@
+16:10:42.258 Running build in Washington, D.C., USA (East) – iad1
+16:10:42.263 Build machine configuration: 2 cores, 8 GB
+16:10:42.300 Cloning github.com/saptarshi3/PROJECT_X (Branch: main, Commit: 346329c)
+16:10:42.894 Previous build caches not available
+16:10:44.016 Cloning completed: 1.716s
+16:10:44.111 Found .vercelignore
+16:10:44.153 Removed 84 ignored files defined in .vercelignore
+16:10:44.154   /.replit
+16:10:44.154   /client/src/App.tsx
+16:10:44.154   /client/src/components/3d-scene.tsx
+16:10:44.154   /client/src/components/auth-modal.tsx
+16:10:44.154   /client/src/components/career-flowchart.tsx
+16:10:44.155   /client/src/components/career-matches.tsx
+16:10:44.155   /client/src/components/exam-notifications.tsx
+16:10:44.155   /client/src/components/features.tsx
+16:10:44.155   /client/src/components/hero.tsx
+16:10:44.155   /client/src/components/navbar.tsx
+16:10:45.421 Running "vercel build"
+16:10:45.854 Vercel CLI 48.0.3
+16:10:46.493 > Installing Builder: @vercel/node@3.0.25
+16:10:57.170 Running "install" command: `npm install`...
+16:11:03.026 npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+16:11:03.794 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+16:11:03.822 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+16:11:13.192 
+16:11:13.193 added 670 packages, and audited 671 packages in 15s
+16:11:13.193 
+16:11:13.193 77 packages are looking for funding
+16:11:13.193   run `npm fund` for details
+16:11:13.254 
+16:11:13.255 13 vulnerabilities (3 low, 8 moderate, 2 high)
+16:11:13.255 
+16:11:13.255 To address issues that do not require attention, run:
+16:11:13.255   npm audit fix
+16:11:13.256 
+16:11:13.256 To address all issues (including breaking changes), run:
+16:11:13.256   npm audit fix --force
+16:11:13.256 
+16:11:13.256 Run `npm audit` for details.
+16:11:14.574 
+16:11:14.575 > rest-express@1.0.0 build
+16:11:14.575 > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+16:11:14.575 
+16:11:15.721 [36mvite v5.4.19 [32mbuilding for production...[36m[39m
+16:11:15.814 transforming...
+16:11:15.832 [32m✓[39m 2 modules transformed.
+16:11:15.841 [31mx[39m Build failed in 78ms
+16:11:15.842 [31merror during build:
+16:11:15.842 [31m[vite]: Rollup failed to resolve import "/src/main.tsx" from "/vercel/path0/client/index.html".
+16:11:15.842 This is most likely unintended because it can break your application at runtime.
+16:11:15.842 If you do want to externalize this module explicitly add it to
+16:11:15.842 `build.rollupOptions.external`[31m
+16:11:15.842     at viteWarn (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:65839:17)
+16:11:15.843     at onwarn (file:///vercel/path0/node_modules/@vitejs/plugin-react/dist/index.mjs:280:9)
+16:11:15.843     at onRollupWarning (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:65869:5)
+16:11:15.843     at onwarn (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:65534:7)
+16:11:15.843     at file:///vercel/path0/node_modules/rollup/dist/es/shared/node-entry.js:19452:13
+16:11:15.844     at Object.logger [as onLog] (file:///vercel/path0/node_modules/rollup/dist/es/shared/node-entry.js:21178:9)
+16:11:15.844     at ModuleLoader.handleInvalidResolvedId (file:///vercel/path0/node_modules/rollup/dist/es/shared/node-entry.js:20067:26)
+16:11:15.845     at file:///vercel/path0/node_modules/rollup/dist/es/shared/node-entry.js:20025:26[39m
+16:11:15.868 Error: Command "npm run build" exited with 1
