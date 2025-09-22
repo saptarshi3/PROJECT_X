@@ -1,0 +1,31 @@
+# Development files
+node_modules
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build files not needed in production
+client/src
+server/*.ts
+!server/index.ts
+*.log
+npm-debug.log*
+
+# Replit specific
+.replit
+replit.nix
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Cache directories
+.next/
+.nuxt/
+.vuepress/dist
+.serverless/
+.cache
+.parcel-cache
+.temp
+.tmp
